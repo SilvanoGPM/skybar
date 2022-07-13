@@ -26,3 +26,11 @@ export async function getUserInfo() {
 export async function login({ email, password }: LoginParams) {
   return httpClient.post('/login', { email, password });
 }
+
+export async function findUserByEmail(email: string) {
+  const { data } = await httpClient.get<User>(
+    `/users/admin/find-by-email/${email}`,
+  );
+
+  return data;
+}

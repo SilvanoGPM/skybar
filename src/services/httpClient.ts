@@ -1,8 +1,10 @@
 import axios from 'axios';
 import type { HeadersDefaults } from 'axios';
 
+export const baseURL = process.env.NEXT_PUBLIC_API_URL;
+
 export const httpClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL,
 });
 
 export function setHttpClientAuthorization(token: string) {

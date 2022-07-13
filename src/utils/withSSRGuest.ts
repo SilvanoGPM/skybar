@@ -12,8 +12,6 @@ export function withSSRGuest<P>(fn?: GetServerSideProps<P>) {
   ): Promise<GetServerSidePropsResult<P>> => {
     const cookies = parseCookies(ctx);
 
-    console.log(cookies);
-
     if (cookies['skybar.token']) {
       return {
         redirect: {
