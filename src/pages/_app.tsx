@@ -4,9 +4,12 @@ import { StompSessionProvider } from 'react-stomp-hooks';
 import { StompSessionProviderProps } from 'react-stomp-hooks/dist/interfaces/StompSessionProviderProps';
 import { parseCookies } from 'nookies';
 import { Fragment } from 'react';
+import { QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { AuthProvider } from '$contexts/AuthContext';
 import { baseURL } from '$services/httpClient';
+import { queryClient } from '$services/queryClient';
 
 const SOCKET_URL = `${baseURL}/sky-drinks`;
 
@@ -28,13 +31,17 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <Wrapper {...options}>
-      <AuthProvider>
-        <Head>
-          <title>Next Boilerplate</title>
-        </Head>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Head>
+            <title>Next Boilerplate</title>
+          </Head>
 
-        <Component {...pageProps} />
-      </AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
+
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </Wrapper>
   );
 }
