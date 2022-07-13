@@ -6,10 +6,12 @@ import { parseCookies } from 'nookies';
 import { Fragment } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { ChakraProvider } from '@chakra-ui/react';
 
 import { AuthProvider } from '$contexts/AuthContext';
 import { baseURL } from '$services/httpClient';
 import { queryClient } from '$services/queryClient';
+import { theme } from '$styles/theme';
 
 const SOCKET_URL = `${baseURL}/sky-drinks`;
 
@@ -31,17 +33,19 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <Wrapper {...options}>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Head>
-            <title>Next Boilerplate</title>
-          </Head>
+      <ChakraProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <Head>
+              <title>Next Boilerplate</title>
+            </Head>
 
-          <Component {...pageProps} />
-        </AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
 
-        <ReactQueryDevtools />
-      </QueryClientProvider>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </ChakraProvider>
     </Wrapper>
   );
 }
