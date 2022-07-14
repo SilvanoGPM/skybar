@@ -14,6 +14,7 @@ export function ActiveLink({
   ...props
 }: ActiveLinkProps) {
   const { asPath } = useRouter();
+
   const color = useColorModeValue('gray.900', 'gray.50');
 
   let isActive = false;
@@ -32,7 +33,7 @@ export function ActiveLink({
 
   return (
     <Link {...props}>
-      {cloneElement(children, { color: isActive ? 'pink.400' : color })}
+      {cloneElement(children, { color: isActive ? 'brand.100' : color })}
     </Link>
   );
 }

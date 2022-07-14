@@ -12,10 +12,17 @@ import {
   RiUserLine,
 } from 'react-icons/ri';
 
+import { useAuth } from '$contexts/AuthContext';
+import { getUserPermissions } from '$utils/getUserPermissions';
+
 import { NavLink } from './NavLink';
 import { NavSection } from './NavSection';
 
 export function SidebarNav() {
+  const { user } = useAuth();
+
+  const { isGuest, isUser, isStaff, isAdmin } = getUserPermissions(user?.role);
+
   return (
     <Stack spacing="12" align="flex-start">
       <NavSection title="Geral">
@@ -23,48 +30,62 @@ export function SidebarNav() {
           Ínicio
         </NavLink>
 
-        <NavLink icon={RiLoginBoxFill} href="/login">
-          Login
-        </NavLink>
+        {isGuest && (
+          <NavLink icon={RiLoginBoxFill} href="/login">
+            Login
+          </NavLink>
+        )}
 
         <NavLink icon={BiDrink} href="/drinks/search">
           Bebidas
         </NavLink>
       </NavSection>
 
-      <NavSection title="Pedidos">
-        <NavLink icon={BiStopwatch} href="/orders/latest">
-          Últimos pedidos
-        </NavLink>
+      {!isGuest && (
+        <NavSection title="Pedidos">
+          {isStaff && (
+            <NavLink icon={BiStopwatch} href="/orders/latest">
+              Últimos pedidos
+            </NavLink>
+          )}
 
-        <NavLink icon={RiMoneyDollarBoxFill} href="/orders/my">
-          Meus pedidos
-        </NavLink>
+          {isUser && (
+            <NavLink icon={RiMoneyDollarBoxFill} href="/orders/my">
+              Meus pedidos
+            </NavLink>
+          )}
 
-        <NavLink icon={RiSearchLine} href="/orders/search">
-          Pesquisar pedidos
-        </NavLink>
-      </NavSection>
+          {isStaff && (
+            <NavLink icon={RiSearchLine} href="/orders/search">
+              Pesquisar pedidos
+            </NavLink>
+          )}
+        </NavSection>
+      )}
 
-      <NavSection title="Admins">
-        <NavLink icon={RiUserLine} href="/users">
-          Usuários
-        </NavLink>
+      {isAdmin && (
+        <NavSection title="Admins">
+          <NavLink icon={RiUserLine} href="/users">
+            Usuários
+          </NavLink>
 
-        <NavLink icon={RiDashboardLine} href="/dashboard">
-          Dashboard
-        </NavLink>
-      </NavSection>
+          <NavLink icon={RiDashboardLine} href="/dashboard">
+            Dashboard
+          </NavLink>
+        </NavSection>
+      )}
 
-      <NavSection title="Outros">
-        <NavLink icon={SiAirtable} href="/tables">
-          Mesas
-        </NavLink>
+      {isStaff && (
+        <NavSection title="Outros">
+          <NavLink icon={SiAirtable} href="/tables">
+            Mesas
+          </NavLink>
 
-        <NavLink icon={RiImageLine} href="/images">
-          Imagens
-        </NavLink>
-      </NavSection>
+          <NavLink icon={RiImageLine} href="/images">
+            Imagens
+          </NavLink>
+        </NavSection>
+      )}
     </Stack>
   );
 }
