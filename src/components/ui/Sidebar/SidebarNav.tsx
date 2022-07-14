@@ -30,15 +30,15 @@ export function SidebarNav() {
           Ínicio
         </NavLink>
 
+        <NavLink icon={BiDrink} href="/drinks/search">
+          Bebidas
+        </NavLink>
+
         {isGuest && (
           <NavLink icon={RiLoginBoxFill} href="/login">
             Login
           </NavLink>
         )}
-
-        <NavLink icon={BiDrink} href="/drinks/search">
-          Bebidas
-        </NavLink>
       </NavSection>
 
       {!isGuest && (

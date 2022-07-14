@@ -1,4 +1,5 @@
 import { httpClient } from '$services/httpClient';
+import { getUserImage } from './files';
 
 export interface User {
   uuid: string;
@@ -9,6 +10,7 @@ export interface User {
   role: string;
   birthDay: string;
   lockRequests: false;
+  image: string;
   lockRequestsTimestamp: Date | null;
 }
 
@@ -18,9 +20,13 @@ interface LoginParams {
 }
 
 export async function getUserInfo() {
-  const { data } = await httpClient.get<User>('/users/all/user-info');
+  const { data } = await httpClient.get<Omit<User, 'image'>>(
+    '/users/all/user-info',
+  );
 
-  return data;
+  const image = getUserImage(data.uuid);
+
+  return { ...data, image };
 }
 
 export async function login({ email, password }: LoginParams) {

@@ -15,7 +15,6 @@ export function ToggleThemeButton() {
     <IconButton
       aria-label="Mudar tema"
       onClick={toggleColorMode}
-      variant="unstyled"
       icon={<Icon as={icon} />}
     />
   );
