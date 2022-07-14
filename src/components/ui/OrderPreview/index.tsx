@@ -29,7 +29,7 @@ export function OrderPreview() {
       roundedTop="xl"
       transition="0.2s height"
       borderWidth="1px"
-      borderColor="brand.500"
+      borderColor={hasDrinks ? 'brand.500' : 'transparent'}
       borderBottomColor="transparent"
       _dark={{ bg: 'gray.700' }}
       _light={{ bg: 'gray.200' }}

@@ -21,7 +21,7 @@ export function DrinkItem({ drink }: DrinkItemProps) {
       <Box>
         <Link href={`/drinks/${drink.uuid}`} passHref>
           <ChakraLink>
-            <OneLineText maxW="200px">{drink.name}</OneLineText>
+            <OneLineText maxW="130px">{drink.name}</OneLineText>
           </ChakraLink>
         </Link>
 

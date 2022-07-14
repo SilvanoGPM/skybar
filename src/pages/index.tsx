@@ -1,42 +1,22 @@
 import { GetStaticProps } from 'next';
-import { Box, Flex, Heading, HStack } from '@chakra-ui/react';
 
-import { DefaultLayout } from '$components/ui/DefaultLayout';
-import { Drink as DrinkRaw, getTopDrinksMapped } from '$services/api/drinks';
-import { DrinkCard } from '$components/DrinkCard';
-import { formatAmount } from '$utils/formatters';
+import { getLatestDrinks, getTopDrinksMapped } from '$services/api/drinks';
+import { formatDrinks } from '$utils/formatters';
+import { HomeTemplate, HomeTemplateProps } from '$templates/HomeTemplate';
 
-type Drink = { priceFormatted: string } & DrinkRaw;
-
-interface HomeProps {
-  topDrinks: Drink[];
-}
-
-export default function Home({ topDrinks }: HomeProps) {
-  return (
-    <DefaultLayout>
-      <Flex w="full" h="full" direction="column">
-        <Box>
-          <Heading mb="4">Bebidas mais pedidas</Heading>
-
-          <HStack spacing="4" overflow="auto" maxW="100vw">
-            {topDrinks.map((drink) => (
-              <DrinkCard key={drink.uuid} drink={drink} />
-            ))}
-          </HStack>
-        </Box>
-      </Flex>
-    </DefaultLayout>
-  );
+export default function Home(props: HomeTemplateProps) {
+  return <HomeTemplate {...props} />;
 }
 
 export const getStaticProps: GetStaticProps = async () => {
   const topDrinksRaw = await getTopDrinksMapped();
+  const latestDrinksRaw = await getLatestDrinks();
 
-  const topDrinks = topDrinksRaw.map((drink) => ({
-    ...drink,
-    priceFormatted: formatAmount(drink.price),
-  }));
+  const topDrinks = formatDrinks(topDrinksRaw);
+  const latestDrinks = formatDrinks(latestDrinksRaw);
 
-  return { props: { topDrinks } };
+  return {
+    props: { topDrinks, latestDrinks },
+    revalidate: 60 * 60 * 2, // 2 hours,
+  };
 };

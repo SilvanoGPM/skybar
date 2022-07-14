@@ -1,5 +1,7 @@
 import { httpClient } from '$services/httpClient';
 
+import type { Pagination } from './types';
+
 export interface Drink {
   uuid: string;
   createdAt: string;
@@ -26,7 +28,7 @@ export async function findDrinkByUUID(uuid: string) {
   return data;
 }
 
-export async function getTopDrinks(size = 5) {
+export async function getTopDrinks(size = 10) {
   const { data } = await httpClient.get<TopDrink[]>(
     `/requests/top-drinks?size=${size}`,
   );
@@ -40,4 +42,12 @@ export async function getTopDrinksMapped(size?: number) {
   const drinks = topDrinks.map(({ drinkUUID }) => findDrinkByUUID(drinkUUID));
 
   return Promise.all(drinks);
+}
+
+export async function getLatestDrinks(size = 10) {
+  const { data } = await httpClient.get<Pagination<Drink>>(
+    `/drinks?size=${size}&page=0&sort=createdAt,desc`,
+  );
+
+  return data.content;
 }

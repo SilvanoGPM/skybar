@@ -48,6 +48,8 @@ export function Sidebar() {
       maxH="80vh"
       mr="8"
       overflowY="auto"
+      pos="sticky"
+      top="50px"
       sx={{
         '&': { scrollbarWidth: 'thin' },
         '&::-webkit-scrollbar ': { width: '9px' },

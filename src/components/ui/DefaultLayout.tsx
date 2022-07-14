@@ -18,6 +18,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
       maxWidth={1480}
       mx="auto"
       px="6"
+      overflowX="hidden"
     >
       <Header />
 
