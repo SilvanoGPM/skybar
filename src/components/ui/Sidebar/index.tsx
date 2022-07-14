@@ -44,7 +44,7 @@ export function Sidebar() {
   return (
     <Box
       as="aside"
-      w="64"
+      minW="300px"
       maxH="80vh"
       mr="8"
       overflowY="auto"

@@ -14,7 +14,7 @@ export function Header() {
   const { isLargeVersion } = useScreenVersion();
 
   return (
-    <Flex align="center" justify="space-between" h="24">
+    <Flex align="center" justify="space-between" minH="24">
       <Center>
         {!isLargeVersion && <MenuButton />}
         <Logo />

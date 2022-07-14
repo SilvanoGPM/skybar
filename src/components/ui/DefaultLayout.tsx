@@ -3,6 +3,7 @@ import { Flex } from '@chakra-ui/react';
 
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
+import { OrderPreview } from './OrderPreview';
 
 interface DefaultLayoutProps {
   children: ReactNode;
@@ -25,6 +26,8 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 
         {children}
       </Flex>
+
+      <OrderPreview />
     </Flex>
   );
 }

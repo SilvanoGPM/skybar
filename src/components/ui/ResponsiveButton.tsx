@@ -1,10 +1,11 @@
-import { forwardRef, ForwardRefRenderFunction } from 'react';
+import { forwardRef, ForwardRefRenderFunction, Fragment } from 'react';
 
 import {
   Button,
   IconButton,
   IconButtonProps,
   ButtonProps,
+  LightMode,
 } from '@chakra-ui/react';
 
 type ResponsiveButtonProps = {
@@ -16,30 +17,50 @@ const ResponsiveButtonBase: ForwardRefRenderFunction<
   HTMLButtonElement,
   ResponsiveButtonProps
 > = (
-  { children, onClick, onlyIcon = false, leftIcon, rightIcon, ...props },
+  {
+    children,
+    onClick,
+    onlyIcon = false,
+    colorScheme,
+    leftIcon,
+    rightIcon,
+    ...props
+  },
   ref,
 ) => {
+  const Wrapper = !colorScheme ? LightMode : Fragment;
+
   if (!onlyIcon) {
     return (
-      <Button
-        onClick={onClick}
-        leftIcon={leftIcon}
-        rightIcon={rightIcon}
-        ref={ref}
-        {...props}
-      >
-        {children ?? props['aria-label']}
-      </Button>
+      <Wrapper>
+        <Button
+          colorScheme={colorScheme ?? 'brand'}
+          onClick={onClick}
+          leftIcon={leftIcon}
+          rightIcon={rightIcon}
+          ref={ref}
+          transition="0.2s filter"
+          _hover={{ filter: 'brightness(0.9)' }}
+          {...props}
+        >
+          {children ?? props['aria-label']}
+        </Button>
+      </Wrapper>
     );
   }
 
   return (
-    <IconButton
-      onClick={onClick}
-      ref={ref}
-      icon={props.icon || leftIcon || rightIcon}
-      {...props}
-    />
+    <Wrapper>
+      <IconButton
+        colorScheme={colorScheme ?? 'brand'}
+        onClick={onClick}
+        ref={ref}
+        transition="0.2s filter"
+        _hover={{ filter: 'brightness(0.9)' }}
+        icon={props.icon || leftIcon || rightIcon}
+        {...props}
+      />
+    </Wrapper>
   );
 };
 

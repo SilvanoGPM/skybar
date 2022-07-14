@@ -12,6 +12,7 @@ import { AuthProvider } from '$contexts/AuthContext';
 import { baseURL } from '$services/httpClient';
 import { queryClient } from '$services/queryClient';
 import { theme } from '$styles/theme';
+import { OrdersProvider } from '$contexts/OrdersContext';
 
 const SOCKET_URL = `${baseURL}/sky-drinks`;
 
@@ -36,13 +37,14 @@ function App({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={theme} colorModeManager={cookieStorageManager}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <Head>
-              <title>Next Boilerplate</title>
-            </Head>
+            <OrdersProvider>
+              <Head>
+                <title>Next Boilerplate</title>
+              </Head>
 
-            <Component {...pageProps} />
+              <Component {...pageProps} />
+            </OrdersProvider>
           </AuthProvider>
-
           <ReactQueryDevtools />
         </QueryClientProvider>
       </ChakraProvider>

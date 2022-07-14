@@ -1,3 +1,7 @@
+import { useOrders } from '$contexts/OrdersContext';
+import Link from 'next/link';
+import { RiEyeLine, RiShoppingCartLine } from 'react-icons/ri';
+
 import {
   Box,
   Center,
@@ -7,8 +11,6 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react';
-import Link from 'next/link';
-import { RiEyeLine, RiShoppingCartLine } from 'react-icons/ri';
 
 import { Button } from './ui/Button';
 
@@ -17,13 +19,23 @@ interface DrinkCardProps {
     uuid: string;
     name: string;
     picture: string;
-    price: string;
+    price: number;
+    priceFormatted: string;
   };
 }
 
 export function DrinkCard({ drink }: DrinkCardProps) {
+  const { addDrinkToNewOrder } = useOrders();
+
   return (
-    <Box w="200px" h="260px" rounded="xl" overflow="hidden" pos="relative">
+    <Box
+      minW="200px"
+      minH="260px"
+      rounded="xl"
+      overflow="hidden"
+      pos="relative"
+      color="gray.50"
+    >
       <Image
         src={drink.picture}
         w="full"
@@ -41,15 +53,19 @@ export function DrinkCard({ drink }: DrinkCardProps) {
         h="full"
         bg="blackAlpha.700"
       >
-        <Box p="4" color="gray.50">
-          <Heading as="h3" fontSize="md">
+        <Box p="4">
+          <Heading as="h3" fontSize="md" mb="2">
             {drink.name}
           </Heading>
 
-          <Text>{drink.price}</Text>
+          <Text>{drink.priceFormatted}</Text>
         </Box>
 
-        <Button rounded="none" leftIcon={<Icon as={RiShoppingCartLine} />}>
+        <Button
+          rounded="none"
+          leftIcon={<Icon as={RiShoppingCartLine} />}
+          onClick={() => addDrinkToNewOrder(drink)}
+        >
           Adicionar
         </Button>
       </Flex>
