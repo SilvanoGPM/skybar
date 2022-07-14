@@ -10,6 +10,7 @@ import {
   PopoverFooter,
   Icon,
   VStack,
+  Flex,
 } from '@chakra-ui/react';
 
 import type { Items } from '$contexts/OrdersContext';
@@ -19,6 +20,7 @@ import { formatAmount } from '$utils/formatters';
 
 import { ResponsiveButton } from '../ResponsiveButton';
 import { DrinkItem } from './DrinkItem';
+import { ClearOrder } from './ClearOrder';
 
 interface OrdersPopoverProps {
   items: Items;
@@ -51,7 +53,10 @@ export function OrdersPopover({ items }: OrdersPopoverProps) {
         maxW="250px"
       >
         <PopoverHeader fontSize="lg">
-          {pluralize(Object.keys(items).length, 'Bebida', 'Bebidas')}
+          <Flex align="center" justify="space-between">
+            {pluralize(Object.keys(items).length, 'Bebida', 'Bebidas')}
+            <ClearOrder />
+          </Flex>
         </PopoverHeader>
 
         <PopoverBody>

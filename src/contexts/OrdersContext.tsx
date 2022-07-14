@@ -31,6 +31,7 @@ export interface NewOrder {
 interface OrdersContextParams {
   items: Items;
   addDrinkToNewOrder: (drink: Drink) => void;
+  clearNewOrder: () => void;
 }
 
 interface OrdersProviderProps {
@@ -50,6 +51,7 @@ export const OrdersContext = createContext({} as OrdersContextParams);
 
 export function OrdersProvider({ children }: OrdersProviderProps) {
   const [items, setItems] = useState<Items>({});
+  const [newOrders, setNewOrders] = useState<NewOrders>({} as NewOrders);
 
   const { user } = useAuth();
 
@@ -60,13 +62,13 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
       [email]: { drinks: [] },
     };
 
+    setNewOrders(newOrders);
+
     const newOrder = newOrders[email];
 
     if (newOrder) {
       const drinksItems = newOrder.drinks.reduce((items, drink) => {
         const item = items[drink.uuid];
-
-        console.log(drink.uuid, item);
 
         if (item) {
           return {
@@ -91,10 +93,6 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
 
   const addDrinkToNewOrder = useCallback(
     (drink: Drink) => {
-      const newOrders = Repository.get<NewOrders>(NEW_ORDERS_KEY) || {
-        [email]: { drinks: [] },
-      };
-
       newOrders[email].drinks.push(drink);
 
       Repository.save(NEW_ORDERS_KEY, newOrders);
@@ -119,11 +117,22 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
         };
       });
     },
-    [email],
+    [email, newOrders],
   );
 
+  const clearNewOrder = useCallback(() => {
+    Repository.save(NEW_ORDERS_KEY, {
+      ...newOrders,
+      [email]: { drinks: [] },
+    });
+
+    setItems({});
+  }, [email, newOrders]);
+
   return (
-    <OrdersContext.Provider value={{ items, addDrinkToNewOrder }}>
+    <OrdersContext.Provider
+      value={{ items, addDrinkToNewOrder, clearNewOrder }}
+    >
       {children}
     </OrdersContext.Provider>
   );
