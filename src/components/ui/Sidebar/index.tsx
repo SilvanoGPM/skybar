@@ -45,11 +45,11 @@ export function Sidebar() {
     <Box
       as="aside"
       w="64"
-      mx="4"
       maxH="80vh"
+      mr="8"
       overflowY="auto"
       sx={{
-        '&': { 'scrollbar-width': 'thin' },
+        '&': { scrollbarWidth: 'thin' },
         '&::-webkit-scrollbar ': { width: '9px' },
         '&::-webkit-scrollbar-track': { bg: 'transparent' },
         '&::-webkit-scrollbar-thumb': {

@@ -10,10 +10,17 @@ interface DefaultLayoutProps {
 
 export function DefaultLayout({ children }: DefaultLayoutProps) {
   return (
-    <Flex direction="column" h="100vh">
+    <Flex
+      direction="column"
+      h="100vh"
+      w="100vw"
+      maxWidth={1480}
+      mx="auto"
+      px="6"
+    >
       <Header />
 
-      <Flex w="100%" my="6" mx="auto" px="6" maxWidth={1480}>
+      <Flex w="100%" my="6">
         <Sidebar />
 
         {children}

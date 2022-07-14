@@ -6,7 +6,7 @@ import { parseCookies } from 'nookies';
 import { Fragment } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, cookieStorageManager } from '@chakra-ui/react';
 
 import { AuthProvider } from '$contexts/AuthContext';
 import { baseURL } from '$services/httpClient';
@@ -33,7 +33,7 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <Wrapper {...options}>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider theme={theme} colorModeManager={cookieStorageManager}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <Head>

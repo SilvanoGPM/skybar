@@ -9,10 +9,8 @@ interface PopoverLinkProps {
 
 export function PopoverLink({ href, children }: PopoverLinkProps) {
   return (
-    <Link href={href}>
-      <a>
-        <ChakraLink>{children}</ChakraLink>
-      </a>
+    <Link href={href} passHref>
+      <ChakraLink>{children}</ChakraLink>
     </Link>
   );
 }
