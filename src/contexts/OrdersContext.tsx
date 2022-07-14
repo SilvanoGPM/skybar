@@ -66,10 +66,12 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
       const drinksItems = newOrder.drinks.reduce((items, drink) => {
         const item = items[drink.uuid];
 
+        console.log(drink.uuid, item);
+
         if (item) {
           return {
             ...items,
-            [drink.uuid]: { ...item, count: item.amount + 1 },
+            [drink.uuid]: { ...item, amount: item.amount + 1 },
           };
         }
 

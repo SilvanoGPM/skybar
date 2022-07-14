@@ -10,11 +10,6 @@ import {
   PopoverFooter,
   Icon,
   VStack,
-  Box,
-  Flex,
-  Image,
-  Text,
-  Link as ChakraLink,
 } from '@chakra-ui/react';
 
 import type { Items } from '$contexts/OrdersContext';
@@ -23,8 +18,7 @@ import { pluralize } from '$utils/pluralize';
 import { formatAmount } from '$utils/formatters';
 
 import { ResponsiveButton } from '../ResponsiveButton';
-import { OneLineText } from '../OneLineText';
-import Link from 'next/link';
+import { DrinkItem } from './DrinkItem';
 
 interface OrdersPopoverProps {
   items: Items;
@@ -63,27 +57,7 @@ export function OrdersPopover({ items }: OrdersPopoverProps) {
         <PopoverBody>
           <VStack align="start" spacing={4} maxH="200px" overflow="auto">
             {Object.values(items).map((drink) => (
-              <Flex key={drink.uuid}>
-                <Image
-                  objectFit="cover"
-                  w="14"
-                  h="14"
-                  src={drink.picture}
-                  mr="4"
-                />
-
-                <Box>
-                  <Link href={`/drinks/${drink.uuid}`} passHref>
-                    <ChakraLink>
-                      <OneLineText maxW="200px">{drink.name}</OneLineText>
-                    </ChakraLink>
-                  </Link>
-
-                  <Text>
-                    {drink.priceFormatted} x{drink.amount}
-                  </Text>
-                </Box>
-              </Flex>
+              <DrinkItem key={drink.uuid} drink={drink} />
             ))}
           </VStack>
         </PopoverBody>

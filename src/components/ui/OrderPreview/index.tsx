@@ -1,10 +1,11 @@
-import { Box, Flex, Icon, IconButton, useBoolean } from '@chakra-ui/react';
+import { Box, Flex, Icon, useBoolean } from '@chakra-ui/react';
 import { RiArrowUpLine, RiCheckLine, RiCloseLine } from 'react-icons/ri';
 
 import { useOrders } from '$contexts/OrdersContext';
 
 import { Button } from '../Button';
 import { OrdersPopover } from './OrdersPopover';
+import { ToggleButton } from './ToggleButton';
 
 export function OrderPreview() {
   const { items } = useOrders();
@@ -33,22 +34,9 @@ export function OrderPreview() {
       _dark={{ bg: 'gray.700' }}
       _light={{ bg: 'gray.200' }}
     >
-      <IconButton
-        aria-label="Altenar visibilidade do novo pedido"
-        icon={
-          <Icon as={showPreview && hasDrinks ? RiCloseLine : RiArrowUpLine} />
-        }
-        rounded="full"
-        alignSelf="start"
-        onClick={togglePreview}
-        pos="absolute"
-        top="-5"
-        left="50%"
-        borderWidth="1px"
-        borderColor="brand.500"
-        transform="translateX(-50%)"
-        _dark={{ bg: 'gray.700' }}
-        _light={{ bg: 'gray.200' }}
+      <ToggleButton
+        icon={showPreview && hasDrinks ? RiCloseLine : RiArrowUpLine}
+        onToggle={togglePreview}
       />
 
       <Flex
