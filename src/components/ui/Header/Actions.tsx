@@ -1,6 +1,7 @@
-import { BiBell, BiMoon } from 'react-icons/bi';
-
+import { BiBell } from 'react-icons/bi';
 import { Box, HStack, Icon, IconButton } from '@chakra-ui/react';
+
+import { ToggleThemeButton } from './ToggleThemeButton';
 
 export function Actions() {
   return (
@@ -10,11 +11,8 @@ export function Actions() {
         variant="unstyled"
         icon={<Icon as={BiBell} />}
       />
-      <IconButton
-        aria-label="Mudar tema"
-        variant="unstyled"
-        icon={<Icon as={BiMoon} />}
-      />
+
+      <ToggleThemeButton />
 
       <Box h="12" w="1px" bg="gray.700" />
     </HStack>
