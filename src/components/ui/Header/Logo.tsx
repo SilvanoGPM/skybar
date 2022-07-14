@@ -3,7 +3,7 @@ import { Box, Text } from '@chakra-ui/react';
 
 export function Logo() {
   return (
-    <Box maxW="80" ml="4">
+    <Box maxW="80">
       <Link href="/">
         <a>
           <Text

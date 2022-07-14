@@ -26,7 +26,8 @@
     "react-dom": "18.1.0",
     "react-icons": "^4.4.0",
     "react-query": "^3.39.1",
-    "react-stomp-hooks": "^2.1.0"
+    "react-stomp-hooks": "^2.1.0",
+    "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.7",

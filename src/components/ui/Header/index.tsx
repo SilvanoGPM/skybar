@@ -1,16 +1,19 @@
-import { Center, Flex, Icon, IconButton } from '@chakra-ui/react';
-import { BiMenu } from 'react-icons/bi';
+import { Center, Flex } from '@chakra-ui/react';
 
+import { useScreenVersion } from '$hooks/useScreenVersion';
+
+import { MenuButton } from './MenuButton';
 import { Logo } from './Logo';
 import { UserInfo } from './UserInfo';
 import { Actions } from './Actions';
 
 export function Header() {
+  const { isLargeVersion } = useScreenVersion();
+
   return (
     <Flex align="center" justify="space-between" h="24" px="4">
       <Center>
-        <IconButton aria-label="Abrir menu" icon={<Icon as={BiMenu} />} />
-
+        {!isLargeVersion && <MenuButton />}
         <Logo />
       </Center>
 
