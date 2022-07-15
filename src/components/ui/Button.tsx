@@ -10,6 +10,11 @@ export function Button({ children, ...props }: ChakraButtonProps) {
       <ChakraButton
         colorScheme="brand"
         transition="0.2s filter"
+        _disabled={{
+          opacity: 1,
+          cursor: 'not-allowed',
+          _hover: { filter: 'brightness(1)' },
+        }}
         _hover={{ filter: 'brightness(0.9)' }}
         {...props}
       >
