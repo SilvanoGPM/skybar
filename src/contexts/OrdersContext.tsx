@@ -131,7 +131,11 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
 
   return (
     <OrdersContext.Provider
-      value={{ items, addDrinkToNewOrder, clearNewOrder }}
+      value={{
+        items,
+        addDrinkToNewOrder,
+        clearNewOrder,
+      }}
     >
       {children}
     </OrdersContext.Provider>

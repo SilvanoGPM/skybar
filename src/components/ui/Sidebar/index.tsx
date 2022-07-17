@@ -12,6 +12,7 @@ import { useScreenVersion } from '$hooks/useScreenVersion';
 import { useUIStore } from '$stores/ui';
 
 import { SidebarNav } from './SidebarNav';
+import { thinScrollbar } from '$styles/thinScrollbar';
 
 export function Sidebar() {
   const { sidebarIsOpen, closeSidebar } = useUIStore(
@@ -50,15 +51,7 @@ export function Sidebar() {
       overflowY="auto"
       pos="sticky"
       top="50px"
-      sx={{
-        '&': { scrollbarWidth: 'thin' },
-        '&::-webkit-scrollbar ': { width: '9px' },
-        '&::-webkit-scrollbar-track': { bg: 'transparent' },
-        '&::-webkit-scrollbar-thumb': {
-          bg: 'rgba(155, 155, 155, 0.5)',
-          border: 'transparent',
-        },
-      }}
+      sx={thinScrollbar}
     >
       <SidebarNav />
     </Box>

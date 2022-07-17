@@ -2,6 +2,7 @@ import { Box, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import Lottie from 'react-lottie';
 
 import animation from '$assets/lottie/drinks-animation.json';
+import { HighlightedText } from '$components/ui/HighlightedText';
 
 export function Introduction() {
   return (
@@ -11,20 +12,13 @@ export function Introduction() {
     >
       <Flex direction="column" flex="1">
         <Heading fontSize={['2xl', '3xl', '4xl']} mb="4">
-          Seu dia foi{' '}
-          <Text as="span" fontWeight="bold" color="brand.100">
-            cansativo
-          </Text>{' '}
-          ?
+          Seu dia foi <HighlightedText>cansativo</HighlightedText> ?
         </Heading>
 
         <Text maxW="500px" fontSize="xl">
           Relaxa, venha curtir com seus amigos, colocar a conversa em dia, dar
           boas gargalhadas e de quebra beber aquele{' '}
-          <Text as="span" fontWeight="bold" color="brand.100">
-            drink
-          </Text>{' '}
-          que você ama.
+          <HighlightedText>drink</HighlightedText> que você ama.
         </Text>
       </Flex>
 
