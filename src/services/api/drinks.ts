@@ -51,3 +51,14 @@ export async function getLatestDrinks(size = 10) {
 
   return data.content;
 }
+
+export async function getHotAndNewDrinks() {
+  const latestDrinks = await getLatestDrinks();
+  const topDrinksRaw = await getTopDrinks();
+
+  const topDrinks = topDrinksRaw.map(({ drinkUUID }) => ({
+    uuid: drinkUUID,
+  }));
+
+  return { latestDrinks, topDrinks };
+}

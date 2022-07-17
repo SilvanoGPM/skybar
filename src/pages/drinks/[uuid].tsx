@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 
-import { findDrinkByUUID } from '$services/api/drinks';
+import { findDrinkByUUID, getHotAndNewDrinks } from '$services/api/drinks';
 import { DrinkTemplate, DrinkTemplateProps } from '$templates/DrinkTemplate';
 import { formatAmount } from '$utils/formatters';
 
@@ -9,7 +9,19 @@ export default function DrinkPage(props: DrinkTemplateProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return { paths: [], fallback: 'blocking' };
+  const hotAndNewDrinks = await getHotAndNewDrinks();
+
+  const hotDrinks = hotAndNewDrinks.topDrinks.map(({ uuid }) => ({
+    params: { uuid },
+  }));
+
+  const newDrinks = hotAndNewDrinks.latestDrinks.map(({ uuid }) => ({
+    params: { uuid },
+  }));
+
+  const paths = [...hotDrinks, ...newDrinks];
+
+  return { paths, fallback: 'blocking' };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
