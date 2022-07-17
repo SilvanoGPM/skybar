@@ -1,12 +1,16 @@
-import { Box, Image, useBoolean } from '@chakra-ui/react';
+import { Box, Image } from '@chakra-ui/react';
 
 import { useAuth } from '$contexts/AuthContext';
 import { useOrders } from '$contexts/OrdersContext';
 
-import { AddDrinkAnimation } from '../CartAnimation';
+import {
+  AddDrinkAnimation,
+  AddDrinkAnimationHandles,
+} from '../animations/AddDrinkAnimation';
 import { AmountBadge } from './AmountBadge';
 import { DrinkLink } from './DrinkLink';
 import { DrinkInfo } from './DrinkInfo';
+import { useRef } from 'react';
 
 interface DrinkCardProps {
   drink: {
@@ -22,21 +26,13 @@ export function DrinkCard({ drink }: DrinkCardProps) {
   const { addDrinkToNewOrder, items } = useOrders();
   const { isAuthenticated } = useAuth();
 
-  const [animationPlaying, animationActions] = useBoolean(false);
+  const animationRef = useRef<AddDrinkAnimationHandles>(null);
 
   const amount = items[drink.uuid]?.amount || 0;
 
-  function startAnimation() {
-    animationActions.on();
-
-    setTimeout(() => {
-      animationActions.off();
-    }, 3000);
-  }
-
   function handleAddDrinkToOrder() {
     addDrinkToNewOrder(drink);
-    startAnimation();
+    animationRef.current?.startAnimation();
   }
 
   return (
@@ -59,7 +55,7 @@ export function DrinkCard({ drink }: DrinkCardProps) {
         zIndex="0"
       />
 
-      <AddDrinkAnimation animationPlaying={animationPlaying} />
+      <AddDrinkAnimation ref={animationRef} />
 
       <DrinkInfo
         showAddButton={isAuthenticated}

@@ -6,9 +6,9 @@ import {
   Image,
   Spacer,
   Text,
-  useBoolean,
 } from '@chakra-ui/react';
 
+import { useRef } from 'react';
 import { RiShoppingCartLine } from 'react-icons/ri';
 
 import { DefaultLayout } from '$components/ui/DefaultLayout';
@@ -18,8 +18,12 @@ import { thinScrollbar } from '$styles/thinScrollbar';
 import { Button } from '$components/ui/Button';
 import { pluralize } from '$utils/pluralize';
 import { useOrders } from '$contexts/OrdersContext';
-import { AddDrinkAnimation } from '$components/CartAnimation';
 import { useAuth } from '$contexts/AuthContext';
+
+import {
+  AddDrinkAnimation,
+  AddDrinkAnimationHandles,
+} from '$components/animations/AddDrinkAnimation';
 
 import { DrinkBreadcrumb } from './DrinkBreadcrumb';
 import { Badges } from './Badges';
@@ -36,19 +40,11 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
 
   const amount = items[drink.uuid]?.amount || 0;
 
-  const [animationPlaying, animationActions] = useBoolean(false);
-
-  function startAnimation() {
-    animationActions.on();
-
-    setTimeout(() => {
-      animationActions.off();
-    }, 3000);
-  }
+  const animationRef = useRef<AddDrinkAnimationHandles>(null);
 
   function handleAddDrinkToOrder() {
     addDrinkToNewOrder(drink);
-    startAnimation();
+    animationRef.current?.startAnimation();
   }
 
   return (
@@ -74,7 +70,7 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
 
             <Badges drink={drink} />
 
-            <AddDrinkAnimation animationPlaying={animationPlaying} />
+            <AddDrinkAnimation ref={animationRef} />
           </Box>
 
           <Flex
