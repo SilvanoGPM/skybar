@@ -2,11 +2,13 @@ import { Box, Image } from '@chakra-ui/react';
 
 import { useAuth } from '$contexts/AuthContext';
 import { useOrders } from '$contexts/OrdersContext';
+import animation from '$/assets/lottie/add-drink.json';
 
 import {
-  AddDrinkAnimation,
-  AddDrinkAnimationHandles,
-} from '../animations/AddDrinkAnimation';
+  TempAnimation,
+  TempAnimationHandles,
+} from '$components/animations/TempAnimation';
+
 import { AmountBadge } from './AmountBadge';
 import { DrinkLink } from './DrinkLink';
 import { DrinkInfo } from './DrinkInfo';
@@ -26,7 +28,7 @@ export function DrinkCard({ drink }: DrinkCardProps) {
   const { addDrinkToNewOrder, items } = useOrders();
   const { isAuthenticated } = useAuth();
 
-  const animationRef = useRef<AddDrinkAnimationHandles>(null);
+  const animationRef = useRef<TempAnimationHandles>(null);
 
   const amount = items[drink.uuid]?.amount || 0;
 
@@ -55,7 +57,18 @@ export function DrinkCard({ drink }: DrinkCardProps) {
         zIndex="0"
       />
 
-      <AddDrinkAnimation ref={animationRef} />
+      <TempAnimation
+        animation={animation}
+        ref={animationRef}
+        containerStyle={{
+          pos: 'absolute',
+          top: '0',
+          left: '0',
+          zIndex: 'banner',
+          w: 'full',
+          h: 'full',
+        }}
+      />
 
       <DrinkInfo
         showAddButton={isAuthenticated}

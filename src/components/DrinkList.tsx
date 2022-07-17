@@ -5,6 +5,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { DrinkCard } from './DrinkCard';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
+import { thinScrollbar } from '$styles/thinScrollbar';
 
 interface DrinkListProps {
   drinks: Array<{
@@ -18,36 +19,46 @@ interface DrinkListProps {
 }
 
 export function DrinkList({ drinks, title }: DrinkListProps) {
-  const control = useAnimation();
+  const titleControl = useAnimation();
+  const cardsControl = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.5 });
 
   useEffect(() => {
     if (inView) {
-      control.start({ x: 0, opacity: 1 });
+      titleControl.start({ x: 0, opacity: 1 });
+      cardsControl.start({ y: 0, opacity: 1 });
     }
-  }, [control, inView]);
+  }, [cardsControl, titleControl, inView]);
 
   return (
     <>
-      <motion.div ref={ref} animate={control} initial={{ x: 100, opacity: 0 }}>
+      <motion.div animate={titleControl} initial={{ x: 100, opacity: 0 }}>
         <Heading as="h2" mb="6">
           {title}
         </Heading>
-
-        <ScrollContainer
-          innerRef={(ref) => {
-            if (ref) {
-              ref.tabIndex = -1;
-            }
-          }}
-        >
-          <HStack py="4" mb="12" spacing={4}>
-            {drinks.map((drink) => (
-              <DrinkCard key={drink.uuid} drink={drink} />
-            ))}
-          </HStack>
-        </ScrollContainer>
       </motion.div>
+
+      <div ref={ref} />
+
+      <HStack
+        py="4"
+        mb="12"
+        spacing={4}
+        sx={thinScrollbar}
+        as={ScrollContainer}
+        hideScrollbars={false}
+      >
+        {drinks.map((drink, i) => (
+          <motion.div
+            key={drink.uuid}
+            animate={cardsControl}
+            transition={{ delay: i * 0.1 }}
+            initial={{ y: 100, opacity: 0 }}
+          >
+            <DrinkCard drink={drink} />
+          </motion.div>
+        ))}
+      </HStack>
     </>
   );
 }

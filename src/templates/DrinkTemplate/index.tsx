@@ -19,11 +19,12 @@ import { Button } from '$components/ui/Button';
 import { pluralize } from '$utils/pluralize';
 import { useOrders } from '$contexts/OrdersContext';
 import { useAuth } from '$contexts/AuthContext';
+import animation from '$/assets/lottie/add-drink.json';
 
 import {
-  AddDrinkAnimation,
-  AddDrinkAnimationHandles,
-} from '$components/animations/AddDrinkAnimation';
+  TempAnimation,
+  TempAnimationHandles,
+} from '$components/animations/TempAnimation';
 
 import { DrinkBreadcrumb } from './DrinkBreadcrumb';
 import { Badges } from './Badges';
@@ -37,7 +38,7 @@ export interface DrinkTemplateProps {
 export function DrinkTemplate({ drink }: DrinkTemplateProps) {
   const { isAuthenticated } = useAuth();
   const { addDrinkToNewOrder, items } = useOrders();
-  const animationRef = useRef<AddDrinkAnimationHandles>(null);
+  const animationRef = useRef<TempAnimationHandles>(null);
 
   const amount = items[drink.uuid]?.amount || 0;
 
@@ -69,7 +70,19 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
 
             <Badges drink={drink} />
 
-            <AddDrinkAnimation ref={animationRef} />
+            <TempAnimation
+              animation={animation}
+              ref={animationRef}
+              speed={2}
+              containerStyle={{
+                pos: 'absolute',
+                top: '0',
+                left: '0',
+                zIndex: 'banner',
+                w: 'full',
+                h: 'full',
+              }}
+            />
           </Box>
 
           <Flex

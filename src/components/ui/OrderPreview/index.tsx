@@ -7,6 +7,7 @@ import {
   DrawerOverlay,
   Flex,
   Icon,
+  Spacer,
   useBoolean,
   VStack,
 } from '@chakra-ui/react';
@@ -70,22 +71,25 @@ export function OrderPreview() {
           <DrawerContent _dark={{ bg: 'gray.700' }} _light={{ bg: 'gray.100' }}>
             <DrawerHeader px="4" pb="0" mb="0">
               <Flex align="center" justify="space-between">
-                Pedido atual
+                {clearingOrder ? 'Limpando pedido...' : 'Pedido atual'}
                 <DrawerCloseButton pos="static" />
               </Flex>
             </DrawerHeader>
 
             <DrawerBody px="4">
-              <VStack spacing={4} align="left">
+              <VStack spacing={4} pb="4" align="left" h="full">
                 <TempAnimation
                   ref={animationRef}
                   animation={animation}
-                  onAnimationEnnd={handleAnimationEnd}
+                  onAnimationEnd={handleAnimationEnd}
+                  speed={2.5}
                 />
 
                 {!clearingOrder && (
                   <>
                     <Drinks items={items} onClearOrder={handleStartAnimation} />
+
+                    <Spacer />
 
                     <Button
                       rightIcon={<Icon as={RiCheckLine} />}

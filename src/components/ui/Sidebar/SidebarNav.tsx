@@ -30,7 +30,7 @@ export function SidebarNav() {
           Ínicio
         </NavLink>
 
-        <NavLink icon={BiDrink} href="/drinks/search">
+        <NavLink icon={BiDrink} href="/drinks">
           Bebidas
         </NavLink>
 

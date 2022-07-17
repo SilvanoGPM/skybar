@@ -19,6 +19,12 @@ export function DrinkBreadcrumb({ drinkName }: DrinkBreadcrumbProps) {
         </Link>
       </BreadcrumbItem>
 
+      <BreadcrumbItem>
+        <Link href="/drinks" passHref>
+          <BreadcrumbLink>Bebidas</BreadcrumbLink>
+        </Link>
+      </BreadcrumbItem>
+
       <BreadcrumbItem isCurrentPage>
         <Link href="#" passHref>
           <BreadcrumbLink

@@ -1,4 +1,4 @@
-import { Badge, HStack, Tooltip, VStack } from '@chakra-ui/react';
+import { Badge, HStack, LightMode, Tooltip, VStack } from '@chakra-ui/react';
 
 import { useDrinksStatus } from '$hooks/api/useDrinksStatus';
 
@@ -16,8 +16,10 @@ export function Badges({ drink }: BadgesProps) {
     <VStack pos="absolute" top="4" right="4" align="right">
       {(isHot || isNew) && (
         <HStack justify="right">
-          {isNew && <NewBadge />}
-          {isHot && <HotBadge />}
+          <LightMode>
+            {isNew && <NewBadge />}
+            {isHot && <HotBadge />}
+          </LightMode>
         </HStack>
       )}
 
