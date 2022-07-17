@@ -8,28 +8,27 @@ import {
   PopoverBody,
   HStack,
   Button as ChakraButton,
-  useBreakpointValue,
-  PlacementWithLogical,
   useDisclosure,
 } from '@chakra-ui/react';
 
 import { BiTrash } from 'react-icons/bi';
 
-import { useOrders } from '$contexts/OrdersContext';
-
 import { Button } from '../Button';
 
-export function ClearOrder() {
-  const { isOpen, onToggle, onClose } = useDisclosure();
-  const { clearNewOrder } = useOrders();
+interface ClearOrderProps {
+  onClearOrder: () => void;
+}
 
-  const popoverPlacement = useBreakpointValue<PlacementWithLogical>({
-    base: 'top-end',
-    lg: 'right-end',
-  });
+export function ClearOrder({ onClearOrder }: ClearOrderProps) {
+  const { isOpen, onToggle, onClose } = useDisclosure();
+
+  function handleClearOrder() {
+    onClearOrder();
+    onClose();
+  }
 
   return (
-    <Popover placement={popoverPlacement} isOpen={isOpen} onClose={onClose}>
+    <Popover placement="bottom-end" isOpen={isOpen} onClose={onClose}>
       <PopoverTrigger>
         <IconButton
           onClick={onToggle}
@@ -48,7 +47,7 @@ export function ClearOrder() {
         <PopoverBody>
           <HStack align="center" justify="end">
             <ChakraButton onClick={onClose}>Não</ChakraButton>
-            <Button onClick={clearNewOrder}>Sim</Button>
+            <Button onClick={handleClearOrder}>Sim</Button>
           </HStack>
         </PopoverBody>
       </PopoverContent>

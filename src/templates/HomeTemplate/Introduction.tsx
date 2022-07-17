@@ -1,7 +1,7 @@
 import { Box, Center, Flex, Heading, Text } from '@chakra-ui/react';
 import Lottie from 'react-lottie';
 
-import animation from '$assets/lottie/drinks-animation.json';
+import animation from '$assets/lottie/home-drinks.json';
 import { HighlightedText } from '$components/ui/HighlightedText';
 
 export function Introduction() {

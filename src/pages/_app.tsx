@@ -21,7 +21,13 @@ const SOCKET_URL = `${baseURL}/sky-drinks`;
 
 function App({ Component, pageProps }: AppProps) {
   const { 'skybar.token': token } = parseCookies();
-  const { closeSidebar } = useUIStore(({ closeSidebar }) => ({ closeSidebar }));
+
+  const { closeSidebar, closeOrderPreview } = useUIStore(
+    ({ closeSidebar, closeOrderPreview }) => ({
+      closeSidebar,
+      closeOrderPreview,
+    }),
+  );
 
   const isAuthenticated = Boolean(token);
 
@@ -37,6 +43,7 @@ function App({ Component, pageProps }: AppProps) {
   } as StompSessionProviderProps;
 
   Router.events.on('routeChangeComplete', closeSidebar);
+  Router.events.on('routeChangeComplete', closeOrderPreview);
 
   return (
     <Wrapper {...options}>

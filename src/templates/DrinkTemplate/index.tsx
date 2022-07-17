@@ -37,10 +37,9 @@ export interface DrinkTemplateProps {
 export function DrinkTemplate({ drink }: DrinkTemplateProps) {
   const { isAuthenticated } = useAuth();
   const { addDrinkToNewOrder, items } = useOrders();
+  const animationRef = useRef<AddDrinkAnimationHandles>(null);
 
   const amount = items[drink.uuid]?.amount || 0;
-
-  const animationRef = useRef<AddDrinkAnimationHandles>(null);
 
   function handleAddDrinkToOrder() {
     addDrinkToNewOrder(drink);

@@ -1,5 +1,6 @@
 import { Box, Flex, Image, Link as ChakraLink, Text } from '@chakra-ui/react';
 import Link from 'next/link';
+import { HighlightedText } from '../HighlightedText';
 
 import { OneLineText } from '../OneLineText';
 
@@ -16,7 +17,14 @@ interface DrinkItemProps {
 export function DrinkItem({ drink }: DrinkItemProps) {
   return (
     <Flex key={drink.uuid}>
-      <Image objectFit="cover" w="14" h="14" src={drink.picture} mr="4" />
+      <Image
+        objectFit="cover"
+        w="14"
+        h="14"
+        src={drink.picture}
+        mr="4"
+        rounded="xl"
+      />
 
       <Box>
         <Link href={`/drinks/${drink.uuid}`} passHref>
@@ -26,7 +34,8 @@ export function DrinkItem({ drink }: DrinkItemProps) {
         </Link>
 
         <Text>
-          {drink.priceFormatted} x{drink.amount}
+          {drink.priceFormatted}{' '}
+          <HighlightedText>x{drink.amount}</HighlightedText>
         </Text>
       </Box>
     </Flex>

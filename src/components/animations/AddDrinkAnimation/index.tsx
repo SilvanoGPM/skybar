@@ -2,7 +2,7 @@ import { ForwardedRef, forwardRef, useImperativeHandle } from 'react';
 import { Box, useBoolean } from '@chakra-ui/react';
 import Lottie from 'react-lottie';
 
-import animation from '$/assets/lottie/add-drink-animation.json';
+import animation from '$/assets/lottie/add-drink.json';
 
 export interface AddDrinkAnimationHandles {
   startAnimation: () => void;

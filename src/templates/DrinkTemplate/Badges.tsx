@@ -22,7 +22,7 @@ export function Badges({ drink }: BadgesProps) {
       )}
 
       <Tooltip label="Adicionais" bg="brand.100" color="white">
-        <HStack>
+        <HStack justify="right">
           {drink.additionalList.map((additional) => (
             <Badge key={additional} bg="brand.100" color="white" fontSize="md">
               {additional}
