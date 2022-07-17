@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { Box, Text } from '@chakra-ui/react';
+import { Box, Text, TextProps } from '@chakra-ui/react';
 
-export function Logo() {
+export function Logo(props: TextProps) {
   return (
     <Box maxW="80">
       <Link href="/">
@@ -11,6 +11,7 @@ export function Logo() {
             fontWeight="black"
             textTransform="uppercase"
             letterSpacing="tighter"
+            {...props}
           >
             Sky
             <Text as="span" mx="2">

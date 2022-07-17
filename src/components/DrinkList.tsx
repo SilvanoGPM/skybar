@@ -26,7 +26,7 @@ export function DrinkList({ drinks, title }: DrinkListProps) {
   useEffect(() => {
     if (inView) {
       titleControl.start({ x: 0, opacity: 1 });
-      cardsControl.start({ y: 0, opacity: 1 });
+      cardsControl.start({ y: 0, opacity: 1, skew: '0deg' });
     }
   }, [cardsControl, titleControl, inView]);
 
@@ -52,8 +52,8 @@ export function DrinkList({ drinks, title }: DrinkListProps) {
           <motion.div
             key={drink.uuid}
             animate={cardsControl}
-            transition={{ delay: i * 0.1 }}
-            initial={{ y: 100, opacity: 0 }}
+            transition={{ delay: i * 0.15 }}
+            initial={{ y: 100, opacity: 0, skew: '-10deg' }}
           >
             <DrinkCard drink={drink} />
           </motion.div>

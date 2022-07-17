@@ -73,9 +73,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       setIsLoading(true);
 
-      const { headers } = await login({ email, password });
-
-      const token = headers.authorization;
+      const token = await login({ email, password });
 
       setCookie(undefined, 'skybar.token', token, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
@@ -89,8 +87,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser(user);
 
       Router.push('/');
-    } catch (err) {
-      throw new Error('Auth error');
     } finally {
       setIsLoading(false);
     }

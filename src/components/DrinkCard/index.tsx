@@ -46,7 +46,7 @@ export function DrinkCard({ drink }: DrinkCardProps) {
       pos="relative"
       color="gray.50"
     >
-      <AmountBadge amount={amount} />
+      {isAuthenticated && <AmountBadge amount={amount} />}
 
       <Image
         src={drink.picture}

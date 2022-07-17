@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
-import { motion, MotionStyle } from 'framer-motion';
+import { ReactNode, useEffect } from 'react';
+import { motion, MotionStyle, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 interface FadeInProps {
   x?: number;
@@ -16,10 +17,21 @@ export function FadeIn({
   delay = 0,
   style,
 }: FadeInProps) {
+  const control = useAnimation();
+
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      control.start({ x: 0, y: 0, opacity: 1 });
+    }
+  }, [control, inView]);
+
   return (
     <motion.div
-      animate={{ x: 0, y: 0, opacity: 1 }}
+      ref={ref}
       initial={{ x, y, opacity: 0 }}
+      animate={control}
       transition={{ delay }}
       style={style}
     >

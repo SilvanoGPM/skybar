@@ -1,4 +1,4 @@
-import { Badge, Center, LightMode } from '@chakra-ui/react';
+import { Badge, Center, LightMode, Tooltip } from '@chakra-ui/react';
 
 interface AmountBadgeProps {
   amount: number;
@@ -7,18 +7,20 @@ interface AmountBadgeProps {
 export function AmountBadge({ amount }: AmountBadgeProps) {
   return (
     <LightMode>
-      <Badge
-        colorScheme="brand"
-        w="6"
-        h="6"
-        pos="absolute"
-        zIndex="1"
-        rounded="full"
-        right="2"
-        top="2"
-      >
-        <Center h="full">{amount}</Center>
-      </Badge>
+      <Tooltip label="Bebidas no pedido" bg="brand.100" color="white" hasArrow>
+        <Badge
+          colorScheme="brand"
+          w="6"
+          h="6"
+          pos="absolute"
+          zIndex="docked"
+          rounded="full"
+          right="2"
+          top="2"
+        >
+          <Center h="full">{amount}</Center>
+        </Badge>
+      </Tooltip>
     </LightMode>
   );
 }

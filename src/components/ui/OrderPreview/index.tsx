@@ -26,7 +26,7 @@ import {
 
 import { Button } from '../Button';
 import { Drinks } from './Drinks';
-import { ToggleButton } from './OpenButton';
+import { OpenButton } from './OpenButton';
 
 export function OrderPreview() {
   const { items, clearNewOrder } = useOrders();
@@ -64,7 +64,7 @@ export function OrderPreview() {
 
   return (
     <>
-      <ToggleButton />
+      <OpenButton />
 
       <Drawer isOpen={orderPreviewIsOpen} onClose={handleClose}>
         <DrawerOverlay>

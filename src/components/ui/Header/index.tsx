@@ -4,7 +4,7 @@ import { useScreenVersion } from '$hooks/useScreenVersion';
 import { useAuth } from '$contexts/AuthContext';
 
 import { MenuButton } from './MenuButton';
-import { Logo } from './Logo';
+import { Logo } from '../Logo';
 import { UserInfo } from './UserInfo';
 import { Actions } from './Actions';
 import { SignInButton } from '../SignInButton';

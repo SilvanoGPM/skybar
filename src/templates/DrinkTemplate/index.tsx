@@ -122,10 +122,14 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
 
             <Spacer />
 
-            <FadeIn x={100} delay={1.2}>
+            <FadeIn x={100}>
               <Text fontSize="2xl">
                 Por apenas{' '}
-                <FadeIn y={100} delay={1.3} style={{ display: 'inline-block' }}>
+                <FadeIn
+                  y={-100}
+                  delay={0.3}
+                  style={{ display: 'inline-block' }}
+                >
                   <HighlightedText>{drink.priceFormatted}</HighlightedText>
                 </FadeIn>
                 .
@@ -142,9 +146,10 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
               </Text>
             )}
 
-            <FadeIn x={100} delay={1.4}>
+            <FadeIn x={100}>
               <Button
                 mt="2"
+                w="full"
                 disabled={!isAuthenticated}
                 leftIcon={<Icon as={RiShoppingCartLine} />}
                 onClick={handleAddDrinkToOrder}

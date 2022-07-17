@@ -1,7 +1,7 @@
 import { BiBell } from 'react-icons/bi';
 import { Box, HStack, Icon, IconButton } from '@chakra-ui/react';
 
-import { ToggleThemeButton } from './ToggleThemeButton';
+import { ToggleThemeButton } from '../ToggleThemeButton';
 
 export function Actions() {
   return (

@@ -1,4 +1,6 @@
+import { ApiError } from '$errors/ApiError';
 import { httpClient } from '$services/httpClient';
+
 import { getUserImage } from './files';
 
 export interface User {
@@ -30,7 +32,25 @@ export async function getUserInfo() {
 }
 
 export async function login({ email, password }: LoginParams) {
-  return httpClient.post('/login', { email, password });
+  try {
+    const { headers } = await httpClient.post('/login', { email, password });
+    return headers.authorization;
+  } catch (error) {
+    const err = error as { response: { data: { status: number } } };
+    const status = err?.response?.data?.status || 0;
+
+    if (status === 401) {
+      const userExists = await verifyUserByEmail(email);
+
+      const message = userExists
+        ? 'Senha incorreta'
+        : 'Nenhum usuário encontrado com esse E-mail';
+
+      throw new ApiError(message);
+    }
+
+    throw new Error('Aconteceu um erro ao tentar conectar no servidor');
+  }
 }
 
 export async function findUserByEmail(email: string) {
@@ -39,4 +59,13 @@ export async function findUserByEmail(email: string) {
   );
 
   return data;
+}
+
+export async function verifyUserByEmail(email: string) {
+  try {
+    await httpClient.get<User>(`/users/verify-by-email/${email}`);
+    return true;
+  } catch {
+    return false;
+  }
 }
