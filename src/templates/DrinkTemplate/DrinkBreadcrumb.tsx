@@ -1,3 +1,4 @@
+import { FadeIn } from '$components/animations/FadeIn';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
 import Link from 'next/link';
 
@@ -13,19 +14,28 @@ export function DrinkBreadcrumb({ drinkName }: DrinkBreadcrumbProps) {
       fontSize={['md', 'xl', '2xl']}
       fontWeight="bold"
     >
-      <BreadcrumbItem>
+      <BreadcrumbItem as={FadeIn} delay={1} style={{ display: 'inline-block' }}>
         <Link href="/" passHref>
           <BreadcrumbLink>Início</BreadcrumbLink>
         </Link>
       </BreadcrumbItem>
 
-      <BreadcrumbItem>
+      <BreadcrumbItem
+        as={FadeIn}
+        delay={1.3}
+        style={{ display: 'inline-block' }}
+      >
         <Link href="/drinks" passHref>
           <BreadcrumbLink>Bebidas</BreadcrumbLink>
         </Link>
       </BreadcrumbItem>
 
-      <BreadcrumbItem isCurrentPage>
+      <BreadcrumbItem
+        as={FadeIn}
+        delay={1.6}
+        style={{ display: 'inline-block' }}
+        isCurrentPage
+      >
         <Link href="#" passHref>
           <BreadcrumbLink
             bg="brand.100"

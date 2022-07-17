@@ -11,15 +11,16 @@ import {
 import { useRef } from 'react';
 import { RiShoppingCartLine } from 'react-icons/ri';
 
+import type { Drink as DrinkRaw } from '$services/api/drinks';
 import { DefaultLayout } from '$components/ui/DefaultLayout';
 import { HighlightedText } from '$components/ui/HighlightedText';
-import type { Drink as DrinkRaw } from '$services/api/drinks';
 import { thinScrollbar } from '$styles/thinScrollbar';
 import { Button } from '$components/ui/Button';
 import { pluralize } from '$utils/pluralize';
 import { useOrders } from '$contexts/OrdersContext';
 import { useAuth } from '$contexts/AuthContext';
 import animation from '$/assets/lottie/add-drink.json';
+import { FadeIn } from '$components/animations/FadeIn';
 
 import {
   TempAnimation,
@@ -53,37 +54,39 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
         <DrinkBreadcrumb drinkName={drink.name} />
 
         <Flex direction={{ base: 'column', lg: 'row' }} flex="1">
-          <Box
-            maxW={{ base: 'full', lg: '480px' }}
-            maxH={{ base: '320px', lg: '480px' }}
-            mb={{ base: '4', lg: '0' }}
-            flex="1"
-            pos="relative"
-          >
-            <Image
-              w="full"
-              h="full"
-              objectFit="cover"
-              src={drink.picture}
-              alt={drink.name}
-            />
+          <FadeIn x={-100} style={{ flex: 1, display: 'flex' }}>
+            <Box
+              maxW={{ base: 'full', lg: '480px' }}
+              maxH={{ base: '320px', lg: '480px' }}
+              mb={{ base: '4', lg: '0' }}
+              flex="1"
+              pos="relative"
+            >
+              <Image
+                w="full"
+                h="full"
+                objectFit="cover"
+                src={drink.picture}
+                alt={drink.name}
+              />
 
-            <Badges drink={drink} />
+              <Badges drink={drink} />
 
-            <TempAnimation
-              animation={animation}
-              ref={animationRef}
-              speed={2}
-              containerStyle={{
-                pos: 'absolute',
-                top: '0',
-                left: '0',
-                zIndex: 'banner',
-                w: 'full',
-                h: 'full',
-              }}
-            />
-          </Box>
+              <TempAnimation
+                animation={animation}
+                ref={animationRef}
+                speed={2}
+                containerStyle={{
+                  pos: 'absolute',
+                  top: '0',
+                  left: '0',
+                  zIndex: 'banner',
+                  w: 'full',
+                  h: 'full',
+                }}
+              />
+            </Box>
+          </FadeIn>
 
           <Flex
             direction="column"
@@ -93,30 +96,41 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
             w="full"
             h="full"
           >
-            <Heading mb="2">{drink.name}</Heading>
+            <FadeIn x={100} delay={0.5}>
+              <Heading mb="2">{drink.name}</Heading>
+            </FadeIn>
 
-            <Text fontSize="sm" color="gray.500" mb="8">
-              {drink.uuid}
-            </Text>
+            <FadeIn x={100} delay={0.8}>
+              <Text fontSize="sm" color="gray.500" mb="8">
+                {drink.uuid}
+              </Text>
+            </FadeIn>
 
-            <Box
-              maxH="200px"
-              maxW="800px"
-              overflow="auto"
-              fontSize="xl"
-              mb="8"
-              pb="4"
-              sx={thinScrollbar}
-            >
-              {drink.description}
-            </Box>
+            <FadeIn delay={1}>
+              <Box
+                maxH="200px"
+                maxW="800px"
+                overflow="auto"
+                fontSize="xl"
+                mb="8"
+                pb="4"
+                sx={thinScrollbar}
+              >
+                {drink.description}
+              </Box>
+            </FadeIn>
 
             <Spacer />
 
-            <Text fontSize="2xl">
-              Por apenas{' '}
-              <HighlightedText>{drink.priceFormatted}</HighlightedText>.
-            </Text>
+            <FadeIn x={100} delay={1.2}>
+              <Text fontSize="2xl">
+                Por apenas{' '}
+                <FadeIn y={100} delay={1.3} style={{ display: 'inline-block' }}>
+                  <HighlightedText>{drink.priceFormatted}</HighlightedText>
+                </FadeIn>
+                .
+              </Text>
+            </FadeIn>
 
             {amount > 0 && (
               <Text as="small">
@@ -128,14 +142,16 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
               </Text>
             )}
 
-            <Button
-              mt="2"
-              disabled={!isAuthenticated}
-              leftIcon={<Icon as={RiShoppingCartLine} />}
-              onClick={handleAddDrinkToOrder}
-            >
-              Adicionar ao pedido
-            </Button>
+            <FadeIn x={100} delay={1.4}>
+              <Button
+                mt="2"
+                disabled={!isAuthenticated}
+                leftIcon={<Icon as={RiShoppingCartLine} />}
+                onClick={handleAddDrinkToOrder}
+              >
+                Adicionar ao pedido
+              </Button>
+            </FadeIn>
           </Flex>
         </Flex>
       </Flex>
