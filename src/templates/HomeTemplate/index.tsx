@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react';
 
 import type { Drink as DrinkRaw } from '$services/api/drinks';
 import { DefaultLayout } from '$components/ui/DefaultLayout';
-import { DrinkList } from '$components/DrinkList';
+import { DrinkList } from '$components/ui/DrinkList';
 
 import { Introduction } from './Introduction';
 

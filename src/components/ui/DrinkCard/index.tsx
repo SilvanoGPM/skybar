@@ -8,7 +8,7 @@ import animation from '$/assets/lottie/add-drink.json';
 import {
   TempAnimation,
   TempAnimationHandles,
-} from '$components/animations/TempAnimation';
+} from '$components/animation/TempAnimation';
 
 import { AmountBadge } from './AmountBadge';
 import { DrinkLink } from './DrinkLink';

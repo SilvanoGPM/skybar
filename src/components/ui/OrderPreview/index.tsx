@@ -23,7 +23,7 @@ import animation from '$/assets/lottie/clear-order.json';
 import {
   TempAnimation,
   TempAnimationHandles,
-} from '$components/animations/TempAnimation';
+} from '$components/animation/TempAnimation';
 
 import { Drinks } from './Drinks';
 import { OpenButton } from './OpenButton';

@@ -6,7 +6,7 @@ import { DrinkCard } from './DrinkCard';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
 import { thinScrollbar } from '$styles/thinScrollbar';
-import { Empty } from './ui/Empty';
+import { Empty } from './Empty';
 
 interface DrinkListProps {
   drinks: Array<{

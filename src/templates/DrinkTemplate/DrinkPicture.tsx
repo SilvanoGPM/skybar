@@ -1,12 +1,12 @@
 import { Box, Image } from '@chakra-ui/react';
 
-import { FadeIn } from '$components/animations/FadeIn';
+import { FadeIn } from '$components/animation/FadeIn';
 import animation from '$/assets/lottie/add-drink.json';
 
 import {
   TempAnimation,
   TempAnimationHandles,
-} from '$components/animations/TempAnimation';
+} from '$components/animation/TempAnimation';
 
 import { Drink } from '.';
 import { Badges } from './Badges';

@@ -10,7 +10,7 @@ import {
 
 import { RiShoppingCartLine } from 'react-icons/ri';
 
-import { FadeIn } from '$components/animations/FadeIn';
+import { FadeIn } from '$components/animation/FadeIn';
 import { OneLineText } from '$components/ui/OneLineText';
 import { thinScrollbar } from '$styles/thinScrollbar';
 import { HighlightedText } from '$components/ui/HighlightedText';
