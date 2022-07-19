@@ -18,8 +18,17 @@ export function HomeTemplate({ topDrinks, latestDrinks }: HomeTemplateProps) {
     <DefaultLayout>
       <Flex w="full" h="full" direction="column" overflowX="hidden">
         <Introduction />
-        <DrinkList drinks={topDrinks} title="Mais polulares" />
-        <DrinkList drinks={latestDrinks} title="Mais recentes" />
+        <DrinkList
+          drinks={topDrinks}
+          title="Mais polulares"
+          empty={{ title: 'Sem bebidas populares' }}
+        />
+
+        <DrinkList
+          drinks={latestDrinks}
+          title="Mais recentes"
+          empty={{ title: 'Sem bebidas recentes' }}
+        />
       </Flex>
     </DefaultLayout>
   );

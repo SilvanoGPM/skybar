@@ -22,6 +22,7 @@ import { DrinkCard } from '$components/DrinkCard';
 import { formatDrinks } from '$utils/formatters';
 
 import { SearchDrawer, SearchDrinksFormDataFormatted } from './SearchDrawer';
+import { Empty } from '$components/ui/Empty';
 
 export function DrinkSearchTemplate() {
   const { isSmallVersion } = useScreenVersion();
@@ -85,11 +86,18 @@ export function DrinkSearchTemplate() {
           </Center>
         ) : (
           <>
-            <SimpleGrid minChildWidth="250px" columns={3} spacing={4}>
-              {data?.content.map((drink) => (
-                <DrinkCard key={drink.uuid} drink={drink} />
-              ))}
-            </SimpleGrid>
+            {data?.totalElements ? (
+              <SimpleGrid minChildWidth="250px" columns={3} spacing={4}>
+                {data?.content.map((drink) => (
+                  <DrinkCard key={drink.uuid} drink={drink} />
+                ))}
+              </SimpleGrid>
+            ) : (
+              <Empty
+                title="Nada encontrado"
+                message="Nenhuma bebida foi encontrada."
+              />
+            )}
 
             <Pagination
               totalCountOfRegisters={data?.totalElements || 0}

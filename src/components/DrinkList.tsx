@@ -6,6 +6,7 @@ import { DrinkCard } from './DrinkCard';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
 import { thinScrollbar } from '$styles/thinScrollbar';
+import { Empty } from './ui/Empty';
 
 interface DrinkListProps {
   drinks: Array<{
@@ -16,9 +17,10 @@ interface DrinkListProps {
     priceFormatted: string;
   }>;
   title: string;
+  empty: { title: string; message?: string };
 }
 
-export function DrinkList({ drinks, title }: DrinkListProps) {
+export function DrinkList({ drinks, empty, title }: DrinkListProps) {
   const titleControl = useAnimation();
   const cardsControl = useAnimation();
   const [ref, inView] = useInView({ threshold: 0.5 });
@@ -46,24 +48,28 @@ export function DrinkList({ drinks, title }: DrinkListProps) {
 
       <div ref={ref} />
 
-      <HStack
-        py="4"
-        spacing={4}
-        sx={thinScrollbar}
-        as={ScrollContainer}
-        hideScrollbars={false}
-      >
-        {drinks.map((drink, i) => (
-          <motion.div
-            key={drink.uuid}
-            animate={cardsControl}
-            transition={{ delay: i * 0.15 }}
-            initial={{ y: 100, opacity: 0, skew: '-10deg' }}
-          >
-            <DrinkCard drink={drink} />
-          </motion.div>
-        ))}
-      </HStack>
+      {drinks.length ? (
+        <HStack
+          py="4"
+          spacing={4}
+          sx={thinScrollbar}
+          as={ScrollContainer}
+          hideScrollbars={false}
+        >
+          {drinks.map((drink, i) => (
+            <motion.div
+              key={drink.uuid}
+              animate={cardsControl}
+              transition={{ delay: i * 0.15 }}
+              initial={{ y: 100, opacity: 0, skew: '-10deg' }}
+            >
+              <DrinkCard drink={drink} />
+            </motion.div>
+          ))}
+        </HStack>
+      ) : (
+        <Empty {...empty} />
+      )}
     </Box>
   );
 }

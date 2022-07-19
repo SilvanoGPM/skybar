@@ -30,7 +30,7 @@ import {
 import { DrinkBreadcrumb } from './DrinkBreadcrumb';
 import { Badges } from './Badges';
 
-type Drink = { priceFormatted: string } & DrinkRaw;
+type Drink = { priceFormatted: string; volumeFormatted: string } & DrinkRaw;
 
 export interface DrinkTemplateProps {
   drink: Drink;
@@ -62,6 +62,7 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
               flex="1"
               pos="relative"
               roundedLeft="xl"
+              roundedRight={{ base: 'xl', lg: 'none' }}
               overflow="hidden"
             >
               <Image
@@ -99,12 +100,26 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
             py="4"
             px="8"
             roundedRight="xl"
+            roundedLeft={{ base: 'xl', lg: 'none' }}
             overflow="hidden"
             _dark={{ bg: 'gray.800', color: 'gray.50' }}
             _light={{ bg: 'gray.100', color: 'gray.900' }}
           >
             <FadeIn x={100} delay={0.5}>
-              <Heading mb="2">{drink.name}</Heading>
+              <Flex align="center" justify="space-between" mb="2" flex="1">
+                <Heading mr="4">{drink.name}</Heading>
+
+                <Text
+                  bg="brand.500"
+                  p="1"
+                  textAlign="center"
+                  maxW="115px"
+                  w="full"
+                  rounded="md"
+                >
+                  {drink.volumeFormatted}
+                </Text>
+              </Flex>
             </FadeIn>
 
             <FadeIn x={100} delay={0.8}>

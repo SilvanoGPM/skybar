@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { findDrinkByUUID, getHotAndNewDrinks } from '$services/api/drinks';
 import { DrinkTemplate, DrinkTemplateProps } from '$templates/DrinkTemplate';
-import { formatAmount } from '$utils/formatters';
+import { formatAmount, formatVolume } from '$utils/formatters';
 
 export default function DrinkPage(props: DrinkTemplateProps) {
   return <DrinkTemplate {...props} />;
@@ -29,7 +29,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const drinkRaw = await findDrinkByUUID(uuid);
 
-  const drink = { ...drinkRaw, priceFormatted: formatAmount(drinkRaw.price) };
+  const drink = {
+    ...drinkRaw,
+    priceFormatted: formatAmount(drinkRaw.price),
+    volumeFormatted: formatVolume(drinkRaw.volume),
+  };
 
   return { props: { drink } };
 };
