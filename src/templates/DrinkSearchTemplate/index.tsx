@@ -116,7 +116,7 @@ export function DrinkSearchTemplate() {
           _dark={{ bg: 'gray.800', color: 'gray.50' }}
           _light={{ bg: 'gray.100', color: 'gray.900' }}
         >
-          <Flex align="center" justify="space-between" mb="8">
+          <Flex align="center" justify="space-between" mb="8" flexWrap="wrap">
             <Center>
               <Heading as="h3">Bebidas</Heading>
               {isFetching && !isLoading && (

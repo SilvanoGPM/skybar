@@ -64,7 +64,7 @@ export function DrinkCard({
       color="gray.50"
     >
       {isAuthenticated && (
-        <HStack pos="absolute" zIndex="docked" right="2" top="2" spacing={2}>
+        <HStack pos="absolute" zIndex="2" right="2" top="2" spacing={2}>
           {showAdminActions && isStaff && (
             <>
               <DeleteBadge
