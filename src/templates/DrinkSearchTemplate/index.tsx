@@ -2,6 +2,7 @@ import {
   Center,
   Flex,
   Heading,
+  HStack,
   Icon,
   SimpleGrid,
   Spinner,
@@ -9,9 +10,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
-import { RiSearchLine } from 'react-icons/ri';
+import { RiAddBoxFill, RiSearchLine } from 'react-icons/ri';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
+import Link from 'next/link';
 
 import { DefaultLayout } from '$components/ui/DefaultLayout';
 import { ResponsiveButton } from '$components/ui/ResponsiveButton';
@@ -24,14 +26,17 @@ import { formatDrinks } from '$utils/formatters';
 import { SearchDrawer, SearchDrinksFormDataFormatted } from './SearchDrawer';
 import { Empty } from '$components/ui/Empty';
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
+import { useAuth } from '$contexts/AuthContext';
+import { getUserPermissions } from '$utils/getUserPermissions';
 
 export function DrinkSearchTemplate() {
-  const { isSmallVersion } = useScreenVersion();
-
+  const { isSmallVersion, isMediumVersion } = useScreenVersion();
+  const { user } = useAuth();
   const disclosure = useDisclosure();
-
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState({});
+
+  const { isStaff } = getUserPermissions(user?.role);
 
   const searchParams = { size: 9, page: page - 1, ...search };
 
@@ -77,12 +82,27 @@ export function DrinkSearchTemplate() {
               )}
             </Center>
 
-            <ResponsiveButton
-              aria-label="Pesquisar"
-              onClick={disclosure.onOpen}
-              onlyIcon={!isSmallVersion}
-              rightIcon={<Icon as={RiSearchLine} />}
-            />
+            <HStack spacing={2}>
+              {isStaff && (
+                <Link href="/drinks/create" passHref>
+                  <a>
+                    <ResponsiveButton
+                      aria-label="Adicionar bebida"
+                      as="a"
+                      onlyIcon={!isMediumVersion}
+                      rightIcon={<Icon as={RiAddBoxFill} />}
+                    />
+                  </a>
+                </Link>
+              )}
+
+              <ResponsiveButton
+                aria-label="Pesquisar"
+                onClick={disclosure.onOpen}
+                onlyIcon={!isSmallVersion}
+                rightIcon={<Icon as={RiSearchLine} />}
+              />
+            </HStack>
           </Flex>
 
           {isLoading ? (

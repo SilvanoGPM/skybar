@@ -1,7 +1,9 @@
-import { httpClient } from '$services/httpClient';
 import qs from 'query-string';
 
+import { httpClient } from '$services/httpClient';
+
 import type { Pagination } from './types';
+import { uploadDrinkImage } from './files';
 
 export interface Drink {
   uuid: string;
@@ -15,6 +17,16 @@ export interface Drink {
   additional: string;
   additionalList: string[];
   alcoholic: boolean;
+}
+
+export interface DrinkToCreate {
+  name: string;
+  description: string;
+  additional: string;
+  price: number;
+  volume: number;
+  alcoholic: boolean;
+  picture: File | string | null;
 }
 
 export interface DrinkSearchParams {
@@ -87,6 +99,25 @@ export async function searchDrink(params: DrinkSearchParams) {
   const { data } = await httpClient.get<Pagination<Drink>>(
     `/drinks/search?${searchParams}`,
   );
+
+  return data;
+}
+
+export async function drinkUploadImage(drink: DrinkToCreate) {
+  const { picture } = drink;
+
+  if (picture && picture instanceof File) {
+    const image = await uploadDrinkImage(picture);
+    return { ...drink, picture: image };
+  }
+
+  return drink;
+}
+
+export async function createDrink(drinkToCreate: DrinkToCreate) {
+  const drink = await drinkUploadImage(drinkToCreate);
+
+  const { data } = await httpClient.post<Drink>('/drinks/barmen', drink);
 
   return data;
 }

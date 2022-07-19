@@ -1,6 +1,5 @@
 import { Box, Flex, FormLabel, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { Controller } from 'react-hook-form';
 
 import { NumberInput } from './NumberInput';
 
@@ -32,54 +31,28 @@ export function Between({
       {Boolean(label) && <FormLabel htmlFor={minName}>{label}</FormLabel>}
 
       <Flex align="center">
-        <Controller
+        <NumberInput
           name={minName}
           control={control}
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-            fieldState: { error },
-          }) => (
-            <NumberInput
-              name={name}
-              value={value}
-              onChange={onChange}
-              onBlur={onBlur}
-              error={error}
-              ref={ref}
-              min={min}
-              max={max}
-              icon={icon}
-              stepper={false}
-              placeholder={minPlaceholder}
-            />
-          )}
+          min={min}
+          max={max}
+          icon={icon}
+          stepper={false}
+          placeholder={minPlaceholder}
         />
 
         <Text fontSize="xl" mx="1">
           -
         </Text>
 
-        <Controller
+        <NumberInput
           name={maxName}
           control={control}
-          render={({
-            field: { onChange, onBlur, value, name, ref },
-            fieldState: { error },
-          }) => (
-            <NumberInput
-              name={name}
-              value={value}
-              onChange={onChange}
-              onBlur={onBlur}
-              error={error}
-              ref={ref}
-              min={min}
-              max={max}
-              icon={icon}
-              stepper={false}
-              placeholder={maxPlaceholder}
-            />
-          )}
+          min={min}
+          max={max}
+          icon={icon}
+          stepper={false}
+          placeholder={maxPlaceholder}
         />
       </Flex>
     </Box>

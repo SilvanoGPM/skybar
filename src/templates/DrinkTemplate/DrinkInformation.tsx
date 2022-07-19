@@ -61,6 +61,7 @@ export function DrinkInformation({
 
           <Text
             bg="brand.500"
+            color="white"
             p="1"
             textAlign="center"
             maxW="115px"
