@@ -22,19 +22,24 @@ import { Textarea } from '$components/form/Textarea';
 import { NumberInput } from '$components/form/NumberInput';
 import { Select } from '$components/form/Select';
 import { Switch } from '$components/form/Switch';
-import { createDrink } from '$services/api/drinks';
+import { replaceDrink } from '$services/api/drinks';
 import { queryClient } from '$services/queryClient';
 
-interface CreateDrinkFormData {
+interface EditDrinkFormData {
   name: string;
   description: string;
+  picture?: string;
   additional: Array<{ label: string; value: string }>;
   price: number;
   volume: number;
   alcoholic: boolean;
 }
 
-const createDrinkFormSchema = yup.object().shape({
+interface EditDrinkFormProps {
+  drink: { uuid: string } & EditDrinkFormData;
+}
+
+const editDrinkFormSchema = yup.object().shape({
   name: yup
     .string()
     .required('Nome é obrigatório')
@@ -55,20 +60,22 @@ const createDrinkFormSchema = yup.object().shape({
 
   alcoholic: yup.boolean(),
 });
-export function CreateDrinkForm() {
+
+export function EditDrinkForm({ drink }: EditDrinkFormProps) {
   const [file, setFile] = useState<File | null>(null);
   const toast = useToast();
 
-  const createDrinkMutation = useMutation(createDrink, {
+  const editDrinkMutation = useMutation(replaceDrink, {
     onSuccess: () => queryClient.invalidateQueries('drinks'),
   });
 
-  const { control, register, formState, handleSubmit, reset } =
-    useForm<CreateDrinkFormData>({
-      resolver: yupResolver(createDrinkFormSchema),
+  const { control, register, formState, handleSubmit } =
+    useForm<EditDrinkFormData>({
+      defaultValues: { ...drink },
+      resolver: yupResolver(editDrinkFormSchema),
     });
 
-  const handleCreateDrink = handleSubmit(async (data) => {
+  const handleEditDrink = handleSubmit(async (data) => {
     try {
       const formattedData = {
         ...data,
@@ -76,21 +83,23 @@ export function CreateDrinkForm() {
         additional: data.additional?.map(({ value }) => value).join(';'),
       };
 
-      await createDrinkMutation.mutateAsync(formattedData);
-
-      reset();
+      await editDrinkMutation.mutateAsync({
+        ...formattedData,
+        uuid: drink.uuid,
+        picture: file || drink.picture || null,
+      });
 
       toast({
-        title: 'Bebida adicionada',
-        description: `A bebida ${data.name} foi adicionada com sucesso.`,
+        title: 'Bebida atualizada',
+        description: `A bebida ${data.name} foi atualizada com sucesso.`,
         isClosable: true,
         status: 'success',
         duration: 2000,
       });
     } catch {
       toast({
-        title: 'Erro ao adicionar bebida',
-        description: `Não foi possível adicionar a bebida ${data.name}.`,
+        title: 'Erro ao atualizar bebida',
+        description: `Não foi possível atualizar a bebida ${data.name}.`,
         isClosable: true,
         status: 'error',
         duration: 2000,
@@ -99,10 +108,11 @@ export function CreateDrinkForm() {
   });
 
   return (
-    <Box as="form" onSubmit={handleCreateDrink}>
+    <Box as="form" onSubmit={handleEditDrink}>
       <VStack spacing={4}>
         <UploadImage
           h={['60', '80']}
+          defaultImage={drink.picture}
           w="full"
           label="Imagem"
           onFileChange={setFile}

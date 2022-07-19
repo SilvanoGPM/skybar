@@ -32,7 +32,8 @@ export function Switch({ name, label, control }: SwitchProps) {
             )}
 
             <ChakraSwitch
-              value={value}
+              isChecked={value}
+              defaultValue={value}
               onChange={onChange}
               onBlur={onBlur}
               name={name}

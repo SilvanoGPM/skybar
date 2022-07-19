@@ -12,12 +12,18 @@ import {
 import { RiCameraLine } from 'react-icons/ri';
 import { useFileUpload } from 'use-file-upload';
 
-interface UploadFileProps extends BoxProps {
+interface UploadImageProps extends BoxProps {
   label?: string;
+  defaultImage?: string;
   onFileChange?: (file: File) => void;
 }
 
-export function UploadFile({ label, onFileChange, ...props }: UploadFileProps) {
+export function UploadImage({
+  label,
+  onFileChange,
+  defaultImage,
+  ...props
+}: UploadImageProps) {
   const [file, selectFile] = useFileUpload();
 
   function handleClick() {
@@ -41,8 +47,13 @@ export function UploadFile({ label, onFileChange, ...props }: UploadFileProps) {
           _dark={{ bg: 'gray.900' }}
           _light={{ bg: 'gray.50' }}
         >
-          {file && (
-            <Image src={file.source} w="full" h="full" objectFit="contain" />
+          {(file || defaultImage) && (
+            <Image
+              src={file?.source || defaultImage}
+              w="full"
+              h="full"
+              objectFit="contain"
+            />
           )}
 
           <IconButton

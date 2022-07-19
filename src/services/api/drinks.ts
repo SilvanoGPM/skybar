@@ -29,6 +29,10 @@ export interface DrinkToCreate {
   picture: File | string | null;
 }
 
+export interface DrinkToUpdate extends DrinkToCreate {
+  uuid: string;
+}
+
 export interface DrinkSearchParams {
   name?: string;
   description?: string;
@@ -124,4 +128,12 @@ export async function createDrink(drinkToCreate: DrinkToCreate) {
 
 export async function deleteDrink(uuid: string) {
   await httpClient.delete(`/drinks/barmen/${uuid}`);
+}
+
+export async function replaceDrink(
+  drinkToUpdate: DrinkToUpdate,
+): Promise<void> {
+  const drink = await drinkUploadImage(drinkToUpdate);
+
+  await httpClient.put('/drinks/barmen', drink);
 }
