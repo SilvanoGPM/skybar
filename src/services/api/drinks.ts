@@ -121,3 +121,7 @@ export async function createDrink(drinkToCreate: DrinkToCreate) {
 
   return data;
 }
+
+export async function deleteDrink(uuid: string) {
+  await httpClient.delete(`/drinks/barmen/${uuid}`);
+}

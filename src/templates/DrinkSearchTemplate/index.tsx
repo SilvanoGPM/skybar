@@ -8,18 +8,19 @@ import {
   Spinner,
   Text,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 import { RiAddBoxFill, RiSearchLine } from 'react-icons/ri';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import Link from 'next/link';
 
 import { DefaultLayout } from '$components/ui/DefaultLayout';
 import { ResponsiveButton } from '$components/ui/ResponsiveButton';
 import { useScreenVersion } from '$hooks/useScreenVersion';
 import { Pagination } from '$components/ui/Pagination';
-import { searchDrink } from '$services/api/drinks';
+import { deleteDrink, searchDrink } from '$services/api/drinks';
 import { DrinkCard } from '$components/ui/DrinkCard';
 import { formatDrinks } from '$utils/formatters';
 
@@ -28,6 +29,7 @@ import { Empty } from '$components/ui/Empty';
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
 import { useAuth } from '$contexts/AuthContext';
 import { getUserPermissions } from '$utils/getUserPermissions';
+import { queryClient } from '$services/queryClient';
 
 export function DrinkSearchTemplate() {
   const { isSmallVersion, isMediumVersion } = useScreenVersion();
@@ -35,6 +37,7 @@ export function DrinkSearchTemplate() {
   const disclosure = useDisclosure();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState({});
+  const toast = useToast();
 
   const { isStaff } = getUserPermissions(user?.role);
 
@@ -51,9 +54,41 @@ export function DrinkSearchTemplate() {
     },
   );
 
+  const deleteDrinkMutation = useMutation(deleteDrink, {
+    onSuccess: () => queryClient.invalidateQueries('drinks'),
+  });
+
   function handleSearch(data: SearchDrinksFormDataFormatted) {
     setPage(1);
     setSearch(data);
+  }
+
+  async function handleDeleteDrink(uuid: string) {
+    try {
+      await deleteDrinkMutation.mutateAsync(uuid);
+
+      if ((data?.content.length || 0) <= 1) {
+        if (page > 1) {
+          setPage(page - 1);
+        }
+
+        queryClient.removeQueries(['drinks', searchParams]);
+      }
+
+      toast({
+        title: 'Bebida removida',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    } catch {
+      toast({
+        title: 'Erro ao remover bebida',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   }
 
   return (
@@ -118,7 +153,13 @@ export function DrinkSearchTemplate() {
               {data?.totalElements ? (
                 <SimpleGrid minChildWidth="250px" columns={3} spacing={4}>
                   {data?.content.map((drink) => (
-                    <DrinkCard key={drink.uuid} drink={drink} />
+                    <DrinkCard
+                      key={drink.uuid}
+                      drink={drink}
+                      onDeleteDrink={handleDeleteDrink}
+                      showAdminActions
+                      isDeleting={deleteDrinkMutation.isLoading}
+                    />
                   ))}
                 </SimpleGrid>
               ) : (

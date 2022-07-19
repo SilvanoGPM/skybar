@@ -7,17 +7,7 @@ interface AmountBadgeProps {
 export function AmountBadge({ amount }: AmountBadgeProps) {
   return (
     <Tooltip label="Bebidas no pedido" bg="brand.100" color="white" hasArrow>
-      <Badge
-        bg="brand.100"
-        color="white"
-        w="6"
-        h="6"
-        pos="absolute"
-        zIndex="docked"
-        rounded="full"
-        right="2"
-        top="2"
-      >
+      <Badge bg="brand.100" color="white" w="6" h="6" rounded="full">
         <Center h="full">{amount}</Center>
       </Badge>
     </Tooltip>

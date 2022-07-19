@@ -1,9 +1,10 @@
-import { Box, Image } from '@chakra-ui/react';
+import { Box, HStack, Image } from '@chakra-ui/react';
 import { useRef } from 'react';
 
 import { useAuth } from '$contexts/AuthContext';
 import { useOrders } from '$contexts/OrdersContext';
 import animation from '$/assets/lottie/add-drink.json';
+import { getUserPermissions } from '$utils/getUserPermissions';
 
 import {
   TempAnimation,
@@ -13,6 +14,8 @@ import {
 import { AmountBadge } from './AmountBadge';
 import { DrinkLink } from './DrinkLink';
 import { DrinkInfo } from './DrinkInfo';
+import { EditBadge } from './EditBadge';
+import { DeleteBadge } from './DeleteBadge';
 
 interface DrinkCardProps {
   drink: {
@@ -22,15 +25,25 @@ interface DrinkCardProps {
     price: number;
     priceFormatted: string;
   };
+  showAdminActions?: boolean;
+  isDeleting?: boolean;
+  onDeleteDrink?: (uuid: string) => void;
 }
 
-export function DrinkCard({ drink }: DrinkCardProps) {
+export function DrinkCard({
+  drink,
+  onDeleteDrink,
+  showAdminActions = false,
+  isDeleting = false,
+}: DrinkCardProps) {
   const { addDrinkToNewOrder, items } = useOrders();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const animationRef = useRef<TempAnimationHandles>(null);
 
   const amount = items[drink.uuid]?.amount || 0;
+
+  const { isStaff, isUser } = getUserPermissions(user?.role);
 
   function handleAddDrinkToOrder() {
     addDrinkToNewOrder(drink);
@@ -46,7 +59,23 @@ export function DrinkCard({ drink }: DrinkCardProps) {
       pos="relative"
       color="gray.50"
     >
-      {isAuthenticated && <AmountBadge amount={amount} />}
+      {isAuthenticated && (
+        <HStack pos="absolute" zIndex="docked" right="2" top="2" spacing={2}>
+          {showAdminActions && isStaff && (
+            <>
+              <DeleteBadge
+                {...drink}
+                onDelete={onDeleteDrink}
+                isDeleting={isDeleting}
+              />
+
+              <EditBadge uuid={drink.uuid} />
+            </>
+          )}
+
+          {isUser && <AmountBadge amount={amount} />}
+        </HStack>
+      )}
 
       <Image
         src={drink.picture}
@@ -71,12 +100,12 @@ export function DrinkCard({ drink }: DrinkCardProps) {
       />
 
       <DrinkInfo
-        showAddButton={isAuthenticated}
+        showAddButton={isUser}
         drink={drink}
         onAddDrinkToOrder={handleAddDrinkToOrder}
       />
 
-      <DrinkLink fullHeight={!isAuthenticated} drinkUUID={drink.uuid} />
+      <DrinkLink fullHeight={!isUser} drinkUUID={drink.uuid} />
     </Box>
   );
 }

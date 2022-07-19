@@ -73,7 +73,7 @@ export function CreateDrinkForm() {
       const formattedData = {
         ...data,
         picture: file,
-        additional: data.additional?.map(({ value }) => value).join(','),
+        additional: data.additional?.map(({ value }) => value).join(';'),
       };
 
       await createDrinkMutation.mutateAsync(formattedData);
