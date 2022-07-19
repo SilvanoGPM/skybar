@@ -1,4 +1,5 @@
 import {
+  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -24,7 +25,6 @@ import {
   TempAnimationHandles,
 } from '$components/animations/TempAnimation';
 
-import { Button } from '../Button';
 import { Drinks } from './Drinks';
 import { OpenButton } from './OpenButton';
 

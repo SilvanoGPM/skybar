@@ -1,7 +1,5 @@
-import { Box, Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Icon, Text } from '@chakra-ui/react';
 import { RiShoppingCartLine } from 'react-icons/ri';
-
-import { Button } from '$components/ui/Button';
 
 interface DrinkInfoProps {
   drink: { name: string; priceFormatted: string };

@@ -7,13 +7,11 @@ import {
   PopoverHeader,
   PopoverBody,
   HStack,
-  Button as ChakraButton,
   useDisclosure,
+  Button,
 } from '@chakra-ui/react';
 
 import { BiTrash } from 'react-icons/bi';
-
-import { Button } from '../Button';
 
 interface ClearOrderProps {
   onClearOrder: () => void;
@@ -46,7 +44,7 @@ export function ClearOrder({ onClearOrder }: ClearOrderProps) {
 
         <PopoverBody>
           <HStack align="center" justify="end">
-            <ChakraButton onClick={onClose}>Não</ChakraButton>
+            <Button onClick={onClose}>Não</Button>
             <Button onClick={handleClearOrder}>Sim</Button>
           </HStack>
         </PopoverBody>

@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Center,
   Flex,
   Heading,
@@ -14,7 +15,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from '$contexts/AuthContext';
 import { Logo } from '$components/ui/Logo';
 import { Input } from '$components/form/Input';
-import { Button } from '$components/ui/Button';
 import { ToggleThemeButton } from '$components/ui/ToggleThemeButton';
 
 interface SignInFormData {

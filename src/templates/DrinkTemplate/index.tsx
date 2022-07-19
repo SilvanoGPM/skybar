@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   Heading,
   Icon,
@@ -15,7 +16,6 @@ import type { Drink as DrinkRaw } from '$services/api/drinks';
 import { DefaultLayout } from '$components/ui/DefaultLayout';
 import { HighlightedText } from '$components/ui/HighlightedText';
 import { thinScrollbar } from '$styles/thinScrollbar';
-import { Button } from '$components/ui/Button';
 import { pluralize } from '$utils/pluralize';
 import { useOrders } from '$contexts/OrdersContext';
 import { useAuth } from '$contexts/AuthContext';
@@ -61,7 +61,7 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
               mb={{ base: '4', lg: '0' }}
               flex="1"
               pos="relative"
-              rounded="xl"
+              roundedLeft="xl"
               overflow="hidden"
             >
               <Image
@@ -96,11 +96,12 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
             maxH={{ base: '100%', lg: '480px' }}
             w="full"
             h="full"
-            bg="gray.800"
             py="4"
             px="8"
-            rounded="xl"
+            roundedRight="xl"
             overflow="hidden"
+            _dark={{ bg: 'gray.800', color: 'gray.50' }}
+            _light={{ bg: 'gray.100', color: 'gray.900' }}
           >
             <FadeIn x={100} delay={0.5}>
               <Heading mb="2">{drink.name}</Heading>

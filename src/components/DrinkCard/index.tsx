@@ -1,4 +1,5 @@
 import { Box, Image } from '@chakra-ui/react';
+import { useRef } from 'react';
 
 import { useAuth } from '$contexts/AuthContext';
 import { useOrders } from '$contexts/OrdersContext';
@@ -12,7 +13,6 @@ import {
 import { AmountBadge } from './AmountBadge';
 import { DrinkLink } from './DrinkLink';
 import { DrinkInfo } from './DrinkInfo';
-import { useRef } from 'react';
 
 interface DrinkCardProps {
   drink: {

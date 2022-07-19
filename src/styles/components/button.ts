@@ -1,23 +1,32 @@
-export const Button = {
+import { ComponentStyleConfig } from '@chakra-ui/react';
+
+export const Button: ComponentStyleConfig = {
+  defaultProps: {
+    colorScheme: 'brand',
+  },
+
   variants: {
-    solid: {
-      bg: 'brand.500',
-      color: 'white',
+    solid: ({ colorScheme }) => ({
+      color: colorScheme === 'brand' ? 'white' : 'inherit',
+      transition: '0.2s filter',
       _disabled: {
         opacity: 0.5,
-        cursor: 'not-allowed',
+        bg: `${colorScheme}.500`,
         _hover: { filter: 'brightness(1)' },
       },
       _hover: { filter: 'brightness(0.9)' },
-    },
-    outline: {
+    }),
+
+    outline: ({ colorScheme }) => ({
       border: '2px solid',
-      borderColor: 'brand.500',
-      color: 'brand.500',
+      borderColor: `${colorScheme}.500`,
+      color: `${colorScheme}.500`,
+      transition: '0.2s filter',
+      bg: 'transparent',
       _active: {
-        bg: 'brand.500',
         color: 'white',
+        bg: `${colorScheme}.500`,
       },
-    },
+    }),
   },
 };

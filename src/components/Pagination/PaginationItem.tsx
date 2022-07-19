@@ -33,6 +33,7 @@ export function PaginationItem({
       size="sm"
       fontSize="xs"
       width="4"
+      color="inherit"
       _dark={{ bg: 'gray.700', _hover: { bg: 'gray.500' } }}
       _light={{ bg: 'gray.200', _hover: { bg: 'gray.300' } }}
     >

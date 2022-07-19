@@ -14,6 +14,8 @@ export function ToggleThemeButton() {
   return (
     <IconButton
       aria-label="Mudar tema"
+      colorScheme="gray"
+      color="inherit"
       onClick={toggleColorMode}
       icon={<Icon as={icon} />}
     />
