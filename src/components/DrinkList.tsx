@@ -1,4 +1,4 @@
-import { Heading, HStack } from '@chakra-ui/react';
+import { Box, Heading, HStack } from '@chakra-ui/react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { motion, useAnimation } from 'framer-motion';
 
@@ -31,7 +31,13 @@ export function DrinkList({ drinks, title }: DrinkListProps) {
   }, [cardsControl, titleControl, inView]);
 
   return (
-    <>
+    <Box
+      rounded="xl"
+      p={['4', '4', '8']}
+      mb="8"
+      _dark={{ bg: 'gray.800', color: 'gray.50' }}
+      _light={{ bg: 'gray.100', color: 'gray.900' }}
+    >
       <motion.div animate={titleControl} initial={{ x: 100, opacity: 0 }}>
         <Heading as="h2" mb="6">
           {title}
@@ -42,7 +48,6 @@ export function DrinkList({ drinks, title }: DrinkListProps) {
 
       <HStack
         py="4"
-        mb="12"
         spacing={4}
         sx={thinScrollbar}
         as={ScrollContainer}
@@ -59,6 +64,6 @@ export function DrinkList({ drinks, title }: DrinkListProps) {
           </motion.div>
         ))}
       </HStack>
-    </>
+    </Box>
   );
 }

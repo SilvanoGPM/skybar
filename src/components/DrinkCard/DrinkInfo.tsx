@@ -35,6 +35,7 @@ export function DrinkInfo({
         <Button
           leftIcon={<Icon as={RiShoppingCartLine} />}
           onClick={onAddDrinkToOrder}
+          roundedTop="none"
         >
           Adicionar
         </Button>

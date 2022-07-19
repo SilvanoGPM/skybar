@@ -14,7 +14,7 @@ export function Actions() {
 
       <ToggleThemeButton />
 
-      <Box h="12" w="1px" bg="gray.700" />
+      <Box h="12" w="1px" bg="gray.800" />
     </HStack>
   );
 }

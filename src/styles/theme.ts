@@ -1,7 +1,12 @@
 import { extendTheme } from '@chakra-ui/react';
 import { GlobalStyleProps, mode } from '@chakra-ui/theme-tools';
 
+import { Button } from './components/button';
+
 export const theme = extendTheme({
+  components: {
+    Button,
+  },
   colors: {
     brand: {
       '900': '#4C0070',

@@ -1,4 +1,5 @@
 import { httpClient } from '$services/httpClient';
+import qs from 'query-string';
 
 import type { Pagination } from './types';
 
@@ -14,6 +15,20 @@ export interface Drink {
   additional: string;
   additionalList: string[];
   alcoholic: boolean;
+}
+
+export interface DrinkSearchParams {
+  name?: string;
+  description?: string;
+  additional?: string;
+  alcoholic?: string;
+  greaterThanOrEqualToPrice?: number;
+  lessThanOrEqualToPrice?: number;
+  greaterThanOrEqualToVolume?: number;
+  lessThanOrEqualToVolume?: number;
+  page?: number;
+  size?: number;
+  sort?: string;
 }
 
 export interface TopDrink {
@@ -61,4 +76,14 @@ export async function getHotAndNewDrinks() {
   }));
 
   return { latestDrinks, topDrinks };
+}
+
+export async function searchDrink(params: DrinkSearchParams) {
+  const searchParams = qs.stringify(params);
+
+  const { data } = await httpClient.get<Pagination<Drink>>(
+    `/drinks/search?${searchParams}`,
+  );
+
+  return data;
 }

@@ -76,7 +76,7 @@ export function LoginTemplate() {
           mb="4"
           rounded="xl"
           textAlign="center"
-          _dark={{ bg: 'gray.700', color: 'gray.50' }}
+          _dark={{ bg: 'gray.800', color: 'gray.50' }}
           _light={{ bg: 'gray.100', color: 'gray.900' }}
         >
           <Logo fontSize="xl" />

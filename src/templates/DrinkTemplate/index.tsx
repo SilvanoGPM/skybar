@@ -61,6 +61,8 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
               mb={{ base: '4', lg: '0' }}
               flex="1"
               pos="relative"
+              rounded="xl"
+              overflow="hidden"
             >
               <Image
                 w="full"
@@ -90,11 +92,15 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
 
           <Flex
             direction="column"
-            ml={{ base: 0, lg: '8' }}
             flex="1"
             maxH={{ base: '100%', lg: '480px' }}
             w="full"
             h="full"
+            bg="gray.800"
+            py="4"
+            px="8"
+            rounded="xl"
+            overflow="hidden"
           >
             <FadeIn x={100} delay={0.5}>
               <Heading mb="2">{drink.name}</Heading>

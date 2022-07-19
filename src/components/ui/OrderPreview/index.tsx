@@ -68,7 +68,7 @@ export function OrderPreview() {
 
       <Drawer isOpen={orderPreviewIsOpen} onClose={handleClose}>
         <DrawerOverlay>
-          <DrawerContent _dark={{ bg: 'gray.700' }} _light={{ bg: 'gray.100' }}>
+          <DrawerContent _dark={{ bg: 'gray.800' }} _light={{ bg: 'gray.100' }}>
             <DrawerHeader px="4" pb="0" mb="0">
               <Flex align="center" justify="space-between">
                 {clearingOrder ? 'Limpando pedido...' : 'Pedido atual'}

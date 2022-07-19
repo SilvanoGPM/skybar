@@ -8,7 +8,11 @@ export function Introduction() {
   return (
     <Center
       flexDir={{ base: 'column-reverse', md: 'row' }}
-      mb={{ base: '12', md: '0' }}
+      mb={{ base: '12', md: '8' }}
+      rounded="xl"
+      p={['4', '4', '8']}
+      _dark={{ bg: 'gray.800', color: 'gray.50' }}
+      _light={{ bg: 'gray.100', color: 'gray.900' }}
     >
       <Flex direction="column" flex="1">
         <Heading fontSize={['2xl', '3xl', '4xl']} mb="4">
