@@ -1,11 +1,22 @@
 import { GetStaticProps } from 'next';
+import { NextSeo } from 'next-seo';
 
 import { getLatestDrinks, getTopDrinksMapped } from '$services/api/drinks';
 import { formatDrinks } from '$utils/formatters';
 import { HomeTemplate, HomeTemplateProps } from '$templates/HomeTemplate';
 
 export default function Home(props: HomeTemplateProps) {
-  return <HomeTemplate {...props} />;
+  return (
+    <>
+      <NextSeo
+        title="Skybar"
+        description="Experimente as melhores bebidas da região"
+        canonical="https://skybar.vercel.app/"
+      />
+
+      <HomeTemplate {...props} />
+    </>
+  );
 }
 
 export const getStaticProps: GetStaticProps = async () => {

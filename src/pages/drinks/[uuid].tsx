@@ -1,11 +1,25 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { NextSeo } from 'next-seo';
 
 import { findDrinkByUUID, getHotAndNewDrinks } from '$services/api/drinks';
 import { DrinkTemplate, DrinkTemplateProps } from '$templates/DrinkTemplate';
 import { formatAmount, formatVolume } from '$utils/formatters';
 
 export default function DrinkPage(props: DrinkTemplateProps) {
-  return <DrinkTemplate {...props} />;
+  return (
+    <>
+      <NextSeo
+        title={`${props.drink.name} • Skybar`}
+        description={props.drink.description}
+        canonical="https://skybar.vercel.app/"
+        openGraph={{
+          images: [{ url: props.drink.picture, alt: props.drink.name }],
+        }}
+      />
+
+      <DrinkTemplate {...props} />
+    </>
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {

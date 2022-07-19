@@ -8,6 +8,7 @@ import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ChakraProvider, cookieStorageManager } from '@chakra-ui/react';
 import NextNProgress from 'nextjs-progressbar';
+import { DefaultSeo } from 'next-seo';
 
 import { AuthProvider } from '$contexts/AuthContext';
 import { baseURL } from '$services/httpClient';
@@ -18,6 +19,8 @@ import Router from 'next/router';
 import { useUIStore } from '$stores/ui';
 
 const SOCKET_URL = `${baseURL}/sky-drinks`;
+
+import SEO from '../../next-seo.config';
 
 function App({ Component, pageProps }: AppProps) {
   const { 'skybar.token': token } = parseCookies();
@@ -52,8 +55,10 @@ function App({ Component, pageProps }: AppProps) {
           <AuthProvider>
             <OrdersProvider>
               <Head>
-                <title>Next Boilerplate</title>
+                <title>Skybar</title>
               </Head>
+
+              <DefaultSeo {...SEO} />
 
               <NextNProgress
                 color="#9A0680"
