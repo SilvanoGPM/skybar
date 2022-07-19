@@ -94,6 +94,7 @@ export function OrderPreview() {
                     <Button
                       rightIcon={<Icon as={RiCheckLine} />}
                       colorScheme="green"
+                      color="white"
                     >
                       Finalizar pedido
                     </Button>

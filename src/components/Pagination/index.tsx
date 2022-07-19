@@ -39,6 +39,10 @@ export function Pagination({
         )
       : [];
 
+  if (lastPage <= 1) {
+    return null;
+  }
+
   return (
     <Stack
       direction={['column', 'row']}
@@ -49,8 +53,12 @@ export function Pagination({
     >
       <Box>
         <strong>{(currentPage - 1) * registersPerPage}</strong> -{' '}
-        <strong>{currentPage * registersPerPage}</strong> de{' '}
-        <strong>{totalCountOfRegisters}</strong>
+        <strong>
+          {currentPage === lastPage
+            ? totalCountOfRegisters
+            : currentPage * registersPerPage}
+        </strong>{' '}
+        de <strong>{totalCountOfRegisters}</strong>
       </Box>
 
       <Stack direction="row" spacing="2">

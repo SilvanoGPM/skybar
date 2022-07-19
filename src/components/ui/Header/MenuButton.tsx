@@ -9,6 +9,7 @@ export function MenuButton() {
   return (
     <IconButton
       aria-label="Abrir menu"
+      colorScheme="gray"
       onClick={openSidebar}
       icon={<Icon as={BiMenu} />}
       mr="4"

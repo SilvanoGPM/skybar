@@ -31,6 +31,7 @@ export function ClearOrder({ onClearOrder }: ClearOrderProps) {
         <IconButton
           onClick={onToggle}
           colorScheme="red"
+          color="white"
           aria-label="Limpar pedidos"
           icon={<Icon as={BiTrash} />}
         />
@@ -44,7 +45,9 @@ export function ClearOrder({ onClearOrder }: ClearOrderProps) {
 
         <PopoverBody>
           <HStack align="center" justify="end">
-            <Button onClick={onClose}>Não</Button>
+            <Button variant="outline" onClick={onClose}>
+              Não
+            </Button>
             <Button onClick={handleClearOrder}>Sim</Button>
           </HStack>
         </PopoverBody>

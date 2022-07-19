@@ -1,12 +1,13 @@
 import { Box, Flex, FormLabel, Text } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import { UseFormRegister } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
+
 import { NumberInput } from './NumberInput';
 
 interface BetweenProps {
   minName: string;
   maxName: string;
-  register: UseFormRegister<any>; // eslint-disable-line
+  control: any; // eslint-disable-line
   minPlaceholder?: string;
   maxPlaceholder?: string;
   label?: string;
@@ -20,42 +21,65 @@ export function Between({
   maxName,
   minPlaceholder,
   maxPlaceholder,
-  register,
   label,
+  control,
   icon,
   min,
   max,
 }: BetweenProps) {
-  const minRegister = register(minName);
-  const maxRegister = register(maxName);
-
   return (
     <Box>
       {Boolean(label) && <FormLabel htmlFor={minName}>{label}</FormLabel>}
 
       <Flex align="center">
-        <NumberInput
-          name={minRegister.name}
-          ref={minRegister.ref}
-          min={min}
-          max={max}
-          icon={icon}
-          stepper={false}
-          placeholder={minPlaceholder}
+        <Controller
+          name={minName}
+          control={control}
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState: { error },
+          }) => (
+            <NumberInput
+              name={name}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              error={error}
+              ref={ref}
+              min={min}
+              max={max}
+              icon={icon}
+              stepper={false}
+              placeholder={minPlaceholder}
+            />
+          )}
         />
 
         <Text fontSize="xl" mx="1">
           -
         </Text>
 
-        <NumberInput
-          name={maxRegister.name}
-          ref={maxRegister.ref}
-          min={min}
-          max={max}
-          icon={icon}
-          stepper={false}
-          placeholder={maxPlaceholder}
+        <Controller
+          name={maxName}
+          control={control}
+          render={({
+            field: { onChange, onBlur, value, name, ref },
+            fieldState: { error },
+          }) => (
+            <NumberInput
+              name={name}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              error={error}
+              ref={ref}
+              min={min}
+              max={max}
+              icon={icon}
+              stepper={false}
+              placeholder={maxPlaceholder}
+            />
+          )}
         />
       </Flex>
     </Box>

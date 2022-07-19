@@ -79,7 +79,10 @@ export async function getHotAndNewDrinks() {
 }
 
 export async function searchDrink(params: DrinkSearchParams) {
-  const searchParams = qs.stringify(params);
+  const searchParams = qs.stringify(params, {
+    skipEmptyString: true,
+    skipNull: true,
+  });
 
   const { data } = await httpClient.get<Pagination<Drink>>(
     `/drinks/search?${searchParams}`,

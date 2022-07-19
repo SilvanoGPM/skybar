@@ -21,19 +21,31 @@ import { Select } from '$components/form/Select';
 import { useForm } from 'react-hook-form';
 import { BiTrashAlt } from 'react-icons/bi';
 
+interface SelectOption {
+  label: string;
+  value: string;
+}
+
 interface SearchDrinksFormData {
   name: string;
   description: string;
-  alcoholic: { label: string; value: string };
-  additional: { label: string; value: string };
+  alcoholic: SelectOption;
+  additional: SelectOption[];
   greaterThanOrEqualToPrice: number;
   lessThanOrEqualToPrice: number;
   greaterThanOrEqualToVolue: number;
   lessThanOrEqualToVolume: number;
 }
 
+export interface SearchDrinksFormDataFormatted
+  extends Partial<Omit<SearchDrinksFormData, 'alcoholic' | 'additional'>> {
+  additional?: string;
+  alcoholic?: string;
+}
+
 interface SearchDrawerProps {
   isOpen: boolean;
+  onSubmit: (data: SearchDrinksFormDataFormatted) => void;
   onClose: () => void;
 }
 
@@ -43,14 +55,27 @@ const alcoholicOptions = [
   { label: 'Não alcóolicas', value: '0' },
 ];
 
-export function SearchDrawer({ isOpen, onClose }: SearchDrawerProps) {
-  const { control, register, handleSubmit } = useForm<SearchDrinksFormData>({
-    defaultValues: { alcoholic: alcoholicOptions[0] },
-  });
+export function SearchDrawer({ isOpen, onSubmit, onClose }: SearchDrawerProps) {
+  const { control, register, handleSubmit, reset } =
+    useForm<SearchDrinksFormData>({
+      defaultValues: { alcoholic: alcoholicOptions[0] },
+    });
 
   const handleSearch = handleSubmit((data) => {
+    onClose();
+
     console.log(data);
+
+    onSubmit({
+      ...data,
+      additional: data?.additional?.map(({ value }) => value).join(';'),
+      alcoholic: data?.alcoholic?.value,
+    });
   });
+
+  function handleReset() {
+    reset();
+  }
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size="sm">
@@ -105,13 +130,13 @@ export function SearchDrawer({ isOpen, onClose }: SearchDrawerProps) {
                   label="Preço"
                   minName="greaterThanOrEqualToPrice"
                   maxName="lessThanOrEqualToPrice"
-                  register={register}
+                  control={control}
                   minPlaceholder="0.00"
                 />
 
                 <Between
                   icon={<Icon as={TbBrandBitbucket} />}
-                  register={register}
+                  control={control}
                   label="Volume (ml)"
                   minName="greaterThanOrEqualToVolume"
                   maxName="lessThanOrEqualToVolume"
@@ -128,7 +153,7 @@ export function SearchDrawer({ isOpen, onClose }: SearchDrawerProps) {
                 </Button>
 
                 <Button
-                  type="submit"
+                  onClick={handleReset}
                   variant="outline"
                   rightIcon={<Icon as={BiTrashAlt} />}
                   w="full"

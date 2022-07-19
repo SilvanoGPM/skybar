@@ -23,8 +23,8 @@ export function OpenButton() {
           size="lg"
           onClick={openOrderPreview}
           pos="fixed"
+          top={['20', '24']}
           right={['5', '10']}
-          bottom={['5', '10']}
           colorScheme="brand"
           zIndex="dropdown"
         />

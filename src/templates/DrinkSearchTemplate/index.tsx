@@ -20,7 +20,8 @@ import { Pagination } from '$components/Pagination';
 import { searchDrink } from '$services/api/drinks';
 import { DrinkCard } from '$components/DrinkCard';
 import { formatDrinks } from '$utils/formatters';
-import { SearchDrawer } from './SearchDrawer';
+
+import { SearchDrawer, SearchDrinksFormDataFormatted } from './SearchDrawer';
 
 export function DrinkSearchTemplate() {
   const { isSmallVersion } = useScreenVersion();
@@ -28,20 +29,25 @@ export function DrinkSearchTemplate() {
   const disclosure = useDisclosure();
 
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState({});
+
+  const searchParams = { size: 9, page: page - 1, ...search };
 
   const { data, isLoading, isError, isFetching } = useQuery(
-    ['drinks', page],
+    ['drinks', searchParams],
     async () => {
-      const { content, totalElements } = await searchDrink({
-        size: 9,
-        page: page - 1,
-      });
+      const { content, totalElements } = await searchDrink(searchParams);
       return { totalElements, content: formatDrinks(content) };
     },
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     },
   );
+
+  function handleSearch(data: SearchDrinksFormDataFormatted) {
+    setPage(1);
+    setSearch(data);
+  }
 
   return (
     <DefaultLayout>
@@ -78,21 +84,23 @@ export function DrinkSearchTemplate() {
             <Text>Aconteceu um erro ao tentar pesquisar as bebidas</Text>
           </Center>
         ) : (
-          <SimpleGrid minChildWidth="250px" spacing={4}>
-            {data?.content.map((drink) => (
-              <DrinkCard key={drink.uuid} drink={drink} />
-            ))}
-          </SimpleGrid>
+          <>
+            <SimpleGrid minChildWidth="250px" columns={3} spacing={4}>
+              {data?.content.map((drink) => (
+                <DrinkCard key={drink.uuid} drink={drink} />
+              ))}
+            </SimpleGrid>
+
+            <Pagination
+              totalCountOfRegisters={data?.totalElements || 0}
+              registersPerPage={9}
+              currentPage={page}
+              onPageChange={setPage}
+            />
+          </>
         )}
 
-        <Pagination
-          totalCountOfRegisters={data?.totalElements || 0}
-          registersPerPage={9}
-          currentPage={page}
-          onPageChange={setPage}
-        />
-
-        <SearchDrawer {...disclosure} />
+        <SearchDrawer {...disclosure} onSubmit={handleSearch} />
       </Flex>
     </DefaultLayout>
   );
