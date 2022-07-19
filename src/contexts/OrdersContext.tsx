@@ -11,12 +11,16 @@ import Repository from '$libs/Repository';
 import { formatAmount } from '$utils/formatters';
 
 import { useAuth } from './AuthContext';
+import { useToast } from '@chakra-ui/react';
+import { getUserPermissions } from '$utils/getUserPermissions';
+import { getUserAge } from '$utils/getUserAge';
 
 export interface Drink {
   uuid: string;
   name: string;
   picture: string;
   price: number;
+  alcoholic: boolean;
 }
 
 export type Items = Record<
@@ -31,7 +35,7 @@ export interface NewOrder {
 interface OrdersContextParams {
   items: Items;
   hasOrder: boolean;
-  addDrinkToNewOrder: (drink: Drink) => void;
+  addDrinkToNewOrder: (drink: Drink) => boolean;
   clearNewOrder: () => void;
 }
 
@@ -42,6 +46,7 @@ interface OrdersProviderProps {
 export type NewOrders = Record<string, NewOrder>;
 
 const NEW_ORDERS_KEY = '@SkyBar/NewOrders';
+const MAIORITY = 18;
 
 export interface AddDrinkToNewOrderParams {
   drink: Drink;
@@ -53,10 +58,13 @@ export const OrdersContext = createContext({} as OrdersContextParams);
 export function OrdersProvider({ children }: OrdersProviderProps) {
   const [items, setItems] = useState<Items>({});
   const [newOrders, setNewOrders] = useState<NewOrders>({} as NewOrders);
+  const toast = useToast();
 
   const { user } = useAuth();
 
   const email = String(user?.email);
+
+  const { isUser } = getUserPermissions(user?.role);
 
   const hasOrder = Object.keys(items).length > 0;
 
@@ -100,6 +108,34 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
 
   const addDrinkToNewOrder = useCallback(
     (drink: Drink) => {
+      if (!isUser) {
+        toast({
+          status: 'warning',
+          title: 'Bebida não adicionada',
+          isClosable: true,
+          duration: 5000,
+          description:
+            'É necessário ser um usuário para adicionar bebidas ao pedido',
+        });
+
+        return false;
+      }
+
+      const userAge = getUserAge(user?.birthDay);
+
+      if (userAge < MAIORITY && drink.alcoholic) {
+        toast({
+          status: 'warning',
+          title: 'Bebida não adicionada',
+          isClosable: true,
+          duration: 5000,
+          description:
+            'Você precisa ser maior de idade para adicionar uma bebida alcóolica',
+        });
+
+        return false;
+      }
+
       newOrders[email].drinks.push(drink);
 
       Repository.save(NEW_ORDERS_KEY, newOrders);
@@ -123,8 +159,10 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
           },
         };
       });
+
+      return true;
     },
-    [email, newOrders],
+    [email, newOrders, isUser, toast, user],
   );
 
   const clearNewOrder = useCallback(() => {

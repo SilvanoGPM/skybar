@@ -24,8 +24,11 @@ export function DrinkTemplate({ drink }: DrinkTemplateProps) {
   const animationRef = useRef<TempAnimationHandles>(null);
 
   function handleAddDrinkToOrder() {
-    addDrinkToNewOrder(drink);
-    animationRef.current?.startAnimation();
+    const isOk = addDrinkToNewOrder(drink);
+
+    if (isOk) {
+      animationRef.current?.startAnimation();
+    }
   }
 
   return (

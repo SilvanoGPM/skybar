@@ -24,6 +24,7 @@ interface DrinkCardProps {
     picture: string;
     price: number;
     priceFormatted: string;
+    alcoholic: boolean;
   };
   showAdminActions?: boolean;
   isDeleting?: boolean;
@@ -46,8 +47,11 @@ export function DrinkCard({
   const { isStaff, isUser } = getUserPermissions(user?.role);
 
   function handleAddDrinkToOrder() {
-    addDrinkToNewOrder(drink);
-    animationRef.current?.startAnimation();
+    const isOk = addDrinkToNewOrder(drink);
+
+    if (isOk) {
+      animationRef.current?.startAnimation();
+    }
   }
 
   return (
