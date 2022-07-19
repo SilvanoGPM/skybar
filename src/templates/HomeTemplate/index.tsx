@@ -18,6 +18,7 @@ export function HomeTemplate({ topDrinks, latestDrinks }: HomeTemplateProps) {
     <DefaultLayout>
       <Flex w="full" h="full" direction="column" overflowX="hidden">
         <Introduction />
+
         <DrinkList
           drinks={topDrinks}
           title="Mais polulares"
