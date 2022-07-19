@@ -4,7 +4,10 @@ import {
   Center,
   Flex,
   Heading,
+  Icon,
+  IconButton,
   Spacer,
+  useBoolean,
   useToast,
   VStack,
 } from '@chakra-ui/react';
@@ -12,6 +15,7 @@ import {
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 import { useAuth } from '$contexts/AuthContext';
 import { Logo } from '$components/ui/Logo';
@@ -31,6 +35,8 @@ const signInFormSchema = yup.object().shape({
 export function LoginTemplate() {
   const toast = useToast();
   const { signIn } = useAuth();
+
+  const [showPassword, setShowPassword] = useBoolean(false);
 
   const { register, handleSubmit, formState } = useForm<SignInFormData>({
     resolver: yupResolver(signInFormSchema),
@@ -95,12 +101,29 @@ export function LoginTemplate() {
                 label="E-mail"
               />
 
-              <Input
-                {...register('password')}
-                error={formState.errors.password}
-                type="password"
-                label="Senha"
-              />
+              <Box w="full" pos="relative">
+                <Input
+                  {...register('password')}
+                  error={formState.errors.password}
+                  type={showPassword ? 'text' : 'password'}
+                  label="Senha"
+                />
+
+                <IconButton
+                  aria-label="Mostrar senha"
+                  onClick={setShowPassword.toggle}
+                  pos="absolute"
+                  right="4"
+                  top="43px"
+                  size="sm"
+                  variant="unstyled"
+                  icon={
+                    <Icon
+                      as={showPassword ? AiOutlineEyeInvisible : AiOutlineEye}
+                    />
+                  }
+                />
+              </Box>
 
               <Spacer />
 

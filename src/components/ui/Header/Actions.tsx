@@ -5,23 +5,31 @@ import { useScreenVersion } from '$hooks/useScreenVersion';
 
 import { ToggleThemeButton } from '../ToggleThemeButton';
 import { OrderPreviewOpenButton } from '../OrderPreviewOpenButton';
+import { useAuth } from '$contexts/AuthContext';
+import { useOrders } from '$contexts/OrdersContext';
 
 export function Actions() {
   const { isLargeVersion } = useScreenVersion();
+  const { isAuthenticated } = useAuth();
+  const { hasOrder } = useOrders();
 
   return (
     <HStack spacing={['2', '2', '4']} mr={['2', '2', '4']}>
-      <IconButton
-        aria-label="Notificações"
-        colorScheme="gray"
-        icon={<Icon as={BiBell} />}
-      />
-
       {isLargeVersion && <ToggleThemeButton />}
 
-      <OrderPreviewOpenButton />
+      {isAuthenticated && (
+        <>
+          <IconButton
+            aria-label="Notificações"
+            colorScheme="gray"
+            icon={<Icon as={BiBell} />}
+          />
 
-      <Box h="12" w="1px" bg="gray" />
+          {hasOrder && <OrderPreviewOpenButton />}
+        </>
+      )}
+
+      {(isAuthenticated || isLargeVersion) && <Box h="12" w="1px" bg="gray" />}
     </HStack>
   );
 }

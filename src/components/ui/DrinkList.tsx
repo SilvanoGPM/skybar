@@ -1,11 +1,10 @@
 import { Box, Heading, HStack } from '@chakra-ui/react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { motion, useAnimation } from 'framer-motion';
-
-import { DrinkCard } from './DrinkCard';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
-import { thinScrollbar } from '$styles/thinScrollbar';
+
+import { DrinkCard } from './DrinkCard';
 import { Empty } from './Empty';
 
 interface DrinkListProps {
@@ -49,13 +48,7 @@ export function DrinkList({ drinks, empty, title }: DrinkListProps) {
       <div ref={ref} />
 
       {drinks.length ? (
-        <HStack
-          py="4"
-          spacing={4}
-          sx={thinScrollbar}
-          as={ScrollContainer}
-          hideScrollbars={false}
-        >
+        <HStack py="4" spacing={4} as={ScrollContainer}>
           {drinks.map((drink, i) => (
             <motion.div
               key={drink.uuid}

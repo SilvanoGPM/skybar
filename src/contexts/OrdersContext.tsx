@@ -30,6 +30,7 @@ export interface NewOrder {
 
 interface OrdersContextParams {
   items: Items;
+  hasOrder: boolean;
   addDrinkToNewOrder: (drink: Drink) => void;
   clearNewOrder: () => void;
 }
@@ -57,10 +58,16 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
 
   const email = String(user?.email);
 
+  const hasOrder = Object.keys(items).length > 0;
+
   useEffect(() => {
     const newOrders = Repository.get<NewOrders>(NEW_ORDERS_KEY) || {
       [email]: { drinks: [] },
     };
+
+    if (!newOrders[email]) {
+      newOrders[email] = { drinks: [] };
+    }
 
     setNewOrders(newOrders);
 
@@ -133,6 +140,7 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
     <OrdersContext.Provider
       value={{
         items,
+        hasOrder,
         addDrinkToNewOrder,
         clearNewOrder,
       }}
