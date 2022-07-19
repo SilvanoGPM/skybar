@@ -23,13 +23,14 @@ import { Pagination } from '$components/ui/Pagination';
 import { deleteDrink, searchDrink } from '$services/api/drinks';
 import { DrinkCard } from '$components/ui/DrinkCard';
 import { formatDrinks } from '$utils/formatters';
-
-import { SearchDrawer, SearchDrinksFormDataFormatted } from './SearchDrawer';
 import { Empty } from '$components/ui/Empty';
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
 import { useAuth } from '$contexts/AuthContext';
 import { getUserPermissions } from '$utils/getUserPermissions';
 import { queryClient } from '$services/queryClient';
+
+import { FilterDrinksOrder } from './FilterDrinksOrder';
+import { SearchDrawer, SearchDrinksFormDataFormatted } from './SearchDrawer';
 
 export function DrinkSearchTemplate() {
   const { isSmallVersion, isMediumVersion } = useScreenVersion();
@@ -37,11 +38,17 @@ export function DrinkSearchTemplate() {
   const disclosure = useDisclosure();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState({});
+  const [order, setOrder] = useState({ order: 'createdAt', sort: 'asc' });
   const toast = useToast();
 
   const { isStaff } = getUserPermissions(user?.role);
 
-  const searchParams = { size: 9, page: page - 1, ...search };
+  const searchParams = {
+    size: 9,
+    page: page - 1,
+    ...search,
+    sort: `${order.order},${order.sort}`,
+  };
 
   const { data, isLoading, isError, isFetching } = useQuery(
     ['drinks', searchParams],
@@ -118,6 +125,8 @@ export function DrinkSearchTemplate() {
             </Center>
 
             <HStack spacing={2}>
+              <FilterDrinksOrder onSubmit={setOrder} />
+
               {isStaff && (
                 <Link href="/drinks/create" passHref>
                   <a>
