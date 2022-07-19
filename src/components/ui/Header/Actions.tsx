@@ -1,8 +1,10 @@
 import { BiBell } from 'react-icons/bi';
 import { Box, HStack, Icon, IconButton } from '@chakra-ui/react';
 
-import { ToggleThemeButton } from '../ToggleThemeButton';
 import { useScreenVersion } from '$hooks/useScreenVersion';
+
+import { ToggleThemeButton } from '../ToggleThemeButton';
+import { OrderPreviewOpenButton } from '../OrderPreviewOpenButton';
 
 export function Actions() {
   const { isLargeVersion } = useScreenVersion();
@@ -11,13 +13,15 @@ export function Actions() {
     <HStack spacing={['2', '2', '4']} mr={['2', '2', '4']}>
       <IconButton
         aria-label="Notificações"
-        variant="unstyled"
+        colorScheme="gray"
         icon={<Icon as={BiBell} />}
       />
 
       {isLargeVersion && <ToggleThemeButton />}
 
-      <Box h="12" w="1px" bg="gray.800" />
+      <OrderPreviewOpenButton />
+
+      <Box h="12" w="1px" bg="gray" />
     </HStack>
   );
 }

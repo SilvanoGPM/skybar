@@ -26,7 +26,6 @@ import {
 } from '$components/animation/TempAnimation';
 
 import { Drinks } from './Drinks';
-import { OpenButton } from './OpenButton';
 
 export function OrderPreview() {
   const { items, clearNewOrder } = useOrders();
@@ -63,48 +62,44 @@ export function OrderPreview() {
   }
 
   return (
-    <>
-      <OpenButton />
+    <Drawer isOpen={orderPreviewIsOpen} onClose={handleClose}>
+      <DrawerOverlay>
+        <DrawerContent _dark={{ bg: 'gray.800' }} _light={{ bg: 'gray.100' }}>
+          <DrawerHeader px="4" pb="0" mb="0">
+            <Flex align="center" justify="space-between">
+              {clearingOrder ? 'Limpando pedido...' : 'Pedido atual'}
+              <DrawerCloseButton pos="static" />
+            </Flex>
+          </DrawerHeader>
 
-      <Drawer isOpen={orderPreviewIsOpen} onClose={handleClose}>
-        <DrawerOverlay>
-          <DrawerContent _dark={{ bg: 'gray.800' }} _light={{ bg: 'gray.100' }}>
-            <DrawerHeader px="4" pb="0" mb="0">
-              <Flex align="center" justify="space-between">
-                {clearingOrder ? 'Limpando pedido...' : 'Pedido atual'}
-                <DrawerCloseButton pos="static" />
-              </Flex>
-            </DrawerHeader>
+          <DrawerBody px="4">
+            <VStack spacing={4} pb="4" align="left" h="full">
+              <TempAnimation
+                ref={animationRef}
+                animation={animation}
+                onAnimationEnd={handleAnimationEnd}
+                speed={2.5}
+              />
 
-            <DrawerBody px="4">
-              <VStack spacing={4} pb="4" align="left" h="full">
-                <TempAnimation
-                  ref={animationRef}
-                  animation={animation}
-                  onAnimationEnd={handleAnimationEnd}
-                  speed={2.5}
-                />
+              {!clearingOrder && (
+                <>
+                  <Drinks items={items} onClearOrder={handleStartAnimation} />
 
-                {!clearingOrder && (
-                  <>
-                    <Drinks items={items} onClearOrder={handleStartAnimation} />
+                  <Spacer />
 
-                    <Spacer />
-
-                    <Button
-                      rightIcon={<Icon as={RiCheckLine} />}
-                      colorScheme="green"
-                      color="white"
-                    >
-                      Finalizar pedido
-                    </Button>
-                  </>
-                )}
-              </VStack>
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
-    </>
+                  <Button
+                    rightIcon={<Icon as={RiCheckLine} />}
+                    colorScheme="green"
+                    color="white"
+                  >
+                    Finalizar pedido
+                  </Button>
+                </>
+              )}
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </DrawerOverlay>
+    </Drawer>
   );
 }

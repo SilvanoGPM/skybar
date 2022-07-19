@@ -7,7 +7,7 @@ export function Logo(props: TextProps) {
       <Link href="/">
         <a>
           <Text
-            fontSize={['xl', '2xl', '3xl']}
+            fontSize={['md', 'xl', '2xl', '3xl']}
             fontWeight="black"
             textTransform="uppercase"
             letterSpacing="tighter"

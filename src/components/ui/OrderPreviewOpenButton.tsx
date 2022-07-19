@@ -3,7 +3,7 @@ import { RiMoneyDollarBoxLine } from 'react-icons/ri';
 
 import { useUIStore } from '$stores/ui';
 
-export function OpenButton() {
+export function OrderPreviewOpenButton() {
   const { openOrderPreview } = useUIStore(({ openOrderPreview }) => ({
     openOrderPreview,
   }));
@@ -12,21 +12,17 @@ export function OpenButton() {
     <LightMode>
       <Tooltip
         label="Ver pedido atual"
-        placement="left"
-        bg="brand.500"
+        placement="bottom"
+        bg="green.500"
         color="white"
         hasArrow
       >
         <IconButton
           aria-label="Mostra o pedido atual"
           icon={<Icon as={RiMoneyDollarBoxLine} fontSize="2xl" />}
-          size="lg"
           onClick={openOrderPreview}
-          pos="fixed"
-          top={['20', '24']}
-          right={['5', '10']}
-          colorScheme="brand"
-          zIndex="dropdown"
+          colorScheme="green"
+          color="white"
         />
       </Tooltip>
     </LightMode>
