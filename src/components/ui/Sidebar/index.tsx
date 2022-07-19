@@ -6,6 +6,8 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
+  Flex,
+  HStack,
 } from '@chakra-ui/react';
 
 import { useScreenVersion } from '$hooks/useScreenVersion';
@@ -13,6 +15,7 @@ import { useUIStore } from '$stores/ui';
 
 import { SidebarNav } from './SidebarNav';
 import { thinScrollbar } from '$styles/thinScrollbar';
+import { ToggleThemeButton } from '../ToggleThemeButton';
 
 export function Sidebar() {
   const { sidebarIsOpen, closeSidebar } = useUIStore(
@@ -30,8 +33,15 @@ export function Sidebar() {
             _dark={{ bg: 'gray.800' }}
             _light={{ bg: 'gray.100' }}
           >
-            <DrawerCloseButton mt="6"></DrawerCloseButton>
-            <DrawerHeader>Navegação</DrawerHeader>
+            <DrawerHeader>
+              <Flex align="center" justify="space-between">
+                Navegação
+                <HStack spacing={2}>
+                  <ToggleThemeButton />
+                  <DrawerCloseButton pos="static" />
+                </HStack>
+              </Flex>
+            </DrawerHeader>
 
             <DrawerBody>
               <SidebarNav />
