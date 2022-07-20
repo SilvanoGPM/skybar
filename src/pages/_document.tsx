@@ -20,7 +20,7 @@ export default function Document() {
 
         <link rel="manifest" href="/manifest.json" />
 
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
         <meta
