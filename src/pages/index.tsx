@@ -12,6 +12,16 @@ export default function Home(props: HomeTemplateProps) {
         title="Skybar"
         description="Experimente as melhores bebidas da região"
         canonical="https://skybar.vercel.app/"
+        openGraph={{
+          images: [
+            {
+              url: 'https://skybar.vercel.app/images/banner.png',
+              width: 1280,
+              height: 720,
+              alt: 'Skybar',
+            },
+          ],
+        }}
       />
 
       <HomeTemplate {...props} />
