@@ -41,6 +41,7 @@ export function Select({
           options: options,
           name: name,
           ref: ref,
+          instanceId: name,
           id: name,
           selectedOptionColor: 'pink',
           focusBorderColor: 'brand.100',

@@ -8,6 +8,7 @@ interface FadeInProps {
   delay?: number;
   children: ReactNode;
   style?: MotionStyle;
+  isText?: boolean;
 }
 
 export function FadeIn({
@@ -16,6 +17,7 @@ export function FadeIn({
   y = 0,
   delay = 0,
   style,
+  isText = false,
 }: FadeInProps) {
   const control = useAnimation();
 
@@ -27,8 +29,10 @@ export function FadeIn({
     }
   }, [control, inView]);
 
+  const Wrapper = isText ? motion.span : motion.div;
+
   return (
-    <motion.div
+    <Wrapper
       ref={ref}
       initial={{ x, y, opacity: 0 }}
       animate={control}
@@ -36,6 +40,6 @@ export function FadeIn({
       style={style}
     >
       {children}
-    </motion.div>
+    </Wrapper>
   );
 }

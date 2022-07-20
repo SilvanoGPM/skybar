@@ -6,10 +6,10 @@ import { parseCookies } from 'nookies';
 import { Fragment } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { ChakraProvider, cookieStorageManager } from '@chakra-ui/react';
 import NextNProgress from 'nextjs-progressbar';
 import { DefaultSeo } from 'next-seo';
 
+import { Chakra } from '$components/Chakra';
 import { AuthProvider } from '$contexts/AuthContext';
 import { baseURL } from '$services/httpClient';
 import { queryClient } from '$services/queryClient';
@@ -22,7 +22,7 @@ const SOCKET_URL = `${baseURL}/sky-drinks`;
 
 import SEO from '../../next-seo.config';
 
-function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   const { 'skybar.token': token } = parseCookies();
 
   const { closeSidebar, closeOrderPreview } = useUIStore(
@@ -50,7 +50,7 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <Wrapper {...options}>
-      <ChakraProvider theme={theme} colorModeManager={cookieStorageManager}>
+      <Chakra cookies={pageProps.cookies} theme={theme}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <OrdersProvider>
@@ -72,9 +72,9 @@ function App({ Component, pageProps }: AppProps) {
           </AuthProvider>
           <ReactQueryDevtools />
         </QueryClientProvider>
-      </ChakraProvider>
+      </Chakra>
     </Wrapper>
   );
 }
 
-export default App;
+export { getServerSideProps } from '$components/Chakra';

@@ -13,6 +13,7 @@ interface DrinkListProps {
     name: string;
     picture: string;
     price: number;
+    alcoholic: boolean;
     priceFormatted: string;
   }>;
   title: string;

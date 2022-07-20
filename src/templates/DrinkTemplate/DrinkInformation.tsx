@@ -104,7 +104,12 @@ export function DrinkInformation({
       <FadeIn x={100}>
         <Text fontSize="2xl">
           Por apenas{' '}
-          <FadeIn y={-100} delay={0.3} style={{ display: 'inline-block' }}>
+          <FadeIn
+            isText
+            y={-100}
+            delay={0.3}
+            style={{ display: 'inline-block' }}
+          >
             <HighlightedText>{drink.priceFormatted}</HighlightedText>
           </FadeIn>
           .
