@@ -15,7 +15,7 @@ describe('Logo component', () => {
     expect(screen.getByText(/bar/i)).toBeInTheDocument();
   });
 
-  it('navigate to home on click in logo', () => {
+  it('navigate to home page on click', () => {
     mockRouter.setCurrentUrl('/test');
 
     render(<Logo />);
