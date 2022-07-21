@@ -1,10 +1,11 @@
+import { BiMoon, BiSun } from 'react-icons/bi';
+
 import {
   Icon,
   IconButton,
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { BiMoon, BiSun } from 'react-icons/bi';
 
 export function ToggleThemeButton() {
   const { toggleColorMode } = useColorMode();
