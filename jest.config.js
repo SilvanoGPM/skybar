@@ -14,6 +14,7 @@ module.exports = {
     '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
   },
   moduleNameMapper: {
+    '\\$(.*)': '<rootDir>/src/$1',
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
 };

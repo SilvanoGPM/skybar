@@ -4,9 +4,7 @@ import { RiMoneyDollarBoxLine } from 'react-icons/ri';
 import { useUIStore } from '$stores/ui';
 
 export function OrderPreviewOpenButton() {
-  const { openOrderPreview } = useUIStore(({ openOrderPreview }) => ({
-    openOrderPreview,
-  }));
+  const { openOrderPreview } = useUIStore();
 
   return (
     <LightMode>
