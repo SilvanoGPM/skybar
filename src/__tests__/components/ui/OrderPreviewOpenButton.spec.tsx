@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { OrderPreviewOpenButton } from '../../../components/ui/OrderPreviewOpenButton';
+import { OrderPreviewOpenButton } from '$components/ui/OrderPreviewOpenButton';
 
 describe('OrderPreviewOpenButton component', () => {
   it('renders correctly', () => {

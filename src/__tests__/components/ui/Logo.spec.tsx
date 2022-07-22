@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import singletonRouter from 'next/router';
 import mockRouter from 'next-router-mock';
 
-import { Logo } from '../../../components/ui/Logo';
+import { Logo } from '$components/ui/Logo';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { ResponsiveButton } from '../../../components/ui/ResponsiveButton';
+import { ResponsiveButton } from '$components/ui/ResponsiveButton';
 
 describe('ResponsiveButton component', () => {
   it('renders correctly like a Button', () => {

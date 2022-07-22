@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import singletonRouter from 'next/router';
 import mockRouter from 'next-router-mock';
 
-import { SignInButton } from '../../../components/ui/SignInButton';
+import { SignInButton } from '$components/ui/SignInButton';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
