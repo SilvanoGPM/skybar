@@ -42,7 +42,7 @@ export function DrinkCard({
 
   const animationRef = useRef<TempAnimationHandles>(null);
 
-  const amount = items[drink.uuid]?.amount || 0;
+  const amount = items?.[drink.uuid]?.amount || 0;
 
   const { isStaff, isUser } = getUserPermissions(user?.role);
 

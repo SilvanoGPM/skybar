@@ -1,3 +1,5 @@
+import { useToast } from '@chakra-ui/react';
+
 import {
   createContext,
   ReactNode,
@@ -9,11 +11,10 @@ import {
 
 import Repository from '$libs/Repository';
 import { formatAmount } from '$utils/formatters';
-
-import { useAuth } from './AuthContext';
-import { useToast } from '@chakra-ui/react';
 import { getUserPermissions } from '$utils/getUserPermissions';
 import { getUserAge } from '$utils/getUserAge';
+
+import { useAuth } from './AuthContext';
 
 export interface Drink {
   uuid: string;
