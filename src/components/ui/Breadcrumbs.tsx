@@ -30,6 +30,7 @@ export function Breadcrumbs({ items, ...props }: BreadcrumbsProps) {
               px: '4',
               rounded: 'xl',
               _light: { color: 'white' },
+              'data-testid': 'current-page',
             }
           : {};
 
