@@ -3,7 +3,7 @@ import * as Chakra from '@chakra-ui/react';
 import 'next-router-mock';
 
 import { Sidebar } from '$components/ui/Sidebar';
-import { createUser } from '$__mocks__/createUser';
+import { createUseAuth } from '$__mocks__/auth';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
@@ -22,7 +22,7 @@ describe('Sidebar component', () => {
   it('renders correctly', () => {
     jest.spyOn(Chakra, 'useBreakpointValue').mockReturnValue(3);
 
-    createUser();
+    createUseAuth();
 
     render(<Sidebar />);
 
@@ -34,7 +34,7 @@ describe('Sidebar component', () => {
   it('renders drawer with sidebar when not is a large screen', () => {
     jest.spyOn(Chakra, 'useBreakpointValue').mockReturnValueOnce(0);
 
-    createUser();
+    createUseAuth();
 
     render(<Sidebar />);
 

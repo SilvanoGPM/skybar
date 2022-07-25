@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import 'next-router-mock';
 
 import { SidebarNav } from '$components/ui/Sidebar/SidebarNav';
-import { createUser } from '$__mocks__/createUser';
+import { createUseAuth } from '$__mocks__/auth';
 
 jest.mock('next/dist/client/router', () => require('next-router-mock'));
 
@@ -18,7 +18,7 @@ describe('SidebarNav component', () => {
   });
 
   it('renders only user links', () => {
-    createUser({ isAuthenticated: true, user: { role: 'USER' } });
+    createUseAuth({ isAuthenticated: true, user: { role: 'USER' } });
 
     render(<SidebarNav />);
 
@@ -32,7 +32,7 @@ describe('SidebarNav component', () => {
   });
 
   it('renders only staff links', () => {
-    createUser({ isAuthenticated: true, user: { role: 'BARMEN' } });
+    createUseAuth({ isAuthenticated: true, user: { role: 'BARMEN' } });
 
     render(<SidebarNav />);
 
@@ -53,7 +53,7 @@ describe('SidebarNav component', () => {
   });
 
   it('renders only admins links', () => {
-    createUser({ isAuthenticated: true, user: { role: 'ADMIN' } });
+    createUseAuth({ isAuthenticated: true, user: { role: 'ADMIN' } });
 
     render(<SidebarNav />);
 

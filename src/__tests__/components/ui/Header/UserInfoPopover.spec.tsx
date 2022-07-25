@@ -1,13 +1,13 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import { UserInfoPopover } from '$components/ui/Header/UserInfoPopover';
-import { createUser } from '$__mocks__/createUser';
+import { createUseAuth } from '$__mocks__/auth';
 
 jest.mock('../../../../services/api/files', () => ({}));
 
 describe('UserInfoPopover component', () => {
   it('renders correctly', () => {
-    createUser({ user: { role: 'USER', name: 'test-name' } });
+    createUseAuth({ user: { role: 'USER', name: 'test-name' } });
 
     render(<UserInfoPopover>Test</UserInfoPopover>);
 
@@ -22,7 +22,7 @@ describe('UserInfoPopover component', () => {
   it('call signOut on footer button click', () => {
     const signOutMock = jest.fn();
 
-    createUser({
+    createUseAuth({
       user: { role: 'USER', name: 'test-name' },
       signOut: signOutMock,
     });

@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { DrinkCard } from '$components/ui/DrinkCard';
 import * as OrdersContext from '$contexts/OrdersContext';
-import { createUser } from '$__mocks__/createUser';
+import { createUseAuth } from '$__mocks__/auth';
 
 jest.mock('../../../../services/api/files', () => ({}));
 
@@ -17,7 +17,7 @@ const drink = {
 
 describe('DrinkCard component', () => {
   it('renders correctly', () => {
-    createUser();
+    createUseAuth();
 
     render(<DrinkCard drink={drink} />);
 
@@ -29,7 +29,7 @@ describe('DrinkCard component', () => {
   });
 
   it('show amount badge on user is autheticated and has user permission', () => {
-    createUser();
+    createUseAuth();
 
     render(<DrinkCard drink={drink} />);
 
@@ -37,7 +37,7 @@ describe('DrinkCard component', () => {
   });
 
   it('show delete and edit badges on user is autheticated and has staff permission and showAdminActions is true', () => {
-    createUser({
+    createUseAuth({
       user: { role: 'ADMIN' },
       isAuthenticated: true,
     });
@@ -49,7 +49,7 @@ describe('DrinkCard component', () => {
   });
 
   it('add drink to order on button click', () => {
-    createUser();
+    createUseAuth();
 
     const addDrinkToNewOrderMock = jest.fn();
 
@@ -73,7 +73,7 @@ describe('DrinkCard component', () => {
   });
 
   it('dont add drink to order on button click', () => {
-    createUser();
+    createUseAuth();
 
     const addDrinkToNewOrderMock = jest.fn();
 

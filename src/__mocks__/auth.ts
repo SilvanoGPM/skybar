@@ -8,6 +8,6 @@ interface CreateUserData
 
 const defaultData = { user: { role: 'USER' }, isAuthenticated: true };
 
-export function createUser(data: CreateUserData = defaultData) {
+export function createUseAuth(data: CreateUserData = defaultData) {
   jest.spyOn(AuthContext, 'useAuth').mockImplementationOnce(() => data as any); // eslint-disable-line @typescript-eslint/no-explicit-any
 }

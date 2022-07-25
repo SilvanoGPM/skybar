@@ -33,7 +33,7 @@ export interface NewOrder {
   drinks: Drink[];
 }
 
-interface OrdersContextParams {
+export interface OrdersContextParams {
   items: Items;
   hasOrder: boolean;
   addDrinkToNewOrder: (drink: Drink) => boolean;

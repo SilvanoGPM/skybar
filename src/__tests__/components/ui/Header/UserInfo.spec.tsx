@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import * as Chakra from '@chakra-ui/react';
 
 import { UserInfo } from '$components/ui/Header/UserInfo';
-import { createUser } from '$__mocks__/createUser';
+import { createUseAuth } from '$__mocks__/auth';
 
 jest.mock('../../../../services/api/files', () => ({}));
 
@@ -19,7 +19,9 @@ describe('UserInfo component', () => {
   it('renders correctly', () => {
     jest.spyOn(Chakra, 'useBreakpointValue').mockReturnValue(3);
 
-    createUser({ user: { name: 'User Test', email: 'test-email@test.com' } });
+    createUseAuth({
+      user: { name: 'User Test', email: 'test-email@test.com' },
+    });
 
     render(<UserInfo />);
 
@@ -31,7 +33,9 @@ describe('UserInfo component', () => {
   it('renders only avatar when screen size is small', () => {
     jest.spyOn(Chakra, 'useBreakpointValue').mockReturnValue(0);
 
-    createUser({ user: { name: 'User Test', email: 'test-email@test.com' } });
+    createUseAuth({
+      user: { name: 'User Test', email: 'test-email@test.com' },
+    });
 
     render(<UserInfo />);
 

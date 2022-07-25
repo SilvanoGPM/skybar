@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import * as Chakra from '@chakra-ui/react';
 
 import { Header } from '$components/ui/Header';
-import { createUser } from '$__mocks__/createUser';
+import { createUseAuth } from '$__mocks__/auth';
 
 jest.mock('../../../../services/api/files', () => ({}));
 
@@ -19,7 +19,7 @@ describe('Header componenet', () => {
   it('renders correctly', () => {
     jest.spyOn(Chakra, 'useBreakpointValue').mockReturnValue(3);
 
-    createUser({
+    createUseAuth({
       isLoading: false,
       isAuthenticated: true,
       user: { role: 'USER', name: 'test-user' },
@@ -31,7 +31,7 @@ describe('Header componenet', () => {
   });
 
   it('renders spinner when user is not authenticated and prop isLoading is true', () => {
-    createUser({
+    createUseAuth({
       isLoading: true,
       user: { role: 'USER' },
     });
@@ -42,7 +42,7 @@ describe('Header componenet', () => {
   });
 
   it('renders sign out button when user is not authenticated and prop isLoading is false', () => {
-    createUser({
+    createUseAuth({
       user: { role: 'USER' },
     });
 
@@ -54,7 +54,7 @@ describe('Header componenet', () => {
   it('renders menu button when screen is small', () => {
     jest.spyOn(Chakra, 'useBreakpointValue').mockReturnValueOnce(0);
 
-    createUser({
+    createUseAuth({
       user: { role: 'USER' },
     });
 
