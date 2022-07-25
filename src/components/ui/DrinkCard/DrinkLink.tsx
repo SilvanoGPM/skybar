@@ -19,7 +19,10 @@ export function DrinkLink({ fullHeight, drinkUUID }: DrinkLinkProps) {
       _hover={{ opacity: 1 }}
     >
       <Link href={`/drinks/${drinkUUID}`}>
-        <a style={{ width: '100%', height: '100%' }}>
+        <a
+          aria-label="Visualizar bebida"
+          style={{ width: '100%', height: '100%' }}
+        >
           <Center w="full" h="full">
             <Icon as={RiEyeLine} w={10} h={10} />
           </Center>

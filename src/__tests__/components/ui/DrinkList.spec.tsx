@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { useInView } from 'react-intersection-observer';
 
 import { DrinkList } from '$components/ui/DrinkList';
+
 import '$__mocks__/intersectionObserverMock';
 
 const useInViewMocked = useInView as jest.Mock;

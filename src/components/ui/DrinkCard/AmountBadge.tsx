@@ -8,7 +8,9 @@ export function AmountBadge({ amount }: AmountBadgeProps) {
   return (
     <Tooltip label="Bebidas no pedido" bg="brand.100" color="white" hasArrow>
       <Badge bg="brand.100" color="white" w="6" h="6" rounded="full">
-        <Center h="full">{amount}</Center>
+        <Center h="full" data-testid="amount-badge">
+          {amount}
+        </Center>
       </Badge>
     </Tooltip>
   );

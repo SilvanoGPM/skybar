@@ -12,7 +12,7 @@ export function EditBadge({ uuid }: EditBadgeProps) {
       <a>
         <Tooltip label="Editar bebida" bg="blue.300" color="white" hasArrow>
           <Badge bg="blue.300" color="white" w="6" h="6" rounded="full">
-            <Center h="full">
+            <Center data-testid="edit-badge" h="full">
               <Icon as={RiPencilFill} />
             </Center>
           </Badge>

@@ -18,7 +18,7 @@ interface SignInCredentals {
   password: string;
 }
 
-interface AuthContextData {
+export interface AuthContextData {
   signIn: (credentials: SignInCredentals) => Promise<void>;
   signOut: () => void;
   isAuthenticated: boolean;

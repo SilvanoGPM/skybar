@@ -47,7 +47,7 @@ export function DeleteBadge({
       <PopoverTrigger>
         <Button variant="unstyled" w="6" h="6" p="none">
           <Badge bg="red.300" color="white" w="6" h="6" rounded="full">
-            <Center h="full">
+            <Center data-testid="delete-badge" h="full">
               <Icon as={BiTrash} />
             </Center>
           </Badge>
@@ -74,6 +74,7 @@ export function DeleteBadge({
                 bg="red"
                 color="white"
                 onClick={handleDelete}
+                data-testid="delete-button"
               >
                 Sim
               </Button>
