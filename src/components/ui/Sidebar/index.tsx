@@ -12,9 +12,9 @@ import {
 
 import { useScreenVersion } from '$hooks/useScreenVersion';
 import { useUIStore } from '$stores/ui';
+import { thinScrollbar } from '$styles/thinScrollbar';
 
 import { SidebarNav } from './SidebarNav';
-import { thinScrollbar } from '$styles/thinScrollbar';
 import { ToggleThemeButton } from '../ToggleThemeButton';
 
 export function Sidebar() {
@@ -62,6 +62,7 @@ export function Sidebar() {
       pos="sticky"
       top="50px"
       sx={thinScrollbar}
+      data-testid="sidebar"
     >
       <SidebarNav />
     </Box>
