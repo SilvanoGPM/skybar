@@ -26,7 +26,7 @@ export function Header() {
         {isAuthenticated ? (
           <UserInfo />
         ) : isLoading ? (
-          <Spinner />
+          <Spinner data-testid="loading" />
         ) : (
           <SignInButton />
         )}

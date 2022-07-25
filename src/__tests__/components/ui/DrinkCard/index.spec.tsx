@@ -29,10 +29,7 @@ describe('DrinkCard component', () => {
   });
 
   it('show amount badge on user is autheticated and has user permission', () => {
-    createUser({
-      user: { role: 'USER' },
-      isAuthenticated: true,
-    });
+    createUser();
 
     render(<DrinkCard drink={drink} />);
 
