@@ -31,9 +31,9 @@ export function ActiveLink({
     isActive = true;
   }
 
-  return (
-    <Link {...props}>
-      {cloneElement(children, { color: isActive ? 'brand.100' : color })}
-    </Link>
-  );
+  const newProps = isActive
+    ? { color: 'brand.100', 'data-testid': 'is-active' }
+    : { color };
+
+  return <Link {...props}>{cloneElement(children, newProps)}</Link>;
 }
