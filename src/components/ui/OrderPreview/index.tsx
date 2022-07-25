@@ -39,7 +39,7 @@ export function OrderPreview() {
     }),
   );
 
-  const hasDrinks = Object.keys(items).length > 0;
+  const hasDrinks = Object.keys(items || {}).length > 0;
 
   function handleStartAnimation() {
     clearingOrderDrinksActions.on();

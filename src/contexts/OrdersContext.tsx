@@ -67,7 +67,7 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
 
   const { isUser } = getUserPermissions(user?.role);
 
-  const hasOrder = Object.keys(items).length > 0;
+  const hasOrder = Object.keys(items || {}).length > 0;
 
   useEffect(() => {
     const newOrders = Repository.get<NewOrders>(NEW_ORDERS_KEY) || {
