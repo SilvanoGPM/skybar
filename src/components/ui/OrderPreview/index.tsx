@@ -28,7 +28,8 @@ import {
 import { Drinks } from './Drinks';
 
 export function OrderPreview() {
-  const { items, clearNewOrder } = useOrders();
+  const { hasOrder, items, clearNewOrder } = useOrders();
+
   const animationRef = useRef<TempAnimationHandles>(null);
   const [clearingOrder, clearingOrderDrinksActions] = useBoolean(false);
 
@@ -38,8 +39,6 @@ export function OrderPreview() {
       closeOrderPreview,
     }),
   );
-
-  const hasDrinks = Object.keys(items || {}).length > 0;
 
   function handleStartAnimation() {
     clearingOrderDrinksActions.on();
@@ -57,7 +56,7 @@ export function OrderPreview() {
     }
   }
 
-  if (!hasDrinks) {
+  if (!hasOrder) {
     return null;
   }
 
