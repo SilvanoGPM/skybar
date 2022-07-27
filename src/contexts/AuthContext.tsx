@@ -23,7 +23,7 @@ export interface AuthContextData {
   signOut: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
-  user?: User;
+  user?: User | null;
 }
 
 interface AuthProviderProps {
@@ -32,16 +32,17 @@ interface AuthProviderProps {
 
 export const AuthContext = createContext({} as AuthContextData);
 
-export function signOut() {
-  destroyCookie(undefined, 'skybar.token');
-  Router.push('/');
-}
-
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const isAuthenticated = Boolean(user);
+
+  const signOut = useCallback(() => {
+    destroyCookie(undefined, 'skybar.token');
+    setUser(null);
+    Router.push('/');
+  }, []);
 
   useEffect(() => {
     async function loadUser() {
@@ -67,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (isLoading) {
       loadUser();
     }
-  }, [isLoading]);
+  }, [isLoading, signOut]);
 
   const signIn = useCallback(async ({ email, password }: SignInCredentals) => {
     try {
