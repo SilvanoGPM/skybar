@@ -78,7 +78,7 @@ export function LoginTemplate() {
           textAlign="center"
           sx={glassmorphismContainer}
         >
-          <Logo fontSize="3xl" mb="8" color="gray.50" display="inline-block" />
+          <Logo fontSize="3xl" mb="8" display="inline-block" />
 
           <Box as="form" onSubmit={handleSignIn}>
             <VStack spacing={4}>

@@ -8,10 +8,10 @@ import { Link } from '$components/ui/Link';
 export function Introduction() {
   return (
     <Center
-      flexDir={{ base: 'column-reverse', md: 'row' }}
-      mb={{ base: '12', md: '8' }}
+      flexDir={{ base: 'column-reverse', lg: 'row' }}
+      mb={{ base: '12', lg: '8' }}
       rounded="xl"
-      p={['4', '4', '8']}
+      p="8"
       _dark={{ bg: 'gray.800', color: 'gray.50' }}
       _light={{ bg: 'gray.100', color: 'gray.900' }}
     >
@@ -27,7 +27,7 @@ export function Introduction() {
         </Text>
       </Flex>
 
-      <Box maxW={{ base: '200px', md: '400px' }}>
+      <Box maxW={{ base: '200px', lg: '300px' }}>
         <Lottie
           isClickToPauseDisabled={true}
           options={{

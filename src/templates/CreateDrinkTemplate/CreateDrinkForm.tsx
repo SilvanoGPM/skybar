@@ -153,7 +153,7 @@ export function CreateDrinkForm() {
 
         <Switch
           name="alcoholic"
-          label="É uma bebida alcóolica?"
+          label="É uma bebida alcoólica?"
           control={control}
         />
 

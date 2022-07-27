@@ -3,7 +3,7 @@ export const glassmorphismContainer = {
     backdropFilter: 'blur(5px)',
     boxShadow: 'dark-lg',
     _dark: { bg: 'grayAlpha.700' },
-    _light: { bg: 'whiteAlpha.400' },
+    _light: { bg: 'whiteAlpha.600' },
   },
 };
 

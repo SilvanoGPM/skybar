@@ -131,7 +131,7 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
           isClosable: true,
           duration: 5000,
           description:
-            'Você precisa ser maior de idade para adicionar uma bebida alcóolica',
+            'Você precisa ser maior de idade para adicionar uma bebida alcoólica.',
         });
 
         return false;

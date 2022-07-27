@@ -39,8 +39,8 @@ interface SearchDrawerProps {
 
 const alcoholicOptions = [
   { label: 'Todas', value: '-1' },
-  { label: 'Alcóolicas', value: '1' },
-  { label: 'Não alcóolicas', value: '0' },
+  { label: 'alcoólicas', value: '1' },
+  { label: 'Não alcoólicas', value: '0' },
 ];
 
 export function SearchDrawer({ isOpen, onSubmit, onClose }: SearchDrawerProps) {
