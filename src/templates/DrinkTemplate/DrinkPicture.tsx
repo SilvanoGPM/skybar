@@ -23,11 +23,11 @@ export function DrinkPicture({ drink, animationRef }: DrinkPictureProps) {
       <Box
         maxW={{ base: 'full', lg: '480px' }}
         maxH={{ base: '320px', lg: '480px' }}
-        mb={{ base: '4', lg: '0' }}
         flex="1"
         pos="relative"
-        roundedLeft="xl"
-        roundedRight={{ base: 'xl', lg: 'none' }}
+        roundedTopLeft="xl"
+        roundedBottomLeft={{ base: 'none', lg: 'xl' }}
+        roundedTopRight={{ base: 'xl', lg: 'none' }}
         overflow="hidden"
       >
         <Image

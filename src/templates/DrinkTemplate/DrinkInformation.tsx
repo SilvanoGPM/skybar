@@ -43,8 +43,9 @@ export function DrinkInformation({
       h="full"
       py="4"
       px={['4', '4', '8']}
-      roundedRight="xl"
-      roundedLeft={{ base: 'xl', lg: 'none' }}
+      roundedBottomLeft={{ base: 'xl', lg: 'none' }}
+      roundedTopRight={{ base: 'none', lg: 'xl' }}
+      roundedBottomRight="xl"
       _dark={{ bg: 'gray.800', color: 'gray.50' }}
       _light={{ bg: 'gray.100', color: 'gray.900' }}
     >
