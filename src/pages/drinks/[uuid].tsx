@@ -41,13 +41,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { uuid } = params as { uuid: string };
 
-  const drinkRaw = await findDrinkByUUID(uuid);
+  try {
+    const drinkRaw = await findDrinkByUUID(uuid);
 
-  const drink = {
-    ...drinkRaw,
-    priceFormatted: formatAmount(drinkRaw.price),
-    volumeFormatted: formatVolume(drinkRaw.volume),
-  };
+    if (!drinkRaw) {
+      return { notFound: true };
+    }
 
-  return { props: { drink } };
+    const drink = {
+      ...drinkRaw,
+      priceFormatted: formatAmount(drinkRaw.price),
+      volumeFormatted: formatVolume(drinkRaw.volume),
+    };
+
+    return {
+      props: { drink },
+      revalidate: 60 * 60 * 2, // 2 hours
+    };
+  } catch (error) {
+    const err = error as { response: { status: number } };
+
+    if (err?.response?.status === 400) {
+      return { notFound: true };
+    }
+
+    throw error;
+  }
 };
