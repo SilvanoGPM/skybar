@@ -17,12 +17,12 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
       "$*": [
         "src/*"
-      ],
+      ]
     }
   },
   "include": [

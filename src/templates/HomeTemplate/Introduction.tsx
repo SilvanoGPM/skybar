@@ -3,6 +3,7 @@ import Lottie from 'react-lottie';
 
 import animation from '$assets/lottie/home-drinks.json';
 import { HighlightedText } from '$components/ui/HighlightedText';
+import { Link } from '$components/ui/Link';
 
 export function Introduction() {
   return (
@@ -19,10 +20,10 @@ export function Introduction() {
           Seu dia foi <HighlightedText>cansativo</HighlightedText> ?
         </Heading>
 
-        <Text maxW="500px" fontSize="xl">
+        <Text maxW="500px" fontSize="xl" textAlign="justify">
           Relaxa, venha curtir com seus amigos, colocar a conversa em dia, dar
-          boas gargalhadas e de quebra beber aquele{' '}
-          <HighlightedText>drink</HighlightedText> que você ama.
+          boas gargalhadas e de quebra beber aquela{' '}
+          <Link href="/drinks">bebida</Link> que você ama.
         </Text>
       </Flex>
 
