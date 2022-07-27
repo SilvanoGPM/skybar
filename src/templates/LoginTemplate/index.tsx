@@ -3,7 +3,6 @@ import {
   Button,
   Center,
   Flex,
-  Heading,
   Icon,
   IconButton,
   Spacer,
@@ -21,6 +20,11 @@ import { useAuth } from '$contexts/AuthContext';
 import { Logo } from '$components/ui/Logo';
 import { Input } from '$components/form/Input';
 import { ToggleThemeButton } from '$components/ui/ToggleThemeButton';
+
+import {
+  glassmorphismContainer,
+  glassmorphismInput,
+} from '$styles/glassmorphism';
 
 interface SignInFormData {
   email: string;
@@ -58,47 +62,32 @@ export function LoginTemplate() {
   });
 
   return (
-    <Flex h="100vh" direction={{ base: 'column', md: 'row' }}>
-      <Box pos="absolute" right="4" top={{ base: '265px', md: '4' }}>
+    <Flex h="100vh">
+      <Box pos="absolute" right="4" top="4">
         <ToggleThemeButton />
       </Box>
 
-      <Box
-        bgImg="/images/login.jpg"
-        bgPos="center"
-        bgSize="cover"
-        flex="1"
-        w="full"
-        minH="250px"
-      />
-
-      <Center flex="1">
+      <Center flex="1" bgImg="/images/login.jpg" bgPos="center" bgSize="cover">
         <Box
           maxW="400px"
           w="full"
-          h="450px"
-          p={['4', '8']}
+          p={['6', '8']}
           mx="4"
-          my={{ base: '16', md: '0' }}
-          mb="4"
+          my={{ base: '24', md: '0' }}
           rounded="xl"
           textAlign="center"
-          _dark={{ bg: 'gray.800', color: 'gray.50' }}
-          _light={{ bg: 'gray.100', color: 'gray.900' }}
+          sx={glassmorphismContainer}
         >
-          <Logo fontSize="xl" />
-
-          <Heading as="h3" fontSize={['3xl', '4xl']} mb="8">
-            Seja bem vindo!
-          </Heading>
+          <Logo fontSize="3xl" mb="8" color="gray.50" display="inline-block" />
 
           <Box as="form" onSubmit={handleSignIn}>
-            <VStack spacing={4} h="full">
+            <VStack spacing={4}>
               <Input
                 {...register('email')}
                 error={formState.errors.email}
                 type="email"
                 label="E-mail"
+                sx={glassmorphismInput}
               />
 
               <Box w="full" pos="relative">
@@ -107,6 +96,7 @@ export function LoginTemplate() {
                   error={formState.errors.password}
                   type={showPassword ? 'text' : 'password'}
                   label="Senha"
+                  sx={glassmorphismInput}
                 />
 
                 <IconButton
