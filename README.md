@@ -1,20 +1,21 @@
-<h1 align="center">Next Boilerplate</h1>
-<p align="center"> Boilerplate for NextJS projects</p>
-
+<h1 align="center">SkyBar</h1>
+<p align="center">
+Experimente as melhores bebidas da região.
+</p>
 <p align="center">
   <img src="public/icons/android-chrome-192x192.png" />
 </p>
 
-## ⚙️ Already configured
+## :rocket: Tecnologias utilizadas:
 
-- Typescript
-- Jest
-- React Testing Library
-- PWA Support
-- ESLint
-- Prettier
-- Editorconfig
-- Husky
+- [React](https://pt-br.reactjs.org/)
+- [NextJS](https://nextjs.org/)
+- [ChakraUI](https://chakra-ui.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Yup](https://github.com/jquense/yup)
+- [Zustand](https://zustand-demo.pmnd.rs/)
+- [Supabase](https://supabase.com/)
+- [Framer Motion](https://www.framer.com/motion/)
 
 ## 🔨 How to use
 
@@ -28,6 +29,6 @@ npx create-next-app -e https://github.com/SkyG0D/next-boilerplate
 yarn create next-app -e https://github.com/SkyG0D/next-boilerplate
 ```
 
-## ❤️ Contributions
+## ❤️ Contribuições
 
-Open a PR to contribute to the project.
+Por favor, abra um Pull Request para contribuir com o projeto.
