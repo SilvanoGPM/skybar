@@ -26,7 +26,12 @@ export interface Drink {
 
 export type Items = Record<
   string,
-  { priceFormatted: string; amount: number } & Drink
+  {
+    priceFormatted: string;
+    amount: number;
+    total: number;
+    totalFormatted: string;
+  } & Drink
 >;
 
 export interface NewOrder {
@@ -35,8 +40,10 @@ export interface NewOrder {
 
 export interface OrdersContextParams {
   items: Items;
+  order: NewOrder;
   hasOrder: boolean;
   addDrinkToNewOrder: (drink: Drink) => boolean;
+  removeDrink: (uuid: string) => void;
   clearNewOrder: () => void;
 }
 
@@ -68,6 +75,7 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
   const { isUser } = getUserPermissions(user?.role);
 
   const hasOrder = Object.keys(items || {}).length > 0;
+  const order = email ? newOrders[email] : { drinks: [] };
 
   useEffect(() => {
     const newOrders = Repository.get<NewOrders>(NEW_ORDERS_KEY) || {
@@ -89,7 +97,12 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
         if (item) {
           return {
             ...items,
-            [drink.uuid]: { ...item, amount: item.amount + 1 },
+            [drink.uuid]: {
+              ...item,
+              total: drink.price * (item.amount + 1),
+              totalFormatted: formatAmount(drink.price * (item.amount + 1)),
+              amount: item.amount + 1,
+            },
           };
         }
 
@@ -97,6 +110,8 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
           ...items,
           [drink.uuid]: {
             ...drink,
+            total: drink.price,
+            totalFormatted: formatAmount(drink.price),
             priceFormatted: formatAmount(drink.price),
             amount: 1,
           },
@@ -147,7 +162,12 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
         if (item) {
           return {
             ...items,
-            [drink.uuid]: { ...item, amount: item.amount + 1 },
+            [drink.uuid]: {
+              ...item,
+              total: drink.price * (item.amount + 1),
+              totalFormatted: formatAmount(drink.price * (item.amount + 1)),
+              amount: item.amount + 1,
+            },
           };
         }
 
@@ -155,7 +175,9 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
           ...items,
           [drink.uuid]: {
             ...drink,
+            total: drink.price,
             priceFormatted: formatAmount(drink.price),
+            totalFormatted: formatAmount(drink.price),
             amount: 1,
           },
         };
@@ -172,14 +194,67 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
       [email]: { drinks: [] },
     });
 
+    setNewOrders({
+      ...newOrders,
+      [email]: { drinks: [] },
+    });
+
     setItems({});
   }, [email, newOrders]);
+
+  const removeDrink = useCallback(
+    (uuid: string) => {
+      const drinkIndex = newOrders[email].drinks.findIndex(
+        (drink) => drink.uuid === uuid,
+      );
+
+      const drinks = newOrders[email].drinks.filter(
+        (_, index) => index !== drinkIndex,
+      );
+
+      setNewOrders((newOrders) => ({ ...newOrders, [email]: { drinks } }));
+
+      Repository.save(NEW_ORDERS_KEY, {
+        ...newOrders,
+        [email]: { drinks },
+      });
+
+      setItems((items) => {
+        const { [uuid]: item, ...otherItems } = items;
+
+        if (item.amount === 1) {
+          return otherItems;
+        }
+
+        return Object.keys(items).reduce((newItems, key) => {
+          const value = items[key];
+
+          if (value.uuid === uuid) {
+            return {
+              ...newItems,
+              [key]: {
+                ...value,
+                total: item.price * (item.amount - 1),
+                totalFormatted: formatAmount(item.price * (item.amount - 1)),
+                amount: value.amount - 1,
+              },
+            };
+          }
+
+          return { ...newItems, [key]: value };
+        }, {});
+      });
+    },
+    [newOrders, email],
+  );
 
   return (
     <OrdersContext.Provider
       value={{
         items,
+        order,
         hasOrder,
+        removeDrink,
         addDrinkToNewOrder,
         clearNewOrder,
       }}

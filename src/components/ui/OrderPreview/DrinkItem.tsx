@@ -16,7 +16,7 @@ interface DrinkItemProps {
 
 export function DrinkItem({ drink }: DrinkItemProps) {
   return (
-    <Flex key={drink.uuid}>
+    <Flex>
       <Image
         objectFit="cover"
         w="14"

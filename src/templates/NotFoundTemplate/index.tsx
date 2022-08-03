@@ -1,10 +1,10 @@
-import { Box, Button, Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Icon, Text } from '@chakra-ui/react';
 import Lottie from 'react-lottie';
+import { BiHome } from 'react-icons/bi';
 
 import animation from '$assets/lottie/not-found.json';
-import { BiHome } from 'react-icons/bi';
-import Link from 'next/link';
 import { HighlightedText } from '$components/ui/HighlightedText';
+import { LinkButton } from '$components/ui/LinkButton';
 
 export function NotFoundTemplate() {
   return (
@@ -29,13 +29,9 @@ export function NotFoundTemplate() {
         e recomece.
       </Text>
 
-      <Link href="/">
-        <a>
-          <Button leftIcon={<Icon as={BiHome} />} mt="4">
-            Voltar pra o início
-          </Button>
-        </a>
-      </Link>
+      <LinkButton href="/" leftIcon={<Icon as={BiHome} />} mt="4">
+        Voltar pra o início
+      </LinkButton>
     </Flex>
   );
 }

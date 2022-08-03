@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <>
       <Head>
-        <title>Parece que você bebeu demais</title>
+        <title>Parece que você bebeu demais • Skybar</title>
       </Head>
 
       <NotFoundTemplate />

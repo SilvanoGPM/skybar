@@ -9,6 +9,7 @@ import {
   HStack,
   useDisclosure,
   Button,
+  LightMode,
 } from '@chakra-ui/react';
 
 import { BiTrash } from 'react-icons/bi';
@@ -28,13 +29,15 @@ export function ClearOrder({ onClearOrder }: ClearOrderProps) {
   return (
     <Popover placement="bottom-end" isOpen={isOpen} onClose={onClose}>
       <PopoverTrigger>
-        <IconButton
-          onClick={onToggle}
-          colorScheme="red"
-          color="white"
-          aria-label="Limpar pedidos"
-          icon={<Icon as={BiTrash} />}
-        />
+        <LightMode>
+          <IconButton
+            onClick={onToggle}
+            colorScheme="red"
+            color="white"
+            aria-label="Limpar pedidos"
+            icon={<Icon as={BiTrash} />}
+          />
+        </LightMode>
       </PopoverTrigger>
       <PopoverContent
         _dark={{ bg: 'gray.900' }}

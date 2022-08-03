@@ -11,7 +11,7 @@ interface UIStore {
 
 export const useUIStore = create<UIStore>((set) => ({
   sidebarIsOpen: false,
-  orderPreviewIsOpen: true,
+  orderPreviewIsOpen: false,
   openSidebar: () => set(() => ({ sidebarIsOpen: true })),
   closeSidebar: () => set(() => ({ sidebarIsOpen: false })),
   closeOrderPreview: () => set(() => ({ orderPreviewIsOpen: false })),

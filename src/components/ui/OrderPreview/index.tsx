@@ -1,5 +1,4 @@
 import {
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -26,6 +25,7 @@ import {
 } from '$components/animation/TempAnimation';
 
 import { Drinks } from './Drinks';
+import { LinkButton } from '../LinkButton';
 
 export function OrderPreview() {
   const { hasOrder, items, clearNewOrder } = useOrders();
@@ -86,13 +86,14 @@ export function OrderPreview() {
 
                   <Spacer />
 
-                  <Button
+                  <LinkButton
+                    href="/orders/finalize"
                     rightIcon={<Icon as={RiCheckLine} />}
                     colorScheme="green"
                     color="white"
                   >
                     Finalizar pedido
-                  </Button>
+                  </LinkButton>
                 </>
               )}
             </VStack>
