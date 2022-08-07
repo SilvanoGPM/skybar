@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 import { FinalizeOrderTemplate } from '$templates/FinalizeOrderTemplate';
+import { withSSRAuth } from '$utils/withSSRAuth';
 
 export default function FinalizeOrder() {
   return (
@@ -13,3 +14,7 @@ export default function FinalizeOrder() {
     </>
   );
 }
+
+export const getServerSideProps = withSSRAuth(undefined, {
+  roles: ['ROLE_USER'],
+});

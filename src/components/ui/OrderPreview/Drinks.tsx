@@ -1,10 +1,7 @@
-import { useMemo } from 'react';
-
 import { VStack, Flex, Text } from '@chakra-ui/react';
 
 import type { Items } from '$contexts/OrdersContext';
 import { pluralize } from '$utils/pluralize';
-import { formatAmount } from '$utils/formatters';
 
 import { DrinkItem } from './DrinkItem';
 import { ClearOrder } from './ClearOrder';
@@ -12,19 +9,15 @@ import { HighlightedText } from '../HighlightedText';
 
 interface OrdersPopoverProps {
   items: Items;
+  priceFormatted: string;
   onClearOrder: () => void;
 }
 
-export function Drinks({ items, onClearOrder }: OrdersPopoverProps) {
-  const price = useMemo(() => {
-    const price = Object.values(items).reduce(
-      (total, { price, amount }) => total + price * amount,
-      0,
-    );
-
-    return formatAmount(price);
-  }, [items]);
-
+export function Drinks({
+  items,
+  priceFormatted,
+  onClearOrder,
+}: OrdersPopoverProps) {
   return (
     <Flex
       _dark={{ bg: 'gray.900' }}
@@ -52,7 +45,7 @@ export function Drinks({ items, onClearOrder }: OrdersPopoverProps) {
       </VStack>
 
       <Text mt="4">
-        Preço: <HighlightedText>{price}</HighlightedText>
+        Preço: <HighlightedText>{priceFormatted}</HighlightedText>
       </Text>
     </Flex>
   );

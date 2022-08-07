@@ -10,6 +10,7 @@ import {
 
 import { getUserPermissions } from '$utils/getUserPermissions';
 import { getUserAge } from '$utils/getUserAge';
+import { formatAmount } from '$utils/formatters';
 
 import { useAuth } from '../AuthContext';
 import { usePersistedOrders } from './usePersistedOrders';
@@ -43,6 +44,7 @@ export interface OrdersContextParams {
   items: Items;
   order: PersistedOrder;
   hasOrder: boolean;
+  total: { base: number; formatted: string };
   addDrink: (drink: Drink) => boolean;
   removeDrink: (uuid: string) => void;
   clearOrder: () => void;
@@ -78,6 +80,15 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
     () => (email ? orders[email] : { drinks: [] }),
     [orders, email],
   );
+
+  const total = useMemo(() => {
+    const price = Object.values(items).reduce(
+      (total, { price, amount }) => total + price * amount,
+      0,
+    );
+
+    return { base: price, formatted: formatAmount(price) };
+  }, [items]);
 
   const addDrink = useCallback(
     (drink: Drink) => {
@@ -150,6 +161,7 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
     <OrdersContext.Provider
       value={{
         items,
+        total,
         order,
         hasOrder,
         removeDrink,

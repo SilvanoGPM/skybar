@@ -28,7 +28,7 @@ import { Drinks } from './Drinks';
 import { LinkButton } from '../LinkButton';
 
 export function OrderPreview() {
-  const { hasOrder, items, clearOrder } = useOrders();
+  const { hasOrder, items, total, clearOrder } = useOrders();
 
   const animationRef = useRef<TempAnimationHandles>(null);
   const [clearingOrder, clearingOrderDrinksActions] = useBoolean(false);
@@ -82,7 +82,11 @@ export function OrderPreview() {
 
               {!clearingOrder && (
                 <>
-                  <Drinks items={items} onClearOrder={handleStartAnimation} />
+                  <Drinks
+                    items={items}
+                    priceFormatted={total.formatted}
+                    onClearOrder={handleStartAnimation}
+                  />
 
                   <Spacer />
 

@@ -20,20 +20,26 @@ import { Breadcrumbs } from '$components/ui/Breadcrumbs';
 import { LinkButton } from '$components/ui/LinkButton';
 import { FinalizeOrderButton } from './FinalizeOrderButton';
 import { HighlightedText } from '$components/ui/HighlightedText';
-import { formatAmount } from '$utils/formatters';
 import { useOrders } from '$contexts/OrdersContext';
 import animation from '$assets/lottie/sending-order.json';
 
 import { OrderDrinkList } from './OrderDrinkList';
 import { createOrder } from '$services/api/orders';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export function FinalizeOrderTemplate() {
-  const { items, order, clearOrder } = useOrders();
+  const { total, order, hasOrder, clearOrder } = useOrders();
   const toast = useToast();
   const router = useRouter();
 
   const orderMutation = useMutation(createOrder, { retry: 3 });
+
+  useEffect(() => {
+    if (!hasOrder) {
+      router.push('/');
+    }
+  }, [hasOrder, router]);
 
   async function handleCreateOrder() {
     try {
@@ -59,10 +65,9 @@ export function FinalizeOrderTemplate() {
     }
   }
 
-  const totalPrice = Object.values(items).reduce(
-    (total, item) => total + item.total,
-    0,
-  );
+  if (!hasOrder) {
+    return null;
+  }
 
   return (
     <DefaultLayout>
@@ -131,7 +136,7 @@ export function FinalizeOrderTemplate() {
               <VStack>
                 <HStack justify="space-between" w="full" fontSize="xl">
                   <Text>Total</Text>
-                  <HighlightedText>{formatAmount(totalPrice)}</HighlightedText>
+                  <HighlightedText>{total.formatted}</HighlightedText>
                 </HStack>
 
                 <FinalizeOrderButton onFinalizeOrder={handleCreateOrder} />
