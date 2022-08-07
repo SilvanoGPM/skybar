@@ -20,11 +20,11 @@ export interface DrinkTemplateProps {
 }
 
 export function DrinkTemplate({ drink }: DrinkTemplateProps) {
-  const { addDrinkToNewOrder } = useOrders();
+  const { addDrink } = useOrders();
   const animationRef = useRef<TempAnimationHandles>(null);
 
   function handleAddDrinkToOrder() {
-    const isOk = addDrinkToNewOrder(drink);
+    const isOk = addDrink(drink);
 
     if (isOk) {
       animationRef.current?.startAnimation();

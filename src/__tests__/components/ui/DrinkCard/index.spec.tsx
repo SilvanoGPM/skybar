@@ -51,16 +51,16 @@ describe('DrinkCard component', () => {
   it('add drink to order on button click', () => {
     createUseAuth();
 
-    const addDrinkToNewOrderMock = jest.fn();
+    const addDrinkMock = jest.fn();
 
     jest.spyOn(OrdersContext, 'useOrders').mockImplementationOnce(
       () =>
         ({
-          addDrinkToNewOrder: addDrinkToNewOrderMock,
+          addDrink: addDrinkMock,
         } as any), // eslint-disable-line
     );
 
-    addDrinkToNewOrderMock.mockReturnValueOnce(true);
+    addDrinkMock.mockReturnValueOnce(true);
 
     render(<DrinkCard drink={drink} />);
 
@@ -68,23 +68,23 @@ describe('DrinkCard component', () => {
 
     fireEvent.click(button);
 
-    expect(addDrinkToNewOrderMock).toHaveBeenCalledWith(drink);
-    expect(addDrinkToNewOrderMock).toHaveLastReturnedWith(true);
+    expect(addDrinkMock).toHaveBeenCalledWith(drink);
+    expect(addDrinkMock).toHaveLastReturnedWith(true);
   });
 
   it('dont add drink to order on button click', () => {
     createUseAuth();
 
-    const addDrinkToNewOrderMock = jest.fn();
+    const addDrinkMock = jest.fn();
 
     jest.spyOn(OrdersContext, 'useOrders').mockImplementationOnce(
       () =>
         ({
-          addDrinkToNewOrder: addDrinkToNewOrderMock,
+          addDrink: addDrinkMock,
         } as any), // eslint-disable-line
     );
 
-    addDrinkToNewOrderMock.mockReturnValueOnce(false);
+    addDrinkMock.mockReturnValueOnce(false);
 
     render(<DrinkCard drink={drink} />);
 
@@ -92,7 +92,7 @@ describe('DrinkCard component', () => {
 
     fireEvent.click(button);
 
-    expect(addDrinkToNewOrderMock).toHaveBeenCalledWith(drink);
-    expect(addDrinkToNewOrderMock).toHaveLastReturnedWith(false);
+    expect(addDrinkMock).toHaveBeenCalledWith(drink);
+    expect(addDrinkMock).toHaveLastReturnedWith(false);
   });
 });

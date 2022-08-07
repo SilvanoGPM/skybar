@@ -29,7 +29,7 @@ import { createOrder } from '$services/api/orders';
 import { useRouter } from 'next/router';
 
 export function FinalizeOrderTemplate() {
-  const { items, order, clearNewOrder } = useOrders();
+  const { items, order, clearOrder } = useOrders();
   const toast = useToast();
   const router = useRouter();
 
@@ -41,7 +41,7 @@ export function FinalizeOrderTemplate() {
 
       await router.push('/');
 
-      clearNewOrder();
+      clearOrder();
 
       toast({
         title: 'Pedido finalizado com sucesso',

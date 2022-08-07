@@ -7,7 +7,7 @@ import { HighlightedText } from '$components/ui/HighlightedText';
 import { AmountStepper } from './AmountStepper';
 
 export function OrderDrinkList() {
-  const { items, addDrinkToNewOrder, removeDrink } = useOrders();
+  const { items, addDrink, removeDrink } = useOrders();
 
   return (
     <VStack spacing="8">
@@ -69,7 +69,7 @@ export function OrderDrinkList() {
                 title: 'Remover bebida',
                 body: 'Tem certeza que deseja remover esta bebida do seu pedido?',
               }}
-              onIncrement={() => addDrinkToNewOrder(drink)}
+              onIncrement={() => addDrink(drink)}
               onDecrement={() => removeDrink(drink.uuid)}
             />
           </Flex>

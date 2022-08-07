@@ -37,7 +37,7 @@ export function DrinkCard({
   showAdminActions = false,
   isDeleting = false,
 }: DrinkCardProps) {
-  const { addDrinkToNewOrder, items } = useOrders();
+  const { addDrink, items } = useOrders();
   const { isAuthenticated, user } = useAuth();
 
   const animationRef = useRef<TempAnimationHandles>(null);
@@ -47,7 +47,7 @@ export function DrinkCard({
   const { isStaff, isUser } = getUserPermissions(user?.role);
 
   function handleAddDrinkToOrder() {
-    const isOk = addDrinkToNewOrder(drink);
+    const isOk = addDrink(drink);
 
     if (isOk) {
       animationRef.current?.startAnimation();
