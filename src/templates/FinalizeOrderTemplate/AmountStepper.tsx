@@ -87,14 +87,20 @@ export function AmountStepper({
       </Portal>
     </Popover>
   ) : (
-    <Button colorScheme="brand" onClick={onDecrement} {...decrementButtonProps}>
-      -
-    </Button>
+    <LightMode>
+      <Button
+        colorScheme="brand"
+        onClick={onDecrement}
+        {...decrementButtonProps}
+      >
+        -
+      </Button>
+    </LightMode>
   );
 
   return (
     <Flex maxW={['full', '120px']}>
-      <LightMode>{DecrementButton}</LightMode>
+      {DecrementButton}
 
       <Input
         textAlign="center"

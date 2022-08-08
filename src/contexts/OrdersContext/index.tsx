@@ -15,6 +15,7 @@ import { formatAmount } from '$utils/formatters';
 import { useAuth } from '../AuthContext';
 import { usePersistedOrders } from './usePersistedOrders';
 import { getItemsInOrder } from './getItemsInOrder';
+import { useUIStore } from '$stores/ui';
 
 export interface Drink {
   uuid: string;
@@ -66,6 +67,8 @@ export const OrdersContext = createContext({} as OrdersContextParams);
 export function OrdersProvider({ children }: OrdersProviderProps) {
   const toast = useToast();
   const { user } = useAuth();
+
+  const { openOrderPreview } = useUIStore();
 
   const email = user?.email || '';
   const { isUser } = getUserPermissions(user?.role);
@@ -127,9 +130,13 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
         [email]: updatedOrder,
       });
 
+      if (updatedOrder.drinks.length === 1) {
+        openOrderPreview();
+      }
+
       return true;
     },
-    [email, orders, isUser, toast, user, order, setOrders],
+    [email, orders, isUser, toast, user, order, setOrders, openOrderPreview],
   );
 
   const clearOrder = useCallback(() => {

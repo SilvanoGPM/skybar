@@ -6,6 +6,8 @@ export function SignInButton() {
   return (
     <LinkButton
       href="/login"
+      maxW="150px"
+      mode="off"
       colorScheme="gray"
       size={{ base: 'md', lg: 'lg' }}
       leftIcon={<Icon as={RiLoginBoxLine} />}
