@@ -2,6 +2,7 @@ import { httpClient } from '$services/httpClient';
 import { Drink } from './drinks';
 
 interface Order {
+  uuid: string;
   drinks: Drink[];
   table?: unknown;
 }
@@ -12,5 +13,7 @@ interface OrderToCreate {
 }
 
 export async function createOrder(order: OrderToCreate) {
-  await httpClient.post<Order>('/requests/user', order);
+  const { data } = await httpClient.post<Order>('/requests/user', order);
+
+  return data;
 }

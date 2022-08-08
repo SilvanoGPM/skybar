@@ -26,26 +26,31 @@ import animation from '$assets/lottie/sending-order.json';
 import { OrderDrinkList } from './OrderDrinkList';
 import { createOrder } from '$services/api/orders';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { OrderFinalizeSuccess } from './OrderFinalizeSuccess';
 
 export function FinalizeOrderTemplate() {
   const { total, order, hasOrder, clearOrder } = useOrders();
   const toast = useToast();
   const router = useRouter();
 
+  const [orderUUID, setOrderUUID] = useState<string | null>(null);
+
   const orderMutation = useMutation(createOrder, { retry: 3 });
 
   useEffect(() => {
-    if (!hasOrder) {
+    if (!hasOrder && !orderUUID) {
       router.push('/');
     }
-  }, [hasOrder, router]);
+  }, [hasOrder, router, orderUUID]);
 
   async function handleCreateOrder() {
     try {
-      await orderMutation.mutateAsync({ drinks: order.drinks });
+      const { uuid } = await orderMutation.mutateAsync({
+        drinks: order.drinks,
+      });
 
-      await router.push('/');
+      setOrderUUID(uuid);
 
       clearOrder();
 
@@ -65,85 +70,91 @@ export function FinalizeOrderTemplate() {
     }
   }
 
-  if (!hasOrder) {
+  if (!hasOrder && !orderUUID) {
     return null;
   }
 
   return (
     <DefaultLayout>
       <Flex direction="column" flex="1">
-        <Breadcrumbs
-          items={[
-            { href: '/', label: 'Início' },
-            { href: '/orders', label: 'Pedidos' },
-            { href: '#', label: 'Finalizar pedido' },
-          ]}
-        />
+        {orderUUID ? (
+          <OrderFinalizeSuccess orderUUID={orderUUID} />
+        ) : (
+          <>
+            <Breadcrumbs
+              items={[
+                { href: '/', label: 'Início' },
+                { href: '/orders', label: 'Pedidos' },
+                { href: '#', label: 'Finalizar pedido' },
+              ]}
+            />
 
-        <Flex
-          direction="column"
-          flex="1"
-          rounded="xl"
-          padding={['4', '4', '8']}
-          _dark={{ bg: 'gray.800', color: 'gray.50' }}
-          _light={{ bg: 'gray.100', color: 'gray.900' }}
-        >
-          {orderMutation.isLoading ? (
-            <Center flexDirection="column">
-              <Text
-                color="brand.100"
-                textAlign="center"
-                fontWeight="bold"
-                fontSize={['xl', '2xl', '3xl']}
-              >
-                Envinado pedido...
-              </Text>
+            <Flex
+              direction="column"
+              flex="1"
+              rounded="xl"
+              padding={['4', '4', '8']}
+              _dark={{ bg: 'gray.800', color: 'gray.50' }}
+              _light={{ bg: 'gray.100', color: 'gray.900' }}
+            >
+              {orderMutation.isLoading ? (
+                <Center flexDirection="column">
+                  <Text
+                    color="brand.100"
+                    textAlign="center"
+                    fontWeight="bold"
+                    fontSize={['xl', '2xl', '3xl']}
+                  >
+                    Envinado pedido...
+                  </Text>
 
-              <Box maxW="400px">
-                <Lottie
-                  isClickToPauseDisabled
-                  options={{
-                    animationData: animation,
-                  }}
-                />
-              </Box>
-            </Center>
-          ) : (
-            <>
-              <Heading
-                pb="4"
-                mb="8"
-                borderBottomWidth="1px"
-                borderBottomColor="gray"
-              >
-                Finalizar pedido
-              </Heading>
+                  <Box maxW="400px">
+                    <Lottie
+                      isClickToPauseDisabled
+                      options={{
+                        animationData: animation,
+                      }}
+                    />
+                  </Box>
+                </Center>
+              ) : (
+                <>
+                  <Heading
+                    pb="4"
+                    mb="8"
+                    borderBottomWidth="1px"
+                    borderBottomColor="gray"
+                  >
+                    Finalizar pedido
+                  </Heading>
 
-              <OrderDrinkList />
+                  <OrderDrinkList />
 
-              <LinkButton
-                href="/drinks"
-                size="sm"
-                variant="outline"
-                mt="8"
-                leftIcon={<Icon as={BiDrink} />}
-              >
-                Adicionar bebida
-              </LinkButton>
+                  <LinkButton
+                    href="/drinks"
+                    size="sm"
+                    variant="outline"
+                    mt="8"
+                    leftIcon={<Icon as={BiDrink} />}
+                  >
+                    Adicionar bebida
+                  </LinkButton>
 
-              <Divider my="8" />
+                  <Divider my="8" />
 
-              <VStack>
-                <HStack justify="space-between" w="full" fontSize="xl">
-                  <Text>Total</Text>
-                  <HighlightedText>{total.formatted}</HighlightedText>
-                </HStack>
+                  <VStack>
+                    <HStack justify="space-between" w="full" fontSize="xl">
+                      <Text>Total</Text>
+                      <HighlightedText>{total.formatted}</HighlightedText>
+                    </HStack>
 
-                <FinalizeOrderButton onFinalizeOrder={handleCreateOrder} />
-              </VStack>
-            </>
-          )}
-        </Flex>
+                    <FinalizeOrderButton onFinalizeOrder={handleCreateOrder} />
+                  </VStack>
+                </>
+              )}
+            </Flex>
+          </>
+        )}
       </Flex>
     </DefaultLayout>
   );
