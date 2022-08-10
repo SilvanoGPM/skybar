@@ -5,6 +5,8 @@ import { User } from './users';
 
 export interface Order {
   uuid: string;
+  createdAt: string;
+  updatedAt: string;
   drinks: Drink[];
   user: User;
   table?: unknown;

@@ -1,12 +1,21 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, HStack, Icon } from '@chakra-ui/react';
+import { BsClock } from 'react-icons/bs';
+import { BiDrink } from 'react-icons/bi';
 
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
 import { DefaultLayout } from '$components/ui/DefaultLayout';
-import { Order } from '$services/api/orders';
+import type { Order as BaseOrder } from '$services/api/orders';
+import type { User } from '$services/api/users';
 import { OneLineText } from '$components/ui/OneLineText';
+import { pluralize } from '$utils/pluralize';
 
 import { OrderStatus } from './OrderStatus';
 import { orderStatus } from './orderStatusOptions';
+import { UserInfo } from './UserInfo';
+
+type Order = BaseOrder & {
+  user: User & { age: string };
+};
 
 export interface ViewOrderTemplateProps {
   isOwner: boolean;
@@ -16,6 +25,8 @@ export interface ViewOrderTemplateProps {
 
 export function ViewOrderTemplate({ order }: ViewOrderTemplateProps) {
   const orderStatusOptions = orderStatus[order.status];
+
+  console.log(order);
 
   return (
     <DefaultLayout>
@@ -48,7 +59,25 @@ export function ViewOrderTemplate({ order }: ViewOrderTemplateProps) {
             {order.uuid}
           </OneLineText>
 
+          <HStack spacing="4" align="center" justify="end">
+            <Box>
+              <Icon as={BsClock} mr="2" color="brand.100" />
+              {order.createdAt}
+            </Box>
+
+            <Box>
+              <Icon as={BiDrink} mr="2" color="brand.100" />
+              {pluralize(order.drinks.length, 'bebida', 'bebidas')}
+            </Box>
+          </HStack>
+
           <OrderStatus {...orderStatusOptions} />
+
+          <Divider my="8" />
+
+          <Heading mb="8">Usuário</Heading>
+
+          <UserInfo user={order.user} />
         </Flex>
       </Flex>
     </DefaultLayout>
