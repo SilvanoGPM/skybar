@@ -1,21 +1,21 @@
 import { destroyCookie, parseCookies } from 'nookies';
-import decode from 'jwt-decode';
 
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  GetServerSidePropsResult,
-} from 'next';
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 
-import { decodeJWE } from './decodeJWE';
 import { validateUserPermisssions } from './validateUserPermissions';
+import { createUserWithToken, DecodedUser } from './createUserWithToken';
 
 interface WithSSRAuthOptions {
   roles?: string[];
 }
 
+type CallbackType<P> = (
+  ctx: GetServerSidePropsContext,
+  user: DecodedUser,
+) => Promise<GetServerSidePropsResult<P>>;
+
 export function withSSRAuth<P>(
-  fn?: GetServerSideProps<P>,
+  fn?: CallbackType<P>,
   options?: WithSSRAuthOptions,
 ) {
   return async (
@@ -33,11 +33,9 @@ export function withSSRAuth<P>(
       };
     }
 
-    if (options) {
-      const jwe = token.replace('Bearer ', '');
-      const jwt = await decodeJWE(jwe);
-      const user = decode<{ authorities: string[] }>(jwt);
+    const user = await createUserWithToken(token);
 
+    if (options) {
       const userHasValidPerms = validateUserPermisssions({
         user: { role: user.authorities.join(',') },
         roles: options.roles,
@@ -60,7 +58,7 @@ export function withSSRAuth<P>(
     }
 
     try {
-      return fn(ctx);
+      return fn(ctx, user);
     } catch (err) {
       if (err) {
         destroyCookie(ctx, 'skybar.token');

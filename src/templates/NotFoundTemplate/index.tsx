@@ -29,8 +29,8 @@ export function NotFoundTemplate() {
         e recomece.
       </Text>
 
-      <LinkButton href="/" leftIcon={<Icon as={BiHome} />} mt="4">
-        Voltar pra o início
+      <LinkButton href="/" leftIcon={<Icon as={BiHome} />} mt="4" maxW="500px">
+        Voltar para o início
       </LinkButton>
     </Flex>
   );
