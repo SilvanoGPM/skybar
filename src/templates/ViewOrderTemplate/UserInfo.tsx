@@ -22,11 +22,10 @@ export function UserInfo({ user }: UserInfoProps) {
     <Flex direction={['column', 'column', 'row']} align="center">
       <Avatar
         rounded="none"
-        name={user.name}
-        src={user.image}
+        src={user?.image}
         w={['20', '40']}
         h={['20', '40']}
-        mr="8"
+        mr={['0', '0', '8']}
         mb={['4', '4', '0']}
       />
 

@@ -1,14 +1,8 @@
 import { formatAmount } from '$utils/formatters';
 
-import { Items, PersistedOrders } from '.';
+import { Items, PersistedOrder, PersistedOrders } from '.';
 
-export function getItemsInOrder(email: string, orders: PersistedOrders) {
-  if (!email) {
-    return {};
-  }
-
-  const order = orders[email] || { drinks: [] };
-
+export function groupDrinks(order: PersistedOrder) {
   return order.drinks
     .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
     .reduce<Items>((items, drink) => {
@@ -40,4 +34,14 @@ export function getItemsInOrder(email: string, orders: PersistedOrders) {
         },
       };
     }, {});
+}
+
+export function getItemsInOrder(email: string, orders: PersistedOrders) {
+  if (!email) {
+    return {};
+  }
+
+  const order = orders[email] || { drinks: [] };
+
+  return groupDrinks(order);
 }

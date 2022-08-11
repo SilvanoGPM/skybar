@@ -1,5 +1,22 @@
 import { HighlightedText } from '$components/ui/HighlightedText';
 
+export const orderDelivered = {
+  title: (
+    <>
+      Pedido <HighlightedText>entregue</HighlightedText>
+    </>
+  ),
+
+  description: (
+    <>
+      Seu pedido foi entregue, caso haja algum equívoco, por favor entre em
+      contato com a gerência.
+    </>
+  ),
+
+  animationPromise: import('$assets/lottie/order-delivered.json'),
+};
+
 export const orderStatus = {
   PROCESSING: {
     title: (

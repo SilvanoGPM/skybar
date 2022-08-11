@@ -5,6 +5,7 @@ import { getUserPermissions } from '$utils/getUserPermissions';
 import { withSSRAuth } from '$utils/withSSRAuth';
 import { timeSince } from '$utils/timeSince';
 import { getUserAge } from '$utils/getUserAge';
+import { groupDrinks } from '$contexts/OrdersContext/getItemsInOrder';
 
 import {
   ViewOrderTemplate,
@@ -45,7 +46,9 @@ export const getServerSideProps = withSSRAuth(async (ctx, session) => {
       age: `${getUserAge(baseOrder.user.birthDay)} anos`,
     };
 
-    const order = { ...baseOrder, createdAt, updatedAt, user };
+    const drinks = groupDrinks(baseOrder);
+
+    const order = { ...baseOrder, createdAt, updatedAt, user, drinks };
 
     return { props: { isStaff, isOwner, order } };
   } catch (err) {

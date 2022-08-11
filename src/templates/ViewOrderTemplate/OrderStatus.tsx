@@ -27,7 +27,7 @@ export function OrderStatus({
 
   return (
     <Flex align="center" direction={['column', 'column', 'row']}>
-      <Box maxW="300px" w="full">
+      <Box maxW="300px" w="full" mb={['8', '8', '0']}>
         <Lottie isClickToPauseDisabled options={{ animationData: animation }} />
       </Box>
 

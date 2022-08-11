@@ -4,17 +4,20 @@ import { BiDrink } from 'react-icons/bi';
 
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
 import { DefaultLayout } from '$components/ui/DefaultLayout';
-import type { Order as BaseOrder } from '$services/api/orders';
-import type { User } from '$services/api/users';
 import { OneLineText } from '$components/ui/OneLineText';
 import { pluralize } from '$utils/pluralize';
+import type { Order as BaseOrder } from '$services/api/orders';
+import type { User } from '$services/api/users';
+import type { Items } from '$contexts/OrdersContext';
 
 import { OrderStatus } from './OrderStatus';
-import { orderStatus } from './orderStatusOptions';
+import { orderDelivered, orderStatus } from './orderStatusOptions';
 import { UserInfo } from './UserInfo';
+import { DrinkList } from './DrinksList';
 
-type Order = BaseOrder & {
+type Order = Omit<BaseOrder, 'user' | 'drinks'> & {
   user: User & { age: string };
+  drinks: Items;
 };
 
 export interface ViewOrderTemplateProps {
@@ -23,10 +26,12 @@ export interface ViewOrderTemplateProps {
   order: Order;
 }
 
-export function ViewOrderTemplate({ order }: ViewOrderTemplateProps) {
-  const orderStatusOptions = orderStatus[order.status];
+export function ViewOrderTemplate({ order, isStaff }: ViewOrderTemplateProps) {
+  const orderStatusOptions = order.delivered
+    ? orderDelivered
+    : orderStatus[order.status];
 
-  console.log(order);
+  const totalDrinks = Object.keys(order.drinks).length;
 
   return (
     <DefaultLayout>
@@ -34,7 +39,7 @@ export function ViewOrderTemplate({ order }: ViewOrderTemplateProps) {
         <Breadcrumbs
           items={[
             { href: '/', label: 'Início' },
-            { href: '/orders', label: 'Pedidos' },
+            { href: isStaff ? '/orders/search' : '/orders', label: 'Pedidos' },
             { href: '#', label: 'Visualizar pedido' },
           ]}
         />
@@ -67,7 +72,7 @@ export function ViewOrderTemplate({ order }: ViewOrderTemplateProps) {
 
             <Box>
               <Icon as={BiDrink} mr="2" color="brand.100" />
-              {pluralize(order.drinks.length, 'bebida', 'bebidas')}
+              {pluralize(totalDrinks, 'bebida', 'bebidas')}
             </Box>
           </HStack>
 
@@ -78,6 +83,12 @@ export function ViewOrderTemplate({ order }: ViewOrderTemplateProps) {
           <Heading mb="8">Usuário</Heading>
 
           <UserInfo user={order.user} />
+
+          <Divider my="8" />
+
+          <Heading mb="8">Bebidas</Heading>
+
+          <DrinkList drinks={order.drinks} />
         </Flex>
       </Flex>
     </DefaultLayout>

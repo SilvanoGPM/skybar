@@ -11,7 +11,8 @@ export function timeSince(date: Date, suffix = '') {
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
 
   const interval =
-    intervals.find((interval) => interval.seconds < seconds) || intervals[0];
+    intervals.find((interval) => interval.seconds < seconds) ||
+    intervals[intervals.length - 1];
 
   const count = Math.floor(seconds / interval.seconds);
   const label = count === 1 ? interval.label[0] : interval.label[1];
