@@ -3,6 +3,8 @@ import { httpClient } from '$services/httpClient';
 import { Drink } from './drinks';
 import { User } from './users';
 
+export type StatusItems = 'PROCESSING' | 'STARTED' | 'FINISHED' | 'CANCELED';
+
 export interface Order {
   uuid: string;
   createdAt: string;
@@ -10,7 +12,7 @@ export interface Order {
   drinks: Drink[];
   user: User;
   table?: unknown;
-  status: 'PROCESSING' | 'STARTED' | 'FINISHED' | 'CANCELED';
+  status: StatusItems;
   delivered: boolean;
 }
 
@@ -28,4 +30,20 @@ export async function createOrder(order: OrderToCreate) {
 export async function findOrderByUUID(uuid: string) {
   const { data } = await httpClient.get<Order>(`/requests/${uuid}`);
   return data;
+}
+
+export async function cancelOrder(uuid: string): Promise<void> {
+  await httpClient.patch(`/requests/all/cancel/${uuid}`);
+}
+
+export async function startOrder(uuid: string): Promise<void> {
+  await httpClient.patch(`/requests/staff/start/${uuid}`);
+}
+
+export async function finishOrder(uuid: string): Promise<void> {
+  await httpClient.patch(`/requests/staff/finish/${uuid}`);
+}
+
+export async function deliverOrder(uuid: string): Promise<void> {
+  await httpClient.patch(`/requests/staff/deliver/${uuid}`);
 }

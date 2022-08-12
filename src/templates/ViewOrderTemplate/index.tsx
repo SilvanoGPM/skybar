@@ -1,6 +1,7 @@
 import { Box, Divider, Flex, Heading, HStack, Icon } from '@chakra-ui/react';
 import { BsClock } from 'react-icons/bs';
 import { BiDrink } from 'react-icons/bi';
+import { useState } from 'react';
 
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
 import { DefaultLayout } from '$components/ui/DefaultLayout';
@@ -14,8 +15,9 @@ import { OrderStatus } from './OrderStatus';
 import { orderDelivered, orderStatus } from './orderStatusOptions';
 import { UserInfo } from './UserInfo';
 import { DrinkList } from './DrinksList';
+import { Actions } from './Actions';
 
-type Order = Omit<BaseOrder, 'user' | 'drinks'> & {
+export type Order = Omit<BaseOrder, 'user' | 'drinks'> & {
   user: User & { age: string };
   drinks: Items;
 };
@@ -23,10 +25,16 @@ type Order = Omit<BaseOrder, 'user' | 'drinks'> & {
 export interface ViewOrderTemplateProps {
   isOwner: boolean;
   isStaff: boolean;
-  order: Order;
+  baseOrder: Order;
 }
 
-export function ViewOrderTemplate({ order, isStaff }: ViewOrderTemplateProps) {
+export function ViewOrderTemplate({
+  baseOrder,
+  isStaff,
+  isOwner,
+}: ViewOrderTemplateProps) {
+  const [order, setOrder] = useState(baseOrder);
+
   const orderStatusOptions = order.delivered
     ? orderDelivered
     : orderStatus[order.status];
@@ -77,6 +85,15 @@ export function ViewOrderTemplate({ order, isStaff }: ViewOrderTemplateProps) {
           </HStack>
 
           <OrderStatus {...orderStatusOptions} />
+
+          <Actions
+            isStaff={isStaff}
+            isOwner={isOwner}
+            order={order}
+            setOrder={setOrder}
+          />
+
+          {order.delivered}
 
           <Divider my="8" />
 

@@ -38,7 +38,7 @@ export const orderStatus = {
   STARTED: {
     title: (
       <>
-        Pedido em <HighlightedText>preparado</HighlightedText>
+        Pedido em <HighlightedText>preparo</HighlightedText>
       </>
     ),
 

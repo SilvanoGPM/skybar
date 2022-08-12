@@ -28,29 +28,29 @@ export const getServerSideProps = withSSRAuth(async (ctx, session) => {
   const { uuid } = ctx.params as { uuid: string };
 
   try {
-    const baseOrder = await findOrderByUUID(uuid);
+    const order = await findOrderByUUID(uuid);
 
     const { isStaff } = getUserPermissions(session.authorities.join(','));
 
-    const isOwner = baseOrder.user.email === session.sub;
+    const isOwner = order.user.email === session.sub;
 
-    if (!isStaff || !isOwner) {
+    if (!isStaff && !isOwner) {
       return { redirect: { destination: '/', permanent: false } };
     }
 
-    const createdAt = timeSince(new Date(baseOrder.createdAt), 'atrás');
-    const updatedAt = timeSince(new Date(baseOrder.updatedAt), 'atrás');
+    const createdAt = timeSince(new Date(order.createdAt), 'atrás');
+    const updatedAt = timeSince(new Date(order.updatedAt), 'atrás');
 
     const user = {
-      ...baseOrder.user,
-      age: `${getUserAge(baseOrder.user.birthDay)} anos`,
+      ...order.user,
+      age: `${getUserAge(order.user.birthDay)} anos`,
     };
 
-    const drinks = groupDrinks(baseOrder);
+    const drinks = groupDrinks(order);
 
-    const order = { ...baseOrder, createdAt, updatedAt, user, drinks };
+    const baseOrder = { ...order, createdAt, updatedAt, user, drinks };
 
-    return { props: { isStaff, isOwner, order } };
+    return { props: { isStaff, isOwner, baseOrder } };
   } catch (err) {
     return { notFound: true };
   }
