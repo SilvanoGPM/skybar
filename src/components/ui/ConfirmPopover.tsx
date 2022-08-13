@@ -1,4 +1,10 @@
-import { Fragment, ReactNode } from 'react';
+import {
+  ForwardedRef,
+  forwardRef,
+  Fragment,
+  ReactNode,
+  useImperativeHandle,
+} from 'react';
 
 import {
   Button,
@@ -10,23 +16,35 @@ import {
   PopoverBody,
   PopoverCloseButton,
   PopoverContent,
+  PopoverContentProps,
   PopoverFooter,
   PopoverHeader,
+  PopoverProps,
   PopoverTrigger,
   Portal,
+  StackProps,
   useDisclosure,
+  UseDisclosureProps,
 } from '@chakra-ui/react';
 
 interface ConfirmPopoverProps {
   children: ReactNode;
   header: ReactNode;
-  body: ReactNode;
-  onFinish: () => void;
+  body?: ReactNode;
+  onFinish: (disclosure: UseDisclosureProps) => void;
+  popoverProps?: PopoverProps;
+  popoverContentProps?: PopoverContentProps;
+  footerProps?: StackProps;
   cancelButtonMessage?: string;
   successButtonMessage?: string;
-  cancelButtonProps?: ButtonProps;
-  successButtonProps?: ButtonProps;
+  cancelButtonProps?: ButtonProps & { 'data-testid': string };
+  successButtonProps?: ButtonProps & { 'data-testid': string };
   triggerTheme?: 'light' | 'dark' | 'off';
+  usePortal?: boolean;
+}
+
+export interface ConfirmPopoverHandles {
+  disclosure: UseDisclosureProps;
 }
 
 const themes = {
@@ -35,29 +53,39 @@ const themes = {
   dark: DarkMode,
 };
 
-export function ConfirmPopover({
-  children,
-  header,
-  body,
-  onFinish,
-  successButtonProps,
-  successButtonMessage = 'Sim',
-  cancelButtonProps,
-  cancelButtonMessage = 'Não',
-  triggerTheme = 'light',
-}: ConfirmPopoverProps) {
+function ConfirmPopoverComponent(
+  {
+    children,
+    header,
+    body,
+    onFinish,
+    popoverProps,
+    popoverContentProps,
+    footerProps,
+    successButtonProps,
+    successButtonMessage = 'Sim',
+    cancelButtonProps,
+    cancelButtonMessage = 'Não',
+    triggerTheme = 'light',
+    usePortal = true,
+  }: ConfirmPopoverProps,
+  ref: ForwardedRef<ConfirmPopoverHandles>,
+) {
   const disclosure = useDisclosure();
 
   const TriggerTheme = themes[triggerTheme];
+  const PortalComponent = usePortal ? Portal : Fragment;
+
+  useImperativeHandle(ref, () => ({ disclosure }));
 
   return (
-    <Popover {...disclosure}>
+    <Popover {...disclosure} {...popoverProps}>
       <TriggerTheme>
         <PopoverTrigger>{children}</PopoverTrigger>
       </TriggerTheme>
 
-      <Portal>
-        <PopoverContent>
+      <PortalComponent>
+        <PopoverContent {...popoverContentProps}>
           <PopoverHeader
             display="flex"
             alignItems="center"
@@ -67,21 +95,29 @@ export function ConfirmPopover({
             <PopoverCloseButton pos="static" />
           </PopoverHeader>
 
-          <PopoverBody>{body}</PopoverBody>
+          {body && <PopoverBody>{body}</PopoverBody>}
 
-          <PopoverFooter>
+          <PopoverFooter {...footerProps}>
             <HStack justify="end">
               <Button onClick={disclosure.onClose} {...cancelButtonProps}>
                 {cancelButtonMessage}
               </Button>
 
-              <Button onClick={onFinish} {...successButtonProps}>
+              <Button
+                onClick={() => onFinish(disclosure)}
+                {...successButtonProps}
+              >
                 {successButtonMessage}
               </Button>
             </HStack>
           </PopoverFooter>
         </PopoverContent>
-      </Portal>
+      </PortalComponent>
     </Popover>
   );
 }
+
+export const ConfirmPopover = forwardRef<
+  ConfirmPopoverHandles,
+  ConfirmPopoverProps
+>(ConfirmPopoverComponent);

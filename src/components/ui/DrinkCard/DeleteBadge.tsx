@@ -1,21 +1,8 @@
-import {
-  Badge,
-  Button,
-  Center,
-  HStack,
-  Icon,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger,
-  Portal,
-  Spinner,
-  useDisclosure,
-} from '@chakra-ui/react';
-
+import { Badge, Button, Center, Icon, Spinner } from '@chakra-ui/react';
+import { useRef } from 'react';
 import { BiTrash } from 'react-icons/bi';
+
+import { ConfirmPopover, ConfirmPopoverHandles } from '../ConfirmPopover';
 import { HighlightedText } from '../HighlightedText';
 
 interface DeleteBadgeProps {
@@ -31,10 +18,10 @@ export function DeleteBadge({
   isDeleting,
   onDelete,
 }: DeleteBadgeProps) {
-  const disclosure = useDisclosure();
+  const popoverRef = useRef<ConfirmPopoverHandles>();
 
   function handleDelete() {
-    disclosure.onClose();
+    popoverRef?.current?.disclosure.onClose?.();
     onDelete?.(uuid);
   }
 
@@ -43,45 +30,24 @@ export function DeleteBadge({
   }
 
   return (
-    <Popover placement="top" {...disclosure}>
-      <PopoverTrigger>
-        <Button variant="unstyled" w="6" h="6" p="none">
-          <Badge bg="red.300" color="white" w="6" h="6" rounded="full">
-            <Center data-testid="delete-badge" h="full">
-              <Icon as={BiTrash} />
-            </Center>
-          </Badge>
-        </Button>
-      </PopoverTrigger>
-
-      <Portal>
-        <PopoverContent _dark={{ bg: 'gray.900' }} _light={{ bg: 'gray.50' }}>
-          <PopoverHeader>Remover bebida</PopoverHeader>
-
-          <PopoverBody>
-            Você tem certeza que deseja remover a bebida{' '}
-            <HighlightedText>{name}</HighlightedText>?
-          </PopoverBody>
-
-          <PopoverFooter>
-            <HStack align="center" justify="end">
-              <Button variant="outline" onClick={disclosure.onClose}>
-                Não
-              </Button>
-
-              <Button
-                colorScheme="red"
-                bg="red"
-                color="white"
-                onClick={handleDelete}
-                data-testid="delete-button"
-              >
-                Sim
-              </Button>
-            </HStack>
-          </PopoverFooter>
-        </PopoverContent>
-      </Portal>
-    </Popover>
+    <ConfirmPopover
+      header="Remover bebida"
+      body={
+        <>
+          Você tem certeza que deseja remover a bebida{' '}
+          <HighlightedText>{name}</HighlightedText>?
+        </>
+      }
+      onFinish={handleDelete}
+      successButtonProps={{ 'data-testid': 'delete-button' }}
+    >
+      <Button variant="unstyled" w="6" h="6" p="none">
+        <Badge bg="red.300" color="white" w="6" h="6" rounded="full">
+          <Center data-testid="delete-badge" h="full">
+            <Icon as={BiTrash} />
+          </Center>
+        </Badge>
+      </Button>
+    </ConfirmPopover>
   );
 }

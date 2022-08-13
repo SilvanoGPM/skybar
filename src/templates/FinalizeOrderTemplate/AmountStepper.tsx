@@ -1,23 +1,15 @@
 import {
   Button,
   Flex,
-  HStack,
   Icon,
   IconButton,
   Input,
   LightMode,
-  Popover,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger,
-  Portal,
-  useDisclosure,
 } from '@chakra-ui/react';
 
 import { BiTrash } from 'react-icons/bi';
+
+import { ConfirmPopover } from '$components/ui/ConfirmPopover';
 
 interface AmountStepperProps {
   value: number;
@@ -37,8 +29,6 @@ export function AmountStepper({
 }: AmountStepperProps) {
   const isLast = value === 1;
 
-  const removeDisclosure = useDisclosure();
-
   const decrementButtonProps = {
     'aria-label': 'Decrementar',
     size: 'sm',
@@ -48,46 +38,20 @@ export function AmountStepper({
   };
 
   const DecrementButton = isLast ? (
-    <Popover {...removeDisclosure}>
-      <LightMode>
-        <PopoverTrigger>
-          <IconButton
-            icon={<Icon as={BiTrash} />}
-            colorScheme="red"
-            {...decrementButtonProps}
-          />
-        </PopoverTrigger>
-      </LightMode>
-
-      <Portal>
-        <PopoverContent>
-          <PopoverHeader display="flex" justifyContent="space-between">
-            {removeOptions.title}
-            <PopoverCloseButton pos="static" />
-          </PopoverHeader>
-
-          <PopoverBody>{removeOptions.body}</PopoverBody>
-
-          <PopoverFooter>
-            <HStack w="full" justify="end">
-              <Button onClick={removeDisclosure.onClose} size="sm">
-                Não
-              </Button>
-
-              <Button
-                size="sm"
-                onClick={() => {
-                  removeDisclosure.onClose();
-                  onDecrement();
-                }}
-              >
-                Sim
-              </Button>
-            </HStack>
-          </PopoverFooter>
-        </PopoverContent>
-      </Portal>
-    </Popover>
+    <ConfirmPopover
+      header={removeOptions.title}
+      body={removeOptions.body}
+      onFinish={(disclosure) => {
+        disclosure.onClose?.();
+        onDecrement();
+      }}
+    >
+      <IconButton
+        icon={<Icon as={BiTrash} />}
+        colorScheme="red"
+        {...decrementButtonProps}
+      />
+    </ConfirmPopover>
   ) : (
     <LightMode>
       <Button

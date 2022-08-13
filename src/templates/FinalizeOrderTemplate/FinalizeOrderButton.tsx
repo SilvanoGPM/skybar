@@ -1,17 +1,6 @@
-import {
-  Button,
-  HStack,
-  LightMode,
-  Popover,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger,
-  Portal,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Button, UseDisclosureProps } from '@chakra-ui/react';
+
+import { ConfirmPopover } from '$components/ui/ConfirmPopover';
 
 interface FinalizeOrderButtonProps {
   onFinalizeOrder: () => void;
@@ -20,43 +9,21 @@ interface FinalizeOrderButtonProps {
 export function FinalizeOrderButton({
   onFinalizeOrder,
 }: FinalizeOrderButtonProps) {
-  const disclosure = useDisclosure();
-
-  function handleFinalizeOrder() {
-    disclosure.onClose();
+  function handleFinalizeOrder(disclosure: UseDisclosureProps) {
+    disclosure.onClose?.();
     onFinalizeOrder();
   }
 
   return (
-    <Popover {...disclosure}>
-      <LightMode>
-        <PopoverTrigger>
-          <Button w="full" color="white" colorScheme="green" size="lg">
-            Finalizar pedido
-          </Button>
-        </PopoverTrigger>
-      </LightMode>
-
-      <Portal>
-        <PopoverContent>
-          <PopoverHeader display="flex" justifyContent="space-between">
-            Finalizar pedido
-            <PopoverCloseButton pos="static" />
-          </PopoverHeader>
-
-          <PopoverBody>
-            Você tem certeza que deseja finalizar seu pedido? Ao finalizar você
-            não conseguirá alterá-lo.
-          </PopoverBody>
-
-          <PopoverFooter>
-            <HStack justify="end">
-              <Button onClick={disclosure.onClose}>Não</Button>
-              <Button onClick={handleFinalizeOrder}>Sim</Button>
-            </HStack>
-          </PopoverFooter>
-        </PopoverContent>
-      </Portal>
-    </Popover>
+    <ConfirmPopover
+      header="Finalizar pedido"
+      body="Você tem certeza que deseja finalizar seu pedido? Ao finalizar você
+  não conseguirá alterá-lo."
+      onFinish={handleFinalizeOrder}
+    >
+      <Button w="full" color="white" colorScheme="green" size="lg">
+        Finalizar pedido
+      </Button>
+    </ConfirmPopover>
   );
 }
