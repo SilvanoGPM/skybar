@@ -29,7 +29,7 @@ export function DrinkList({ drinks }: DrinkListProps) {
               <OneLineText
                 fontSize={['xl', '2xl']}
                 fontWeight="bold"
-                maxW="250px"
+                maxW={['150px', '250px', '350px']}
               >
                 {drink.name}
               </OneLineText>

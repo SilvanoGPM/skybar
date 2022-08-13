@@ -49,13 +49,15 @@ export function AmountStepper({
 
   const DecrementButton = isLast ? (
     <Popover {...removeDisclosure}>
-      <PopoverTrigger>
-        <IconButton
-          icon={<Icon as={BiTrash} />}
-          colorScheme="red"
-          {...decrementButtonProps}
-        />
-      </PopoverTrigger>
+      <LightMode>
+        <PopoverTrigger>
+          <IconButton
+            icon={<Icon as={BiTrash} />}
+            colorScheme="red"
+            {...decrementButtonProps}
+          />
+        </PopoverTrigger>
+      </LightMode>
 
       <Portal>
         <PopoverContent>
