@@ -33,12 +33,7 @@ export function OrderPreview() {
   const animationRef = useRef<TempAnimationHandles>(null);
   const [clearingOrder, clearingOrderDrinksActions] = useBoolean(false);
 
-  const { orderPreviewIsOpen, closeOrderPreview } = useUIStore(
-    ({ orderPreviewIsOpen, closeOrderPreview }) => ({
-      orderPreviewIsOpen,
-      closeOrderPreview,
-    }),
-  );
+  const { orderPreviewIsOpen, closeOrderPreview } = useUIStore();
 
   function handleStartAnimation() {
     clearingOrderDrinksActions.on();
@@ -46,8 +41,12 @@ export function OrderPreview() {
   }
 
   function handleAnimationEnd() {
-    clearOrder();
-    clearingOrderDrinksActions.off();
+    closeOrderPreview();
+
+    setTimeout(() => {
+      clearOrder();
+      clearingOrderDrinksActions.off();
+    }, 100);
   }
 
   function handleClose() {
@@ -56,7 +55,7 @@ export function OrderPreview() {
     }
   }
 
-  if (!hasOrder) {
+  if (!hasOrder && !clearingOrderDrinksActions) {
     return null;
   }
 
