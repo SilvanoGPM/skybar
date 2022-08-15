@@ -18,7 +18,7 @@ export function Breadcrumbs({ items, ...props }: BreadcrumbsProps) {
       <Breadcrumb
         mb="8"
         spacing="8px"
-        fontSize={['md', 'xl', '2xl']}
+        fontSize={['x-small', 'sm', 'xl', '2xl']}
         fontWeight="bold"
         {...props}
       >

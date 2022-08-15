@@ -12,7 +12,6 @@ export function MenuButton() {
       colorScheme="gray"
       onClick={openSidebar}
       icon={<Icon as={BiMenu} />}
-      mr="4"
     />
   );
 }
