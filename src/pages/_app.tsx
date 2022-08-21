@@ -25,12 +25,7 @@ import SEO from '../../next-seo.config';
 export default function App({ Component, pageProps }: AppProps) {
   const { 'skybar.token': token } = parseCookies();
 
-  const { closeSidebar, closeOrderPreview } = useUIStore(
-    ({ closeSidebar, closeOrderPreview }) => ({
-      closeSidebar,
-      closeOrderPreview,
-    }),
-  );
+  const { closeSidebar, closeOrderPreview } = useUIStore();
 
   const isAuthenticated = Boolean(token);
 

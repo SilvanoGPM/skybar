@@ -18,9 +18,7 @@ import { SidebarNav } from './SidebarNav';
 import { ToggleThemeButton } from '../ToggleThemeButton';
 
 export function Sidebar() {
-  const { sidebarIsOpen, closeSidebar } = useUIStore(
-    ({ sidebarIsOpen, closeSidebar }) => ({ sidebarIsOpen, closeSidebar }),
-  );
+  const { sidebarIsOpen, closeSidebar } = useUIStore();
 
   const { isLargeVersion } = useScreenVersion();
 

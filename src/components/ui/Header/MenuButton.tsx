@@ -4,7 +4,7 @@ import { BiMenu } from 'react-icons/bi';
 import { useUIStore } from '$stores/ui';
 
 export function MenuButton() {
-  const { openSidebar } = useUIStore(({ openSidebar }) => ({ openSidebar }));
+  const { openSidebar } = useUIStore();
 
   return (
     <IconButton
