@@ -5,6 +5,7 @@ import { DefaultLayout } from '$components/ui/DefaultLayout';
 import { DrinkList } from '$components/ui/DrinkList';
 
 import { Introduction } from './Introduction';
+import { Medals } from './Medals';
 
 type Drink = { priceFormatted: string } & DrinkRaw;
 
@@ -18,6 +19,8 @@ export function HomeTemplate({ topDrinks, latestDrinks }: HomeTemplateProps) {
     <DefaultLayout>
       <Flex w="full" h="full" direction="column" overflowX="hidden">
         <Introduction />
+
+        <Medals />
 
         <DrinkList
           drinks={topDrinks}
