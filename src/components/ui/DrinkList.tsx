@@ -20,6 +20,8 @@ interface DrinkListProps {
   empty: { title: string; message?: string };
 }
 
+const DELAY_STEP = 0.175;
+
 export function DrinkList({ drinks, empty, title }: DrinkListProps) {
   const titleControl = useAnimation();
   const cardsControl = useAnimation();
@@ -28,7 +30,7 @@ export function DrinkList({ drinks, empty, title }: DrinkListProps) {
   useEffect(() => {
     if (inView) {
       titleControl.start({ x: 0, opacity: 1 });
-      cardsControl.start({ y: 0, opacity: 1, skew: '0deg' });
+      cardsControl.start({ y: 0, opacity: 1 });
     }
   }, [cardsControl, titleControl, inView]);
 
@@ -50,16 +52,20 @@ export function DrinkList({ drinks, empty, title }: DrinkListProps) {
 
       {drinks.length ? (
         <HStack py="4" spacing={4} as={ScrollContainer}>
-          {drinks.map((drink, i) => (
-            <motion.div
-              key={drink.uuid}
-              animate={cardsControl}
-              transition={{ delay: i * 0.15 }}
-              initial={{ y: 100, opacity: 0, skew: '-10deg' }}
-            >
-              <DrinkCard drink={drink} />
-            </motion.div>
-          ))}
+          {drinks.map((drink, i) => {
+            const delay = i <= 6 ? i * DELAY_STEP : 0;
+
+            return (
+              <motion.div
+                key={drink.uuid}
+                animate={cardsControl}
+                transition={{ delay }}
+                initial={{ y: -100, opacity: 0 }}
+              >
+                <DrinkCard drink={drink} />
+              </motion.div>
+            );
+          })}
         </HStack>
       ) : (
         <Empty {...empty} />

@@ -65,8 +65,13 @@ export function DrinkSearchTemplate() {
     onSuccess: () => queryClient.invalidateQueries('drinks'),
   });
 
+  function handlePageChange(page: number) {
+    window.scroll({ top: 0, behavior: 'smooth' });
+    setPage(page);
+  }
+
   function handleSearch(data: SearchDrinksFormDataFormatted) {
-    setPage(1);
+    handlePageChange(1);
     setSearch(data);
   }
 
@@ -182,7 +187,7 @@ export function DrinkSearchTemplate() {
                 totalCountOfRegisters={data?.totalElements || 0}
                 registersPerPage={9}
                 currentPage={page}
-                onPageChange={setPage}
+                onPageChange={handlePageChange}
               />
             </>
           )}
