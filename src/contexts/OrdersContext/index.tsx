@@ -10,12 +10,12 @@ import {
 
 import { getUserPermissions } from '$utils/getUserPermissions';
 import { getUserAge } from '$utils/getUserAge';
-import { formatAmount } from '$utils/formatters';
 
 import { useAuth } from '../AuthContext';
 import { usePersistedOrders } from './usePersistedOrders';
 import { getItemsInOrder } from './getItemsInOrder';
 import { useUIStore } from '$stores/ui';
+import { calculateTotalPrice } from '$utils/calculateDrinksPrice';
 
 export interface Drink {
   uuid: string;
@@ -84,14 +84,7 @@ export function OrdersProvider({ children }: OrdersProviderProps) {
     [orders, email],
   );
 
-  const total = useMemo(() => {
-    const price = Object.values(items).reduce(
-      (total, { price, amount }) => total + price * amount,
-      0,
-    );
-
-    return { base: price, formatted: formatAmount(price) };
-  }, [items]);
+  const total = useMemo(() => calculateTotalPrice(items), [items]);
 
   const addDrink = useCallback(
     (drink: Drink) => {

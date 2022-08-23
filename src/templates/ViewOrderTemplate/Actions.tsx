@@ -20,6 +20,7 @@ import {
 } from '$services/api/orders';
 
 import { Order } from '.';
+import { queryClient } from '$services/queryClient';
 
 type StepItems = 'START' | 'FINISH' | 'DELIVER' | 'CANCEL';
 
@@ -67,6 +68,8 @@ export function Actions({ isStaff, isOwner, order, setOrder }: ActionsProps) {
 
       const status = !delivered ? ((step + 'ED') as StatusItems) : order.status;
 
+      queryClient.invalidateQueries('ordersToManage');
+
       setOrder({ ...order, status, delivered });
     } catch {
       toast({
@@ -97,7 +100,10 @@ export function Actions({ isStaff, isOwner, order, setOrder }: ActionsProps) {
     );
   }
 
-  if (order.delivered || (isOwner && order.status !== 'PROCESSING')) {
+  if (
+    order.delivered ||
+    (!isStaff && isOwner && order.status !== 'PROCESSING')
+  ) {
     return null;
   }
 

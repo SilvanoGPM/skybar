@@ -49,7 +49,7 @@ export function UserInfoPopover({ children }: UserInfoPopoverProps) {
         <PopoverBody>
           <VStack align="start">
             <PopoverLink href={`/users/${user?.uuid}`}>Meu perfil</PopoverLink>
-            <PopoverLink href="/orders">Meus pedidos</PopoverLink>
+            <PopoverLink href="/orders/my">Meus pedidos</PopoverLink>
           </VStack>
         </PopoverBody>
 

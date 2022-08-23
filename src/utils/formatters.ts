@@ -1,5 +1,11 @@
+import { groupDrinks } from '$contexts/OrdersContext/getItemsInOrder';
 import type { Drink } from '$services/api/drinks';
+import type { Order } from '$services/api/orders';
+import { calculateTotalPrice } from './calculateDrinksPrice';
+
+import { getUserAge } from './getUserAge';
 import { pluralize } from './pluralize';
+import { timeSince } from './timeSince';
 
 const amountFormatter = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
@@ -15,6 +21,22 @@ export function formatDrinks(drinks: Drink[]) {
     ...drink,
     priceFormatted: formatAmount(drink.price),
   }));
+}
+
+export function formatOrder(order: Order) {
+  const createdAt = timeSince(new Date(order.createdAt), 'atrás');
+  const updatedAt = timeSince(new Date(order.updatedAt), 'atrás');
+
+  const user = {
+    ...order.user,
+    age: `${getUserAge(order.user.birthDay)} anos`,
+  };
+
+  const drinks = groupDrinks(order, false);
+
+  const total = calculateTotalPrice(drinks);
+
+  return { ...order, createdAt, updatedAt, user, drinks, total };
 }
 
 export function formatVolume(volume: number): string {

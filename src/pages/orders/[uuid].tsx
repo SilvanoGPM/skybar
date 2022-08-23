@@ -3,14 +3,12 @@ import Head from 'next/head';
 import { findOrderByUUID } from '$services/api/orders';
 import { getUserPermissions } from '$utils/getUserPermissions';
 import { withSSRAuth } from '$utils/withSSRAuth';
-import { timeSince } from '$utils/timeSince';
-import { getUserAge } from '$utils/getUserAge';
-import { groupDrinks } from '$contexts/OrdersContext/getItemsInOrder';
 
 import {
   ViewOrderTemplate,
   ViewOrderTemplateProps,
 } from '$templates/ViewOrderTemplate';
+import { formatOrder } from '$utils/formatters';
 
 export default function ViewOrder(props: ViewOrderTemplateProps) {
   return (
@@ -38,17 +36,7 @@ export const getServerSideProps = withSSRAuth(async (ctx, session) => {
       return { redirect: { destination: '/', permanent: false } };
     }
 
-    const createdAt = timeSince(new Date(order.createdAt), 'atrás');
-    const updatedAt = timeSince(new Date(order.updatedAt), 'atrás');
-
-    const user = {
-      ...order.user,
-      age: `${getUserAge(order.user.birthDay)} anos`,
-    };
-
-    const drinks = groupDrinks(order);
-
-    const baseOrder = { ...order, createdAt, updatedAt, user, drinks };
+    const baseOrder = formatOrder(order);
 
     return { props: { isStaff, isOwner, baseOrder } };
   } catch (err) {

@@ -13,3 +13,8 @@ declare module 'use-file-upload' {
     ({ accept: string, multiple: boolean }, callback: Callback) => void,
   ];
 }
+
+interface Pagineted<T> {
+  content: T[];
+  totalElements: number;
+}

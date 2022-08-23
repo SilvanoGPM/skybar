@@ -1,4 +1,4 @@
-import { Box, Stack } from '@chakra-ui/react';
+import { Box, Spacer, Stack } from '@chakra-ui/react';
 
 import { PaginationEllipsis } from './PaginationEllipsis';
 import { PaginationItem } from './PaginationItem';
@@ -7,6 +7,7 @@ interface PaginationProps {
   totalCountOfRegisters: number;
   registersPerPage?: number;
   currentPage?: number;
+  showResume?: boolean;
   onPageChange: (page: number) => void;
 }
 
@@ -23,6 +24,7 @@ export function Pagination({
   currentPage = 1,
   registersPerPage = 10,
   onPageChange,
+  showResume = true,
 }: PaginationProps) {
   const lastPage = Math.ceil(totalCountOfRegisters / registersPerPage);
 
@@ -51,15 +53,19 @@ export function Pagination({
       align="center"
       spacing="6"
     >
-      <Box>
-        <strong>{(currentPage - 1) * registersPerPage}</strong> -{' '}
-        <strong>
-          {currentPage === lastPage
-            ? totalCountOfRegisters
-            : currentPage * registersPerPage}
-        </strong>{' '}
-        de <strong>{totalCountOfRegisters}</strong>
-      </Box>
+      {showResume ? (
+        <Box>
+          <strong>{(currentPage - 1) * registersPerPage}</strong> -{' '}
+          <strong>
+            {currentPage === lastPage
+              ? totalCountOfRegisters
+              : currentPage * registersPerPage}
+          </strong>{' '}
+          de <strong>{totalCountOfRegisters}</strong>
+        </Box>
+      ) : (
+        <Spacer />
+      )}
 
       <Stack direction="row" spacing="2">
         {currentPage > siblingsCount + 1 && (

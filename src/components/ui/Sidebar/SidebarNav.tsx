@@ -50,7 +50,7 @@ export function SidebarNav() {
           )}
 
           {isUser && (
-            <NavLink icon={RiMoneyDollarBoxFill} href="/orders">
+            <NavLink icon={RiMoneyDollarBoxFill} href="/orders/my">
               Meus pedidos
             </NavLink>
           )}
