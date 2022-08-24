@@ -1,11 +1,19 @@
+import { Items } from '$contexts/OrdersContext';
 import { groupDrinks } from '$contexts/OrdersContext/getItemsInOrder';
 import type { Drink } from '$services/api/drinks';
 import type { Order } from '$services/api/orders';
-import { calculateTotalPrice } from './calculateDrinksPrice';
+import type { User } from '$services/api/users';
 
+import { calculateTotalPrice } from './calculateDrinksPrice';
 import { getUserAge } from './getUserAge';
 import { pluralize } from './pluralize';
 import { timeSince } from './timeSince';
+
+export interface FormattedOrder extends Omit<Order, 'drinks'> {
+  user: { age: string } & User;
+  drinks: Items;
+  total: { base: number; formatted: string };
+}
 
 const amountFormatter = new Intl.NumberFormat('pt-BR', {
   style: 'currency',
@@ -23,7 +31,7 @@ export function formatDrinks(drinks: Drink[]) {
   }));
 }
 
-export function formatOrder(order: Order) {
+export function formatOrder(order: Order): FormattedOrder {
   const createdAt = timeSince(new Date(order.createdAt), 'atrás');
   const updatedAt = timeSince(new Date(order.updatedAt), 'atrás');
 
