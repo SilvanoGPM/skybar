@@ -28,7 +28,7 @@ interface FilterOrderProps {
   onSubmit: (data: FilterStatus) => void;
 }
 
-const orderOptions = [
+const orderOptions: Array<{ label: string; value: FilterStatus }> = [
   { label: 'Todos', value: 'ALL' },
   { label: 'Iniciados', value: 'STARTED' },
   { label: 'Aguardando', value: 'PROCESSING' },
@@ -38,7 +38,7 @@ export function FilterOrder({ onSubmit }: FilterOrderProps) {
   const disclosure = useDisclosure();
 
   const { control, handleSubmit } = useForm<FilterOrderFormData>({
-    defaultValues: { option: { label: '', value: 'ALL' } },
+    defaultValues: { option: orderOptions[0] },
   });
 
   const handleFilterOrder = handleSubmit((data) => {

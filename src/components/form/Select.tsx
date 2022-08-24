@@ -16,6 +16,7 @@ interface SelectProps {
   noOptionsMessage?: string;
   options?: Array<{ label: string; value: string }>;
   isMulti?: boolean;
+  isClearable?: boolean;
   control: any; // eslint-disable-line
 }
 
@@ -26,6 +27,7 @@ export function Select({
   control,
   placeholder,
   noOptionsMessage,
+  isClearable = false,
   isMulti = false,
 }: SelectProps) {
   return (
@@ -65,10 +67,11 @@ export function Select({
               {isMulti ? (
                 <CreatableSelect
                   {...selectProps}
+                  isClearable={isClearable}
                   noOptionsMessage={() => noOptionsMessage}
                 />
               ) : (
-                <ChakraSelect {...selectProps} />
+                <ChakraSelect {...selectProps} isClearable={isClearable} />
               )}
             </Box>
 

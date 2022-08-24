@@ -104,3 +104,13 @@ export async function getOrdersToManage(page = 0, size = 10) {
 
   return requests;
 }
+
+export async function getMyOrders(params: OrderSearchParams = {}) {
+  const searchParams = qs.stringify(params);
+
+  const { data } = await httpClient.get<Pagineted<Order>>(
+    `/requests/user/my-requests?${searchParams}`,
+  );
+
+  return data;
+}
