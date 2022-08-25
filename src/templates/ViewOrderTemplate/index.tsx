@@ -47,7 +47,10 @@ export function ViewOrderTemplate({
         <Breadcrumbs
           items={[
             { href: '/', label: 'Início' },
-            { href: isStaff ? '/orders/search' : '/orders', label: 'Pedidos' },
+            {
+              href: isStaff ? '/orders/search' : '/orders/my',
+              label: 'Pedidos',
+            },
             { href: '#', label: 'Visualizar pedido' },
           ]}
         />

@@ -7,6 +7,9 @@ import { Between } from '$components/form/Between';
 import { Select } from '$components/form/Select';
 import { useForm } from 'react-hook-form';
 import { FormDrawer } from '$components/form/FormDrawer';
+import { DateRange } from '$components/form/DateRange';
+import { useState } from 'react';
+import { formatDateOrderFilter } from '$utils/formatters';
 
 interface SelectOption {
   label: string;
@@ -14,6 +17,11 @@ interface SelectOption {
 }
 
 type StatusType = 'PROCESSING' | 'CANCELED' | 'STARTED' | 'FINISHED';
+
+interface DatesFilter {
+  start: Date | null;
+  end: Date | null;
+}
 
 interface SearchOrdersFormData {
   drinkName: string;
@@ -28,6 +36,8 @@ export interface SearchOrdersFormDataFormatted
   extends Partial<Omit<SearchOrdersFormData, 'delivered' | 'status'>> {
   status?: StatusType;
   delivered?: string;
+  createdInDateOrBefore?: string;
+  createdInDateOrAfter?: string;
 }
 
 interface SearchDrawerProps {
@@ -50,6 +60,11 @@ const statusOptions = [
 ];
 
 export function SearchDrawer({ isOpen, onSubmit, onClose }: SearchDrawerProps) {
+  const [filterDates, setFilterDates] = useState<DatesFilter>({
+    start: null,
+    end: null,
+  });
+
   const { control, register, handleSubmit, reset } =
     useForm<SearchOrdersFormData>({
       defaultValues: {
@@ -60,8 +75,14 @@ export function SearchDrawer({ isOpen, onSubmit, onClose }: SearchDrawerProps) {
   const handleSearch = handleSubmit((data) => {
     onClose();
 
+    const dates = {
+      createdInDateOrAfter: formatDateOrderFilter(filterDates.start),
+      createdInDateOrBefore: formatDateOrderFilter(filterDates.end),
+    };
+
     onSubmit({
       ...data,
+      ...dates,
       delivered: data?.delivered?.value,
       status: data?.status?.value as StatusType,
     });
@@ -78,6 +99,14 @@ export function SearchDrawer({ isOpen, onSubmit, onClose }: SearchDrawerProps) {
       <Heading as="h5" w="full" fontSize="2xl">
         Pedido
       </Heading>
+
+      <DateRange
+        name="date-picker"
+        label="Período"
+        onSubmit={setFilterDates}
+        startPlaceholder="Data de início"
+        endPlaceholder="Data final"
+      />
 
       <Select
         isClearable

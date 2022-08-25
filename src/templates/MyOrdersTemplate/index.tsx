@@ -34,6 +34,8 @@ export function MyOrdersTemplate() {
   const [search, setSearch] = useState({});
   const [order, setOrder] = useState({ order: 'createdAt', sort: 'asc' });
 
+  console.log(search);
+
   const searchParams = {
     size: 9,
     page: page - 1,

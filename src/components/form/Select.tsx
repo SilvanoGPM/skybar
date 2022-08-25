@@ -53,6 +53,7 @@ export function Select({
           useBasicStyles: true,
           value: value,
           placeholder: placeholder,
+          isClearable,
         };
 
         return (
@@ -67,11 +68,10 @@ export function Select({
               {isMulti ? (
                 <CreatableSelect
                   {...selectProps}
-                  isClearable={isClearable}
                   noOptionsMessage={() => noOptionsMessage}
                 />
               ) : (
-                <ChakraSelect {...selectProps} isClearable={isClearable} />
+                <ChakraSelect {...selectProps} />
               )}
             </Box>
 

@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 import { Items } from '$contexts/OrdersContext';
 import { groupDrinks } from '$contexts/OrdersContext/getItemsInOrder';
 import type { Drink } from '$services/api/drinks';
@@ -54,4 +56,8 @@ export function formatVolume(volume: number): string {
   }
 
   return `${pluralize(volume, 'mililitro', 'mililitros')}.`;
+}
+
+export function formatDateOrderFilter(date?: Date | null) {
+  return date ? format(date, 'yyyy-MM-dd') : undefined;
 }
