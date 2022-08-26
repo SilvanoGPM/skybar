@@ -8,6 +8,7 @@ import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import NextNProgress from 'nextjs-progressbar';
 import { DefaultSeo } from 'next-seo';
+import Router from 'next/router';
 
 import { Chakra } from '$components/Chakra';
 import { AuthProvider } from '$contexts/AuthContext';
@@ -15,12 +16,13 @@ import { baseURL } from '$services/httpClient';
 import { queryClient } from '$services/queryClient';
 import { theme } from '$styles/theme';
 import { OrdersProvider } from '$contexts/OrdersContext';
-import Router from 'next/router';
 import { useUIStore } from '$stores/ui';
 
 const SOCKET_URL = `${baseURL}/sky-drinks`;
 
 import SEO from '../../next-seo.config';
+
+import '$styles/css/global.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { 'skybar.token': token } = parseCookies();

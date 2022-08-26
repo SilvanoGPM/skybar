@@ -41,10 +41,10 @@ export function FilterOrders({ onSubmit }: FilterOrdersProps) {
   const disclosure = useDisclosure();
 
   const { control, handleSubmit } = useForm<FilterOrdersFormData>({
-    defaultValues: { order: orderOptions[0] },
+    defaultValues: { order: orderOptions[1] },
   });
 
-  const [ascSort, setAscSort] = useBoolean(true);
+  const [ascSort, setAscSort] = useBoolean(false);
 
   const handleFilterOrder = handleSubmit((data) => {
     onSubmit({ order: data.order.value, sort: ascSort ? 'asc' : 'desc' });

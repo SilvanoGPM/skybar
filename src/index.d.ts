@@ -14,7 +14,7 @@ declare module 'use-file-upload' {
   ];
 }
 
-interface Pagineted<T> {
+interface Paginated<T> {
   content: T[];
   totalElements: number;
 }

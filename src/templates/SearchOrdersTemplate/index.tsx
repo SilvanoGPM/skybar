@@ -1,14 +1,13 @@
-import { getMyOrders } from '$services/api/orders';
-
+import { searchOrders } from '$services/api/orders';
 import { OrdersSearchLayout } from '$templates/shared/OrdersSearchLayout';
 
-export function MyOrdersTemplate() {
+export function SearchOrdersTemplate() {
   return (
     <OrdersSearchLayout
-      title="Meus pedidos"
-      searchOrders={getMyOrders}
+      title="Pesquisar pedidos"
+      searchOrders={searchOrders}
       queryOptions={{
-        key: 'myOrders',
+        key: 'searchOrders',
         staleTime: 1000 * 60 * 30, // 30 minutes
       }}
     />

@@ -72,7 +72,7 @@ export async function deliverOrder(uuid: string): Promise<void> {
 export async function searchOrders(params: OrderSearchParams = {}) {
   const searchParams = qs.stringify(params);
 
-  const { data } = await httpClient.get<Pagineted<Order>>(
+  const { data } = await httpClient.get<Paginated<Order>>(
     `/requests/staff/search?${searchParams}`,
   );
 
@@ -96,7 +96,7 @@ export async function getOrdersToManage(page = 0, size = 10) {
     size: sizePerPage,
   });
 
-  const requests: Pagineted<Order> = {
+  const requests: Paginated<Order> = {
     content: [...processingRequests.content, ...startedRequests.content],
     totalElements:
       processingRequests.totalElements + startedRequests.totalElements,
@@ -108,7 +108,7 @@ export async function getOrdersToManage(page = 0, size = 10) {
 export async function getMyOrders(params: OrderSearchParams = {}) {
   const searchParams = qs.stringify(params);
 
-  const { data } = await httpClient.get<Pagineted<Order>>(
+  const { data } = await httpClient.get<Paginated<Order>>(
     `/requests/user/my-requests?${searchParams}`,
   );
 
