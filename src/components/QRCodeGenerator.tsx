@@ -12,8 +12,6 @@ export function QRCodeGenerator({
   const auxRef = useRef(false);
 
   useEffect(() => {
-    console.log(text);
-
     if (ref.current !== null && !auxRef.current) {
       new QRCode(ref.current, {
         text,

@@ -14,9 +14,15 @@ interface LinkProps extends ChakraLinkProps {
 }
 
 export function Link({ href, children, ...props }: LinkProps) {
+  const color = (props.color as string) || 'purple';
+
   return (
     <NextLink href={href} passHref>
-      <ChakraLink sx={linkHover} {...props}>
+      <ChakraLink
+        sx={{ '--color': color, ...linkHover }}
+        color="brand.100"
+        {...props}
+      >
         <HighlightedText>{children}</HighlightedText>
       </ChakraLink>
     </NextLink>

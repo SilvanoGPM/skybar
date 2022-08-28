@@ -4,7 +4,7 @@ export const linkHover = {
   '&::before': {
     content: "''",
     display: 'block',
-    bg: 'currentColor',
+    bg: 'var(--color)',
     pos: 'absolute',
     bottom: 0,
     left: '50%',
@@ -15,7 +15,7 @@ export const linkHover = {
   '&::after': {
     content: "''",
     display: 'block',
-    bg: 'currentColor',
+    bg: 'var(--color)',
     pos: 'absolute',
     bottom: 0,
     left: '50%',

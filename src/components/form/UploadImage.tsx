@@ -8,14 +8,16 @@ import {
   IconButton,
   Image,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
+import { BiTrash } from 'react-icons/bi';
 import { RiCameraLine } from 'react-icons/ri';
-import { useFileUpload } from 'use-file-upload';
+import { FileUpload, useFileUpload } from 'use-file-upload';
 
 interface UploadImageProps extends BoxProps {
   label?: string;
   defaultImage?: string;
-  onFileChange?: (file: File) => void;
+  onFileChange?: (file: File | null) => void;
 }
 
 export function UploadImage({
@@ -26,10 +28,21 @@ export function UploadImage({
 }: UploadImageProps) {
   const [file, selectFile] = useFileUpload();
 
+  const [fileState, setFileState] = useState<FileUpload | null>(file);
+
+  useEffect(() => {
+    setFileState(file);
+  }, [file]);
+
   function handleClick() {
     selectFile({ accept: 'image/*', multiple: false }, ({ file }) => {
       onFileChange?.(file);
     });
+  }
+
+  function handleRemoveImage() {
+    setFileState(null);
+    onFileChange?.(null);
   }
 
   return (
@@ -47,9 +60,9 @@ export function UploadImage({
           _dark={{ bg: 'gray.900' }}
           _light={{ bg: 'gray.50' }}
         >
-          {(file || defaultImage) && (
+          {(fileState || defaultImage) && (
             <Image
-              src={file?.source || defaultImage}
+              src={fileState?.source || defaultImage}
               w="full"
               h="full"
               objectFit="contain"
@@ -70,6 +83,20 @@ export function UploadImage({
             _groupHover={{ h: 'full', w: 'full', bg: 'blackAlpha.100' }}
             onClick={handleClick}
           />
+
+          {fileState && (
+            <IconButton
+              aria-label="Remover arquivo"
+              onClick={handleRemoveImage}
+              variant="unstyled"
+              zIndex="10"
+              pos="absolute"
+              top="4"
+              right="4"
+              color="red"
+              icon={<Icon as={BiTrash} fontSize="2xl" />}
+            />
+          )}
         </Box>
       </Flex>
     </FormControl>
