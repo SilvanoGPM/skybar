@@ -30,6 +30,9 @@ interface SearchOrdersFormData {
   lessThanOrEqualToTotalPrice: number;
   status: SelectOption;
   delivered: SelectOption;
+  userName: string;
+  userEmail: string;
+  userCpf: string;
 }
 
 export interface SearchOrdersFormDataFormatted
@@ -41,6 +44,7 @@ export interface SearchOrdersFormDataFormatted
 }
 
 interface SearchDrawerProps {
+  searchUser?: boolean;
   isOpen: boolean;
   onSubmit: (data: SearchOrdersFormDataFormatted) => void;
   onClose: () => void;
@@ -59,7 +63,12 @@ const statusOptions = [
   { label: 'Cancelado', value: 'CANCELED' },
 ];
 
-export function SearchDrawer({ isOpen, onSubmit, onClose }: SearchDrawerProps) {
+export function SearchDrawer({
+  isOpen,
+  onSubmit,
+  onClose,
+  searchUser = false,
+}: SearchDrawerProps) {
   const [filterDates, setFilterDates] = useState<DatesFilter>({
     start: null,
     end: null,
@@ -122,7 +131,8 @@ export function SearchDrawer({ isOpen, onSubmit, onClose }: SearchDrawerProps) {
         name="delivered"
         control={control}
         options={deliveredOptions}
-        label="Escolha o filtro de entrega"
+        label="Entrega do pedido"
+        placeholder="Entrega do pedido"
       />
 
       <Between
@@ -141,17 +151,45 @@ export function SearchDrawer({ isOpen, onSubmit, onClose }: SearchDrawerProps) {
       </Heading>
 
       <Input
-        label="Nome"
+        label="Nome da bebida"
         placeholder="ex: Coca Cola"
         {...register('drinkName')}
       />
 
       <Textarea
-        label="Descrição"
+        label="Descrição da bebida"
         resize="vertical"
         maxH="200px"
         {...register('drinkDescription')}
       />
+
+      {searchUser && (
+        <>
+          <Divider />
+
+          <Heading as="h5" w="full" fontSize="2xl">
+            Usuário
+          </Heading>
+
+          <Input
+            label="Nome do usuário"
+            placeholder="ex: João"
+            {...register('userName')}
+          />
+
+          <Input
+            label="CPF do usuário"
+            placeholder="ex: 132.106.250-85"
+            {...register('userCpf')}
+          />
+
+          <Input
+            label="E-mail do usuário"
+            placeholder="ex: joão@mail.com"
+            {...register('userEmail')}
+          />
+        </>
+      )}
     </FormDrawer>
   );
 }

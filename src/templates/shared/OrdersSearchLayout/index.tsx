@@ -27,7 +27,7 @@ import { FilterOrders } from './FilterOrders';
 
 interface OrderSearchListProps {
   title: string;
-  queryOptions: { key: string; staleTime: number };
+  queryOptions: { key: string; staleTime: number; searchUser: boolean };
   searchOrders: (params: OrderSearchParams) => Promise<Paginated<Order>>;
 }
 
@@ -133,7 +133,11 @@ export function OrdersSearchLayout({
                 onPageChange={handlePageChange}
               />
 
-              <SearchDrawer {...disclosure} onSubmit={handleSearch} />
+              <SearchDrawer
+                {...disclosure}
+                onSubmit={handleSearch}
+                searchUser={queryOptions.searchUser}
+              />
             </>
           )}
         </Flex>

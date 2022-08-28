@@ -62,12 +62,13 @@ export function OrdersList({ orders }: OrdersListProps) {
                 mb="4"
               >
                 <HStack>
-                  <Avatar
-                    src={item.user.image}
-                    name={item.user.name}
-                    title={item.user.name}
-                    size="sm"
-                  />
+                  <Tooltip label={item.user.name}>
+                    <Avatar
+                      src={item.user.image}
+                      name={item.user.name}
+                      size="sm"
+                    />
+                  </Tooltip>
 
                   <Tooltip label={badge.title} bg={badge.bgColor} color="white">
                     <Circle bg={badge.bgColor} p="2">
