@@ -2,6 +2,7 @@ import { Box, Divider, Flex, Heading, HStack, Icon } from '@chakra-ui/react';
 import { BsClock } from 'react-icons/bs';
 import { BiDrink } from 'react-icons/bi';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
 import { DefaultLayout } from '$components/ui/DefaultLayout';
@@ -16,6 +17,14 @@ import { orderDelivered, orderStatus } from './orderStatusOptions';
 import { UserInfo } from './UserInfo';
 import { DrinkList } from './DrinksList';
 import { Actions } from './Actions';
+import { QRCode as QRCodeType } from './QRCode';
+
+const QRCode = dynamic<React.ComponentProps<typeof QRCodeType>>(
+  () => import('./QRCode').then((mod) => mod.QRCode),
+  {
+    ssr: false,
+  },
+);
 
 export type Order = Omit<BaseOrder, 'user' | 'drinks'> & {
   user: User & { age: string };
@@ -89,14 +98,16 @@ export function ViewOrderTemplate({
 
           <OrderStatus {...orderStatusOptions} />
 
+          {order.status === 'FINISHED' && !order.delivered && isOwner && (
+            <QRCode />
+          )}
+
           <Actions
             isStaff={isStaff}
             isOwner={isOwner}
             order={order}
             setOrder={setOrder}
           />
-
-          {order.delivered}
 
           <Divider my="8" />
 

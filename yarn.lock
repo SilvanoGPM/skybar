@@ -3603,6 +3603,11 @@ easy-bem@^1.1.1:
   resolved "https://registry.yarnpkg.com/easy-bem/-/easy-bem-1.1.1.tgz#1bfcc10425498090bcfddc0f9c000aba91399e03"
   integrity sha512-GJRqdiy2h+EXy6a8E6R+ubmqUM08BK0FWNq41k24fup6045biQ8NXxoXimiwegMQvFFV3t1emADdGNL1TlS61A==
 
+easyqrcodejs@^4.4.12:
+  version "4.4.12"
+  resolved "https://registry.yarnpkg.com/easyqrcodejs/-/easyqrcodejs-4.4.12.tgz#79822d9dcbfd50d4984515f8f3d6a417dc9d901c"
+  integrity sha512-ilibrPulpJNBM8Oy2ypNNcI0Y0/aJfJpx1lkLrfRA1Tg682ehLkULbp5rSNr/L1EjNbfaHzak+ufw2iSwhCkRQ==
+
 ejs@^3.1.6:
   version "3.1.7"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.7.tgz#c544d9c7f715783dd92f0bddcf73a59e6962d006"

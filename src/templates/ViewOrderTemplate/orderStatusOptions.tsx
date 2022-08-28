@@ -62,9 +62,11 @@ export const orderStatus = {
 
     description: (
       <>
-        Seu pedido esta pronto, caso você esteja em alguma mesa, apenas aguarde
-        um garçom entregá-lo, caso você apenas esteja no aguarde, vá até o
-        balcão retirar seu pedido.
+        Seu pedido esta <HighlightedText>pronto</HighlightedText>, caso você
+        esteja em alguma mesa, apenas aguarde um garçom entregá-lo, caso você
+        apenas esteja no aguarde, vá até o balcão retirar seu pedido. Mostre seu{' '}
+        <HighlightedText>QRCode</HighlightedText> para o funcionário, assim sera
+        confirmado que o pedido é seu.
       </>
     ),
 
