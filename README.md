@@ -17,18 +17,6 @@ Experimente as melhores bebidas da região.
 - [Supabase](https://supabase.com/)
 - [Framer Motion](https://www.framer.com/motion/)
 
-## 🔨 How to use
-
-In terminal use:
-
-```bash
-# npm
-npx create-next-app -e https://github.com/SkyG0D/next-boilerplate
-
-# yarn
-yarn create next-app -e https://github.com/SkyG0D/next-boilerplate
-```
-
 ## ❤️ Contribuições
 
 Por favor, abra um Pull Request para contribuir com o projeto.
