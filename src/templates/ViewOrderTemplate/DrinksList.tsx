@@ -1,11 +1,13 @@
 import { OneLineText } from '$components/ui/OneLineText';
 import { Badge, Box, Flex, Image, LightMode, VStack } from '@chakra-ui/react';
+import Link from 'next/link';
 
 interface Drink {
   name: string;
   uuid: string;
   picture: string;
   amount: number;
+  priceFormatted: string;
 }
 
 interface DrinkListProps {
@@ -35,18 +37,22 @@ export function DrinkList({ drinks }: DrinkListProps) {
               </OneLineText>
 
               <OneLineText color="gray.500" maxW={['120px', '200px', '350px']}>
-                {drink.uuid}
+                {drink.priceFormatted}
               </OneLineText>
             </Flex>
 
             <Box pos="relative">
-              <Image
-                w="24"
-                h="20"
-                rounded="xl"
-                objectFit="cover"
-                src={drink.picture}
-              />
+              <Link href={`/drinks/${drink.uuid}`}>
+                <a>
+                  <Image
+                    w="24"
+                    h="20"
+                    rounded="xl"
+                    objectFit="cover"
+                    src={drink.picture}
+                  />
+                </a>
+              </Link>
 
               <LightMode>
                 <Badge

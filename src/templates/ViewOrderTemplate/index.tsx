@@ -1,7 +1,7 @@
 import { Box, Divider, Flex, Heading, HStack, Icon } from '@chakra-ui/react';
 import { BsClock } from 'react-icons/bs';
 import { BiDrink } from 'react-icons/bi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
@@ -18,6 +18,7 @@ import { UserInfo } from './UserInfo';
 import { DrinkList } from './DrinksList';
 import { Actions } from './Actions';
 import { QRCode as QRCodeType } from './QRCode';
+import { useNotifications } from '$contexts/NotificationsContext';
 
 const QRCode = dynamic<React.ComponentProps<typeof QRCodeType>>(
   () => import('./QRCode').then((mod) => mod.QRCode),
@@ -42,13 +43,35 @@ export function ViewOrderTemplate({
   isStaff,
   isOwner,
 }: ViewOrderTemplateProps) {
+  const { notifications } = useNotifications();
   const [order, setOrder] = useState(baseOrder);
+
+  useEffect(() => {
+    setOrder(baseOrder);
+  }, [baseOrder]);
 
   const orderStatusOptions = order.delivered
     ? orderDelivered
     : orderStatus[order.status];
 
   const totalDrinks = Object.keys(order.drinks).length;
+
+  useEffect(() => {
+    const notificationFound = notifications.find(
+      (notification) => notification.id === baseOrder.uuid,
+    );
+
+    if (notificationFound) {
+      const status = notificationFound.type;
+      const delivered = status === 'DELIVERED';
+
+      setOrder((order) => ({
+        ...order,
+        delivered,
+        status: delivered ? 'FINISHED' : status,
+      }));
+    }
+  }, [notifications, baseOrder]);
 
   return (
     <DefaultLayout>

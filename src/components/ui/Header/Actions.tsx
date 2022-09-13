@@ -1,12 +1,12 @@
-import { BiBell } from 'react-icons/bi';
-import { Box, HStack, Icon, IconButton } from '@chakra-ui/react';
+import { Box, HStack } from '@chakra-ui/react';
 
 import { useScreenVersion } from '$hooks/useScreenVersion';
+import { useAuth } from '$contexts/AuthContext';
+import { useOrders } from '$contexts/OrdersContext';
 
 import { ToggleThemeButton } from '../ToggleThemeButton';
 import { OrderPreviewOpenButton } from '../OrderPreviewOpenButton';
-import { useAuth } from '$contexts/AuthContext';
-import { useOrders } from '$contexts/OrdersContext';
+import { NotificationsPopover } from './NotificationsPopover';
 
 export function Actions() {
   const { isLargeVersion } = useScreenVersion();
@@ -19,11 +19,7 @@ export function Actions() {
 
       {isAuthenticated && (
         <>
-          <IconButton
-            aria-label="Notificações"
-            colorScheme="gray"
-            icon={<Icon as={BiBell} />}
-          />
+          <NotificationsPopover />
 
           {hasOrder && <OrderPreviewOpenButton />}
         </>

@@ -174,7 +174,7 @@ export function EditDrinkForm({ drink }: EditDrinkFormProps) {
           size="lg"
           type="submit"
         >
-          Adicionar bebida
+          Editar bebida
         </Button>
       </VStack>
     </Box>

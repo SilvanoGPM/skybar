@@ -16,6 +16,7 @@ import { baseURL } from '$services/httpClient';
 import { queryClient } from '$services/queryClient';
 import { theme } from '$styles/theme';
 import { OrdersProvider } from '$contexts/OrdersContext';
+import { NotificationsProvider } from '$contexts/NotificationsContext';
 import { useUIStore } from '$stores/ui';
 
 const SOCKET_URL = `${baseURL}/sky-drinks`;
@@ -32,6 +33,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const isAuthenticated = Boolean(token);
 
   const Wrapper = isAuthenticated ? StompSessionProvider : Fragment;
+
+  const NotificationsWrapperProvider = isAuthenticated
+    ? NotificationsProvider
+    : Fragment;
 
   const options = {
     ...(isAuthenticated
@@ -51,20 +56,22 @@ export default function App({ Component, pageProps }: AppProps) {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <OrdersProvider>
-              <Head>
-                <title>Skybar</title>
-              </Head>
+              <NotificationsWrapperProvider>
+                <Head>
+                  <title>Skybar</title>
+                </Head>
 
-              <DefaultSeo {...SEO} />
+                <DefaultSeo {...SEO} />
 
-              <NextNProgress
-                color="#9A0680"
-                startPosition={0.3}
-                stopDelayMs={200}
-                height={4}
-              />
+                <NextNProgress
+                  color="#9A0680"
+                  startPosition={0.3}
+                  stopDelayMs={200}
+                  height={4}
+                />
 
-              <Component {...pageProps} />
+                <Component {...pageProps} />
+              </NotificationsWrapperProvider>
             </OrdersProvider>
           </AuthProvider>
           <ReactQueryDevtools />

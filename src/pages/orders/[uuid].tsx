@@ -38,6 +38,8 @@ export const getServerSideProps = withSSRAuth(async (ctx, session) => {
 
     const baseOrder = formatOrder(order);
 
+    console.log(baseOrder);
+
     return { props: { isStaff, isOwner, baseOrder } };
   } catch (err) {
     return { notFound: true };
