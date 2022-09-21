@@ -23,9 +23,10 @@ import { DrinkList } from './DrinkList';
 
 interface OrdersListProps {
   orders: FormattedOrder[];
+  status: 'PROCESSING' | 'STARTED';
 }
 
-export function OrdersList({ orders }: OrdersListProps) {
+export function OrdersList({ orders, status }: OrdersListProps) {
   return orders.length ? (
     <VStack spacing="8">
       {orders.map((item) => {
@@ -109,7 +110,9 @@ export function OrdersList({ orders }: OrdersListProps) {
   ) : (
     <Empty
       title="Nenhum pedido"
-      message="Pode relaxar, sem pedidos no momento."
+      message={`Pode relaxar, sem pedidos no momento (ou tente alterar o filtro para ${
+        status === 'PROCESSING' ? '"iniciados"' : '"em processo"'
+      }).`}
     />
   );
 }

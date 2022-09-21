@@ -79,30 +79,17 @@ export async function searchOrders(params: OrderSearchParams = {}) {
   return data;
 }
 
-export async function getOrdersToManage(page = 0, size = 10) {
-  const sizePerPage = Math.floor(size / 2);
-
-  const processingRequests = await searchOrders({
-    status: 'PROCESSING',
-    sort: 'updatedAt',
+export async function getOrdersToManage({
+  status,
+  size,
+  page,
+}: Pick<OrderSearchParams, 'status' | 'size' | 'page'>) {
+  return searchOrders({
+    sort: 'updatedAt,desc',
+    status,
     page,
-    size: sizePerPage,
+    size,
   });
-
-  const startedRequests = await searchOrders({
-    status: 'STARTED',
-    sort: 'updatedAt',
-    page,
-    size: sizePerPage,
-  });
-
-  const requests: Paginated<Order> = {
-    content: [...processingRequests.content, ...startedRequests.content],
-    totalElements:
-      processingRequests.totalElements + startedRequests.totalElements,
-  };
-
-  return requests;
 }
 
 export async function getMyOrders(params: OrderSearchParams = {}) {

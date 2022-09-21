@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form';
 
 import { Select } from '$components/form/Select';
 
-export type FilterStatus = 'ALL' | 'STARTED' | 'PROCESSING';
+export type FilterStatus = 'STARTED' | 'PROCESSING';
 
 interface FilterOrderFormData {
   option: { label: string; value: FilterStatus };
@@ -29,9 +29,8 @@ interface FilterOrderProps {
 }
 
 const orderOptions: Array<{ label: string; value: FilterStatus }> = [
-  { label: 'Todos', value: 'ALL' },
-  { label: 'Iniciados', value: 'STARTED' },
   { label: 'Aguardando', value: 'PROCESSING' },
+  { label: 'Iniciados', value: 'STARTED' },
 ];
 
 export function FilterOrder({ onSubmit }: FilterOrderProps) {

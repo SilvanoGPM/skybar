@@ -1,6 +1,19 @@
-import { Center, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Box,
+  Center,
+  CloseButton,
+  Flex,
+  Heading,
+  Spinner,
+  Text,
+  useBoolean,
+} from '@chakra-ui/react';
+
 import { useQuery } from 'react-query';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Breadcrumbs } from '$components/ui/Breadcrumbs';
 import { DefaultLayout } from '$components/ui/DefaultLayout';
@@ -10,22 +23,62 @@ import { Pagination } from '$components/ui/Pagination';
 import { OrdersList } from '$components/ui/OrdersList';
 
 import { FilterOrder, FilterStatus } from './FilterOrders';
+import { useNotifications } from '$contexts/NotificationsContext';
+import { queryClient } from '$services/queryClient';
 
 export function LatestOrdersTemplate() {
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState<FilterStatus>('ALL');
+  const [filter, setFilter] = useState<FilterStatus>('PROCESSING');
+
+  const lastTitleRef = useRef('');
+
+  const [showNewOrderAlert, setShowNewOrderAlert] = useBoolean(false);
+
+  const { newOrderReceived, visualizateNewOrderReceived } = useNotifications();
+
+  useEffect(() => {
+    function returnDocumentTitle() {
+      if (lastTitleRef.current) {
+        document.title = lastTitleRef.current;
+      }
+    }
+
+    window.addEventListener('focus', returnDocumentTitle);
+
+    return () => {
+      window.removeEventListener('focus', returnDocumentTitle);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (newOrderReceived) {
+      if (!document.hasFocus()) {
+        lastTitleRef.current = document.title;
+        document.title = 'Novos pedidos chegaram!';
+      }
+
+      setPage(1);
+      setFilter('PROCESSING');
+
+      queryClient.invalidateQueries('ordersToManage');
+
+      setShowNewOrderAlert.on();
+      visualizateNewOrderReceived();
+    }
+  }, [newOrderReceived, visualizateNewOrderReceived, setShowNewOrderAlert]);
+
+  const params = {
+    page: page - 1,
+    size: 10,
+    status: filter,
+  };
 
   const { data, isLoading, isFetching, isError } = useQuery(
-    ['ordersToManage', page],
+    ['ordersToManage', params],
     async () => {
-      const { content, totalElements } = await getOrdersToManage(page - 1);
+      const { content, totalElements } = await getOrdersToManage(params);
 
-      const newContent = content
-        .sort(
-          (a, b) =>
-            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-        )
-        .map(formatOrder);
+      const newContent = content.map(formatOrder);
 
       return { totalElements, content: newContent };
     },
@@ -79,13 +132,25 @@ export function LatestOrdersTemplate() {
             </Center>
           ) : (
             <>
-              <OrdersList
-                orders={
-                  data?.content.filter(
-                    ({ status }) => filter === 'ALL' || status === filter,
-                  ) || []
-                }
-              />
+              {showNewOrderAlert && (
+                <Alert status="info" pos="relative" p={['8', '8', '4']} mb="4">
+                  <AlertIcon />
+
+                  <Box>
+                    <AlertTitle>Novos pedidos foram encontrados</AlertTitle>
+                  </Box>
+
+                  <CloseButton
+                    alignSelf="flex-start"
+                    position="absolute"
+                    right={['1', '1', '2']}
+                    top={['1', '1', '2']}
+                    onClick={setShowNewOrderAlert.off}
+                  />
+                </Alert>
+              )}
+
+              <OrdersList orders={data?.content || []} status={filter} />
 
               <Pagination
                 showResume={false}

@@ -1,4 +1,5 @@
 import { useStorage } from '$hooks/useStorage';
+import { useBoolean } from '@chakra-ui/react';
 import { parseCookies } from 'nookies';
 import { createContext, ReactNode, useCallback, useContext } from 'react';
 import { useSubscription } from 'react-stomp-hooks';
@@ -19,6 +20,8 @@ interface Notification {
 
 interface NotificationsContextData {
   notifications: Notification[];
+  newOrderReceived: boolean;
+  visualizateNewOrderReceived: () => void;
   clearNotifications: () => void;
   removeNotification: (id: string) => void;
 }
@@ -44,6 +47,8 @@ export function NotificationsProvider({
     '@SkyBar/Notifications',
     [],
   );
+
+  const [newOrderReceived, setNewOrderReceived] = useBoolean(false);
 
   useSubscription(
     [`/topic/updated/${user?.email}`, `/topic/request-changed/${user?.email}`],
@@ -74,6 +79,8 @@ export function NotificationsProvider({
         } else {
           setNotifications([newNotification, ...notifications]);
         }
+      } else {
+        setNewOrderReceived.on();
       }
     },
     { Authorization: token },
@@ -96,6 +103,8 @@ export function NotificationsProvider({
     <NotificationsContext.Provider
       value={{
         notifications,
+        newOrderReceived,
+        visualizateNewOrderReceived: setNewOrderReceived.off,
         removeNotification,
         clearNotifications,
       }}
