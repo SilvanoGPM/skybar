@@ -23,7 +23,7 @@ import { DrinkList } from './DrinkList';
 
 interface OrdersListProps {
   orders: FormattedOrder[];
-  status: 'PROCESSING' | 'STARTED';
+  status?: 'PROCESSING' | 'STARTED';
 }
 
 export function OrdersList({ orders, status }: OrdersListProps) {
@@ -110,9 +110,9 @@ export function OrdersList({ orders, status }: OrdersListProps) {
   ) : (
     <Empty
       title="Nenhum pedido"
-      message={`Pode relaxar, sem pedidos no momento (ou tente alterar o filtro para ${
+      message={`Pode relaxar, sem pedidos no momento ${`(ou tente alterar o filtro para ${
         status === 'PROCESSING' ? '"iniciados"' : '"em processo"'
-      }).`}
+      })`}.`}
     />
   );
 }
